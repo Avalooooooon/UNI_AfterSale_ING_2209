@@ -106,7 +106,7 @@
                   class="tableBox"
                   :data="tableData"
                   :show-overflow-tooltip="true"
-                  style="font-size: 13px"
+                  style="font-size: 12px"
                   v-loading="loading"
                   element-loading-background="rgba(233,235,244,0.8)"
                 >
@@ -200,6 +200,7 @@
                           font-weight: 600;
                           color: #d79432;
                           margin-left: 50px;
+                          font-size: 12px;
                         "
                       >
                         更多<i class="el-icon-arrow-down el-icon--right"></i>
@@ -387,7 +388,7 @@ export default {
   width: 100%;
   color: #d79432;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .active_li {
@@ -396,12 +397,12 @@ export default {
   font-weight: 600;
   box-sizing: border-box;
   border-right: 3px solid #d79432;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 /*未选中样式*/
 .collection-item {
-  font-size: 14px;
+  font-size: 12px;
   /*padding: 10px 2px;*/
   /*margin-bottom: 5px;*/
 }
@@ -428,7 +429,7 @@ export default {
 
 .selecters {
   margin-left: 40px;
-  font-size: 14px;
+  font-size: 12px;
   color: gray;
 }
 
@@ -457,7 +458,7 @@ export default {
   padding: 0 59px;
   list-style: none;
   /*text-align: center;*/
-  font-size: 14px;
+  font-size: 12px;
   color: gray;
   margin-top: 30px;
 }

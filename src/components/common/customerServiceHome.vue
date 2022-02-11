@@ -95,7 +95,7 @@ ul, ol, li {
       margin-left: 75px;
       line-height: 90px;
       width: 100px;
-      font-size: 14px;
+      font-size: 12px;
       text-align: center;
     }
 

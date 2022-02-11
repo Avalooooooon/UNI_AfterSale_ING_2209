@@ -52,96 +52,151 @@
         <div class="videoList" v-if="listModel">
           <div class="videoList-line" v-for="(item, index) in videoList" v-bind:key="index">
             <div class="image"><img style="width: 100%;height: 100%;border-radius: 50px" :src="item.img" alt=""></div>
-            <span style="margin-left: 30px">{{ item.name }}</span>
-            <span style="position: absolute;right: 120px;font-size: 12px;color: #B2B7C5">{{ item.type }}</span>
-            <span style="position: absolute;right: 30px;font-size: 14px">{{ item.date }}</span>
+            <span style="margin-left: 30px;font-size: 14px">{{ item.name }}</span>
+            <span style="position: absolute;right: 100px;font-size: 12px;color: #B2B7C5">{{ item.type }}</span>
+            <span style="position: absolute;right: 30px;font-size: 12px">{{ item.date }}</span>
           </div>
         </div>
       </div>
       <div class="box-middle">
-        <!--            <div class="historyService" v-if="historyService">-->
-        <!--              <h3 style="width: 100%;text-align: center">历史服务单</h3>-->
-        <!--              <div class="historyList">-->
-        <!--                <div class="historyList-line">-->
-
-        <!--                </div>-->
-        <!--              </div>-->
-        <!--            </div>-->
-        <div class="video-call-section">
-          <div :class="{ 'video-conference': true, 'is-show': isShowVideoCall }">
-
-            <div class="video-conference-list">
-              <div
-                v-for="userId in meetingUserIdList.filter(userId => userId === loginUserInfo.userId)"
-                :key="`video-${userId}`"
-                :id="`video-${userId}`"
-                :class="{'user-video-container': true, 'is-me': userId === loginUserInfo.userId}"
-              >
-                <div class="user-status">
-                  <div
-                    :class="{'user-video-status': true, 'is-mute': isUserMute(muteVideoUserIdList, userId)}"
-                  ></div>
-                  <div
-                    :class="{'user-audio-status': true, 'is-mute': isUserMute(muteAudioUserIdList, userId)}"
-                  ></div>
-                </div>
-                <div class="video-item-username">{{ userId2Name[userId] || userId }}</div>
-              </div>
-            </div>
-            <div class="video-conference-action" v-if="operation">
-              <el-button
-                class="action-btn"
-                type="success"
-                @click="toggleVideo"
-              >{{ isVideoOn ? '关闭摄像头' : '打开摄像头' }}
-              </el-button>
-
-              <el-button
-                class="action-btn"
-                type="success"
-                @click="toggleAudio"
-              >{{ isAudioOn ? '关闭麦克风' : '打开麦克风' }}
-              </el-button>
-
-              <el-button class="action-btn" type="danger" @click="handleHangup">挂断</el-button>
+        <div class="historyService" v-if="historyService">
+          <h4 style="width: 100%;text-align: center">历史服务单</h4>
+          <div class="historyList">
+            <div class="historyList-line" @click="handleClick(ind)" v-for="(hs, ind) in historyServiceList" v-bind:key="ind">
+              <span class="historyService-message">{{ hs.message }}</span>
+              <span class="historyService-date">{{ hs.date }}</span>
+              <span class="historyService-code">{{ hs.code }}</span>
+              <span class="historyService-name">{{ hs.name }}</span>
             </div>
           </div>
         </div>
+<!--        <div class="video-call-section">-->
+<!--          <div :class="{ 'video-conference': true, 'is-show': isShowVideoCall }">-->
+
+<!--            <div class="video-conference-list">-->
+<!--              <div-->
+<!--                v-for="userId in meetingUserIdList.filter(userId => userId === loginUserInfo.userId)"-->
+<!--                :key="`video-${userId}`"-->
+<!--                :id="`video-${userId}`"-->
+<!--                :class="{'user-video-container': true, 'is-me': userId === loginUserInfo.userId}"-->
+<!--              >-->
+<!--                <div class="user-status">-->
+<!--                  <div-->
+<!--                    :class="{'user-video-status': true, 'is-mute': isUserMute(muteVideoUserIdList, userId)}"-->
+<!--                  ></div>-->
+<!--                  <div-->
+<!--                    :class="{'user-audio-status': true, 'is-mute': isUserMute(muteAudioUserIdList, userId)}"-->
+<!--                  ></div>-->
+<!--                </div>-->
+<!--                <div class="video-item-username">{{ userId2Name[userId] || userId }}</div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="video-conference-action" v-if="operation">-->
+<!--              <el-button-->
+<!--                class="action-btn"-->
+<!--                type="success"-->
+<!--                @click="toggleVideo"-->
+<!--              >{{ isVideoOn ? '关闭摄像头' : '打开摄像头' }}-->
+<!--              </el-button>-->
+
+<!--              <el-button-->
+<!--                class="action-btn"-->
+<!--                type="success"-->
+<!--                @click="toggleAudio"-->
+<!--              >{{ isAudioOn ? '关闭麦克风' : '打开麦克风' }}-->
+<!--              </el-button>-->
+
+<!--              <el-button class="action-btn" type="danger" @click="handleHangup">挂断</el-button>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
       <div class="box-right">
-        <div style="line-height: 80px;text-align: center">
-          <h3>会话服务单</h3>
-          <el-form :label-position="labelPosition" label-width="100px" :model="form">
-            <el-form-item label="服务单名称：">
-              <el-input v-model="form.name"></el-input>
-            </el-form-item>
-            <el-form-item label="联系方式：">
-              <el-input v-model="form.phone"></el-input>
-            </el-form-item>
-            <el-form-item label="咨询产品：">
-              <el-input v-model="form.production"></el-input>
-            </el-form-item>
-            <el-form-item label="用户问题：">
-              <el-input type="textarea" rows="4" v-model="form.problem" placeholder="请输入用户问题..."></el-input>
-            </el-form-item>
-            <el-form-item label="会话截图：">
-            </el-form-item>
-            <el-form-item label="解决方式：">
-              <el-select style="width: 100%" v-model="form.region" placeholder="请选择">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="售后单：">
-              <el-input type="textarea">
-
-              </el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button class="save" type="primary" @click="handleEnd()">保存并结束会话</el-button>
-            </el-form-item>
-          </el-form>
+        <div class="historyServiceInfo">
+          <h4 style="width: 100%; text-align: center">服务详情</h4>
+          <h6 style="width: 100%; text-align: center; margin-top: 20px">包装破损需要退款</h6>
+          <table style="width: 100%;margin-top: 20px">
+            <tr>
+              <td class="table-row-title">用户名称：</td>
+              <td class="table-row-value">董利超</td>
+              <td class="table-row-title">用户id：</td>
+              <td class="table-row-value">151613586416</td>
+            </tr>
+            <tr>
+              <td class="table-row-title">联系方式：</td>
+              <td class="table-row-value">15110036978</td>
+              <td class="table-row-title">会话类型：</td>
+              <td class="table-row-value">视频</td>
+            </tr>
+            <tr>
+              <td class="table-row-title">接待客服：</td>
+              <td class="table-row-value">客服001</td>
+              <td class="table-row-title">会话时间：</td>
+              <td class="table-row-value">2020.2.10 15:25</td>
+            </tr>
+            <tr>
+              <td class="table-row-title">资讯产品：</td>
+              <td class="table-row-value" colspan="3">手提包-黑、白色双肩背、商品SKU</td>
+            </tr>
+            <tr>
+              <td class="table-row-title">用户问题：</td>
+              <td class="table-row-value" style="padding-top: 20px" colspan="3">包袋签收15天之内破损，二维码未激活，申请无理由退换货， 已经与客服进行沟通。</td>
+            </tr>
+            <tr>
+              <td class="table-row-title">会话截图：</td>
+              <td colspan="3">
+<!--                <span style="font-size: 12px;color: #D79432">全部 > </span>-->
+<!--                <div class="screenshot">-->
+<!--                  <div class="screenshot-picture"></div>-->
+<!--                  <div class="screenshot-picture"></div>-->
+<!--                  <div class="screenshot-picture"></div>-->
+<!--                  <div class="screenshot-picture"></div>-->
+<!--                </div>-->
+              </td>
+            </tr>
+            <tr>
+              <td class="table-row-title">解决方式：</td>
+              <td class="table-row-value" colspan="3">维修保养申请</td>
+            </tr>
+            <tr>
+              <td class="table-row-title">售后单：</td>
+              <td colspan="3"></td>
+            </tr>
+          </table>
         </div>
+<!--        <div style="line-height: 80px;text-align: center">-->
+<!--          <h3>会话服务单</h3>-->
+<!--          <el-form :label-position="labelPosition" label-width="100px" :model="form">-->
+<!--            <el-form-item label="服务单名称：">-->
+<!--              <el-input v-model="form.name"></el-input>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="联系方式：">-->
+<!--              <el-input v-model="form.phone"></el-input>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="咨询产品：">-->
+<!--              <el-input v-model="form.production"></el-input>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="用户问题：">-->
+<!--              <el-input type="textarea" rows="4" v-model="form.problem" placeholder="请输入用户问题..."></el-input>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="会话截图：">-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="解决方式：">-->
+<!--              <el-select style="width: 100%" v-model="form.region" placeholder="请选择">-->
+<!--                <el-option label="区域一" value="shanghai"></el-option>-->
+<!--                <el-option label="区域二" value="beijing"></el-option>-->
+<!--              </el-select>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="售后单：">-->
+<!--              <el-input type="textarea">-->
+
+<!--              </el-input>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item>-->
+<!--              <el-button class="save" type="primary" @click="handleEnd()">保存并结束会话</el-button>-->
+<!--            </el-form-item>-->
+<!--          </el-form>-->
+<!--        </div>-->
       </div>
     </div>
   </div>
@@ -287,6 +342,50 @@ export default {
           name: '熊大',
           type: '已结束',
           date: '9月23日'
+        }
+      ],
+      historyServiceList: [
+        {
+          id: '1',
+          message: '关于快递停发通知造成的发货延误',
+          date: '2022.2.10 14:47',
+          code: 'SF14619616184583',
+          name: '客服001'
+        },
+        {
+          id: '2',
+          message: '关于快递停发通知造成的发货延误',
+          date: '2022.2.10 14:47',
+          code: 'SF14619616184583',
+          name: '客服001'
+        },
+        {
+          id: '3',
+          message: '关于快递停发通知造成的发货延误',
+          date: '2022.2.10 14:47',
+          code: 'SF14619616184583',
+          name: '客服001'
+        },
+        {
+          id: '4',
+          message: '关于快递停发通知造成的发货延误',
+          date: '2022.2.10 14:47',
+          code: 'SF14619616184583',
+          name: '客服001'
+        },
+        {
+          id: '5',
+          message: '关于快递停发通知造成的发货延误',
+          date: '2022.2.10 14:47',
+          code: 'SF14619616184583',
+          name: '客服001'
+        },
+        {
+          id: '6',
+          message: '关于快递停发通知造成的发货延误',
+          date: '2022.2.10 14:47',
+          code: 'SF14619616184583',
+          name: '客服001'
         }
       ]
     }
@@ -797,6 +896,10 @@ export default {
           message: '已取消'
         })
       })
+    },
+    // 查看历史服务单详情
+    handleClick (ind) {
+      console.log(ind.id)
     }
   }
 }
@@ -972,7 +1075,7 @@ body {
   line-height: 40px;
   text-align: center;
   position: relative;
-  font-size: 14px;
+  font-size: 12px;
   box-sizing: border-box;
 }
 
@@ -1012,6 +1115,7 @@ body {
   height: 100%;
   padding: 30px 30px;
   box-sizing: border-box;
+  background-color: #E9EBF4;
 }
 
 .historyList {
@@ -1026,13 +1130,72 @@ body {
   height: 80px;
   border-radius: 10px;
   background-color: white;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  padding: 10px 20px;
+  position: relative;
 }
-
+.historyList-line{
+  cursor: pointer;
+}
 .save {
   height: 30px;
   font-size: 14px;
   position: absolute;
   right: 0;
   line-height: 5px;
+}
+.historyService-message {
+  font-size: 13px;
+  font-weight: 600;
+}
+.historyService-date{
+  position: absolute;
+  right: 20px;
+  font-size: 12px;
+}
+.historyService-code{
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+  font-size: 12px;
+}
+.historyService-name{
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+  font-size: 12px;
+}
+.historyServiceInfo {
+  width: 100%;
+  height: 100%;
+  padding: 30px 0;
+  box-sizing: border-box;
+}
+.table-row-title{
+  width: 100px;
+  height: 50px;
+  line-height: 50px;
+  font-weight: 600;
+  font-size: 13px;
+  min-width: 100px;
+}
+.table-row-value{
+  font-size: 13px;
+}
+.screenshot{
+  width: 100%;
+  /*height: 80px;*/
+  /*border: 1px solid black;*/
+  /*display: block;*/
+  margin-top: 30px;
+  display: flex;
+
+}
+.screenshot-picture{
+  width: 60px;
+  height: 60px;
+  border: 1px solid lightgray;
+  margin-right: 5px;
 }
 </style>

@@ -141,7 +141,7 @@ li {
 .top-router-inner ul li {
   flex: 1;
   font-weight: 550;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .logo {
