@@ -437,10 +437,8 @@ export default {
       if (this.message.type !== this.TIM.TYPES.MSG_TEXT) {
         return false
       }
-      if (this.isTimeout) {
-        return false
-      }
-      return true
+      return !this.isTimeout;
+
     }
   },
   mounted () {
@@ -500,7 +498,7 @@ export default {
       this.tim
         .login({
           userID: this.videoId,
-          userSig: this.userSig,
+          userSig: this.userSig
         })
         .then(() => {
           // this.loading = false
@@ -511,7 +509,7 @@ export default {
             type: 'GET_USER_INFO',
             userID: this.videoId,
             userSig: this.userSig,
-            sdkAppID: this.sdkAppID,
+            sdkAppID: this.sdkAppID
           })
           this.$store.commit('showMessage', {
             type: 'success',
@@ -1073,7 +1071,7 @@ export default {
       this.userID = ''
     },
     handleKeydown (event) {
-      if (event.keyCode !== 38 && event.keyCode !== 40 || this.isCheckouting) {
+      if ((event.keyCode !== 38 && event.keyCode !== 40) || this.isCheckouting) {
         return
       }
       const currentIndex = this.conversationList.findIndex(
@@ -1144,11 +1142,11 @@ export default {
   border-left: 1px solid lightgrey;
 }
 .conversation-item-container
-padding 15px 20px
-cursor pointer
-position relative
-overflow hidden
-transition .2s
+  padding 15px 20px
+  cursor pointer
+  position relative
+  overflow hidden
+  transition .2s
 // &:first-child
 //   padding-top 30px
 &:hover
@@ -1181,7 +1179,7 @@ transition .2s
     .name
       color $font-light
       flex 1
-      min-width 0px
+      min-width 0
     .unread-count
       padding-left 10px
       flex-shrink 0
@@ -1207,7 +1205,7 @@ transition .2s
     .summary
       flex 1
       overflow hidden
-      min-width 0px
+      min-width 0
       color: $secondary
       .remind
         color $danger
@@ -1227,7 +1225,7 @@ transition .2s
 .conversation-container {
   position absolute
   top 0
-  left 0px
+  left 0
   width 100%
   background-color #fff
   z-index 999

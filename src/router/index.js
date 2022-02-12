@@ -42,7 +42,7 @@ const routes = [
           {
             path: 'salesOrder',
             name: 'SalesOrder',
-            component: () => import('../components/customerService/salesOrder'),
+            component: () => import('../components/customerService/salesOrder')
           },
           // 售后单 -> 详情
           {
