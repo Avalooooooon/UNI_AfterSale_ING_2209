@@ -437,8 +437,7 @@ export default {
       if (this.message.type !== this.TIM.TYPES.MSG_TEXT) {
         return false
       }
-      return !this.isTimeout;
-
+      return !this.isTimeout
     }
   },
   mounted () {
