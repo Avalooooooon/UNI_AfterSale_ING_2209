@@ -8,19 +8,19 @@
           </span>
           <div class="customerServiceInfo">
             <div style="width: 100%;height: 25px;display: flex">
-              <h5>会话客服0927</h5>
+              <h6>会话客服{{userId}}</h6>
               <div
-                style="font-size: 12px;margin-left: 20px;padding: 0 5px;color: #d79432;border: 1px solid #d79432;border-radius: 3px;height: 16px;line-height: 16px;cursor:pointer">
+                style="font-size: 11px;margin-left: 20px;padding: 0 5px;color: #d79432;border: 1px solid #d79432;border-radius: 3px;height: 16px;line-height: 16px;cursor:pointer">
                 提交下线
               </div>
-              <div id="icon">
+              <div id="icon" style="font-size: 20px">
                 <i @click="rebackVideo()" v-if="camera" class="el-icon-video-camera"></i>
                 <i @click="rebackList()" v-if="time" class="el-icon-time"></i>
               </div>
             </div>
             <div style="width: 100%;height: 25px">
-              <span style="font-size: 13px;color: #d79432">在线</span>
-              <span style="font-size: 13px;margin-left: 20px">本次工作时长：1小时20分钟</span>
+              <span style="font-size: 11px;color: #d79432">在线</span>
+              <span style="font-size: 11px;margin-left: 20px">本次工作时长：1小时20分钟</span>
             </div>
           </div>
         </div>
@@ -50,7 +50,7 @@
           </div>
         </div>
         <div class="videoList" v-if="listModel">
-          <div class="videoList-line" v-for="(item, index) in videoList" v-bind:key="index">
+          <div class="videoList-line" v-for="(item, index) in videoList" v-bind:key="index" @click="handleCustomer(item)">
             <div class="image"><img style="width: 100%;height: 100%;border-radius: 50px" :src="item.img" alt=""></div>
             <span style="margin-left: 30px;font-size: 14px">{{ item.name }}</span>
             <span style="position: absolute;right: 100px;font-size: 12px;color: #B2B7C5">{{ item.type }}</span>
@@ -62,7 +62,7 @@
         <div class="historyService" v-if="historyService">
           <h4 style="width: 100%;text-align: center">历史服务单</h4>
           <div class="historyList">
-            <div class="historyList-line" @click="handleClick(ind)" v-for="(hs, ind) in historyServiceList" v-bind:key="ind">
+            <div class="historyList-line" v-for="(hs, ind) in historyList" v-bind:key="ind" @click="handleClick(hs)">
               <span class="historyService-message">{{ hs.message }}</span>
               <span class="historyService-date">{{ hs.date }}</span>
               <span class="historyService-code">{{ hs.code }}</span>
@@ -118,29 +118,29 @@
           <table style="width: 100%;margin-top: 20px">
             <tr>
               <td class="table-row-title">用户名称：</td>
-              <td class="table-row-value">董利超</td>
+              <td class="table-row-value">{{ detailInfo.name }}</td>
               <td class="table-row-title">用户id：</td>
-              <td class="table-row-value">151613586416</td>
+              <td class="table-row-value">{{ detailInfo.id }}</td>
             </tr>
             <tr>
               <td class="table-row-title">联系方式：</td>
-              <td class="table-row-value">15110036978</td>
+              <td class="table-row-value">{{ detailInfo.phone }}</td>
               <td class="table-row-title">会话类型：</td>
-              <td class="table-row-value">视频</td>
+              <td class="table-row-value">{{ detailInfo.type }}</td>
             </tr>
             <tr>
               <td class="table-row-title">接待客服：</td>
-              <td class="table-row-value">客服001</td>
+              <td class="table-row-value">{{ detailInfo.customerServiceName }}</td>
               <td class="table-row-title">会话时间：</td>
-              <td class="table-row-value">2020.2.10 15:25</td>
+              <td class="table-row-value">{{ detailInfo.time }}</td>
             </tr>
             <tr>
               <td class="table-row-title">资讯产品：</td>
-              <td class="table-row-value" colspan="3">手提包-黑、白色双肩背、商品SKU</td>
+              <td class="table-row-value" colspan="3">{{ detailInfo.product }}</td>
             </tr>
             <tr>
               <td class="table-row-title">用户问题：</td>
-              <td class="table-row-value" style="padding-top: 20px" colspan="3">包袋签收15天之内破损，二维码未激活，申请无理由退换货， 已经与客服进行沟通。</td>
+              <td class="table-row-value" style="padding-top: 20px" colspan="3">{{ detailInfo.problem }}</td>
             </tr>
             <tr>
               <td class="table-row-title">会话截图：</td>
@@ -156,7 +156,7 @@
             </tr>
             <tr>
               <td class="table-row-title">解决方式：</td>
-              <td class="table-row-value" colspan="3">维修保养申请</td>
+              <td class="table-row-value" colspan="3">{{ detailInfo.way }}</td>
             </tr>
             <tr>
               <td class="table-row-title">售后单：</td>
@@ -290,86 +290,116 @@ export default {
       videoModel: false,
       listModel: true,
       historyService: true,
+      detailInfo: [],
+      historyList: [],
       videoList: [
         {
+          id: '01',
+          img: require('../../../assets/headimg.jpg'),
+          name: '熊大',
+          type: '已结束',
+          date: '9月23日',
+          historyServiceList: [
+            {
+              id: '1',
+              message: '关于快递停发通知造成的发货延误',
+              date: '2022.2.10 14:47',
+              code: 'SF14619616184583',
+              name: '客服001',
+              detail: {
+                name: '小白',
+                id: '1314520',
+                phone: '123456789',
+                type: '视频',
+                customerServiceName: '0001',
+                time: '2022.2.14 16:54',
+                product: '黑色公文包',
+                problem: '巴拉巴拉巴拉巴拉巴拉巴拉',
+                way: '退换处理'
+              }
+            },
+            {
+              id: '2',
+              message: '关于快递停发通知造成的发货延误',
+              date: '2022.2.10 14:47',
+              code: 'SF14619616184583',
+              name: '客服001',
+              detail: {
+                name: '小黑',
+                id: '16516161',
+                phone: '18649461613',
+                type: '电话',
+                customerServiceName: '0001',
+                time: '2022.2.14 16:54',
+                product: '白色鳄鱼皮包',
+                problem: '美国弄完就公婆我今儿个胖娃价格',
+                way: '维修保养'
+              }
+            },
+            {
+              id: '3',
+              message: '关于快递停发通知造成的发货延误',
+              date: '2022.2.10 14:47',
+              code: 'SF14619616184583',
+              name: '客服001'
+            },
+            {
+              id: '4',
+              message: '关于快递停发通知造成的发货延误',
+              date: '2022.2.10 14:47',
+              code: 'SF14619616184583',
+              name: '客服001'
+            },
+            {
+              id: '5',
+              message: '关于快递停发通知造成的发货延误',
+              date: '2022.2.10 14:47',
+              code: 'SF14619616184583',
+              name: '客服001'
+            },
+            {
+              id: '6',
+              message: '关于快递停发通知造成的发货延误',
+              date: '2022.2.10 14:47',
+              code: 'SF14619616184583',
+              name: '客服001'
+            }
+          ]
+        },
+        {
+          id: '02',
           img: require('../../../assets/headimg.jpg'),
           name: '熊大',
           type: '已结束',
           date: '9月23日'
         },
         {
+          id: '03',
           img: require('../../../assets/headimg.jpg'),
           name: '熊大',
           type: '已结束',
           date: '9月23日'
         },
         {
+          id: '04',
           img: require('../../../assets/headimg.jpg'),
           name: '熊大',
           type: '已结束',
           date: '9月23日'
         },
         {
+          id: '05',
           img: require('../../../assets/headimg.jpg'),
           name: '熊大',
           type: '已结束',
           date: '9月23日'
         },
         {
+          id: '06',
           img: require('../../../assets/headimg.jpg'),
           name: '熊大',
           type: '已结束',
           date: '9月23日'
-        },
-        {
-          img: require('../../../assets/headimg.jpg'),
-          name: '熊大',
-          type: '已结束',
-          date: '9月23日'
-        }
-      ],
-      historyServiceList: [
-        {
-          id: '1',
-          message: '关于快递停发通知造成的发货延误',
-          date: '2022.2.10 14:47',
-          code: 'SF14619616184583',
-          name: '客服001'
-        },
-        {
-          id: '2',
-          message: '关于快递停发通知造成的发货延误',
-          date: '2022.2.10 14:47',
-          code: 'SF14619616184583',
-          name: '客服001'
-        },
-        {
-          id: '3',
-          message: '关于快递停发通知造成的发货延误',
-          date: '2022.2.10 14:47',
-          code: 'SF14619616184583',
-          name: '客服001'
-        },
-        {
-          id: '4',
-          message: '关于快递停发通知造成的发货延误',
-          date: '2022.2.10 14:47',
-          code: 'SF14619616184583',
-          name: '客服001'
-        },
-        {
-          id: '5',
-          message: '关于快递停发通知造成的发货延误',
-          date: '2022.2.10 14:47',
-          code: 'SF14619616184583',
-          name: '客服001'
-        },
-        {
-          id: '6',
-          message: '关于快递停发通知造成的发货延误',
-          date: '2022.2.10 14:47',
-          code: 'SF14619616184583',
-          name: '客服001'
         }
       ]
     }
@@ -393,6 +423,7 @@ export default {
     this.headimg = sessionStorage.getItem('headimg')
     this.userId = sessionStorage.getItem('video_id')
     this.userSig = sessionStorage.getItem('usersig')
+    console.log(this.userId, '0000000000')
     this.login()
     this.initListener()
     // await this.handleAutoLogin();
@@ -882,8 +913,14 @@ export default {
       })
     },
     // 查看历史服务单详情
-    handleClick (ind) {
-      console.log(ind.id)
+    handleClick (hs) {
+      // console.log(hs.id)
+      this.detailInfo = hs.detail
+    },
+    // 查看通话客户历史服务单
+    handleCustomer (item) {
+      console.log(item.id)
+      this.historyList = item.historyServiceList
     }
   }
 }
@@ -908,6 +945,7 @@ body {
 
 .box-left {
   width: 22%;
+  min-width: 350px;
   height: 100%;
 }
 
@@ -938,7 +976,7 @@ body {
   font-size: 30px;
   position: absolute;
   right: 0;
-  top: -10px;
+  top: -5px;
   cursor: pointer;
 }
 
@@ -947,6 +985,9 @@ body {
   height: 100%;
   background-color: #E9EBF4;
   position: relative;
+  overflow: hidden;
+  overflow-y: scroll;
+  max-height: calc(100vh - 170px);
 }
 
 .box-right {
@@ -1054,9 +1095,9 @@ body {
 
 .callInfo {
   width: 100%;
-  height: 40px;
+  height: 30px;
   background-color: #D5D7DD;
-  line-height: 40px;
+  line-height: 30px;
   text-align: center;
   position: relative;
   font-size: 12px;

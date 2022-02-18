@@ -3,7 +3,6 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-
 import './style/theme/index.css'
 import ElementUI from 'element-ui'
 import axios from 'axios'
@@ -12,33 +11,33 @@ import jsCookie from 'js-cookie'
 import TRTCCalling from 'trtc-calling-js'
 import {createTrtcCalling} from './trtc-calling'
 import store from './store'
-import './assets/icon/iconfont.css'
-import './assets/icon/tim.css'
-import './assets/css/animate.css'
 // import TIM from 'tim-js-sdk'
 import tim from './tim'
 import TIM from 'tim-js-sdk/tim-js-friendship.js'
+import './assets/icon/iconfont.css'
+import './assets/icon/tim.css'
+import './assets/css/animate.css'
+// import store2 from './components/customerService/conversation/store'
 // 发送图片、文件等消息需要腾讯云即时通信 IM 上传插件
 // import TIMUploadPlugin from 'tim-upload-plugin'
+
+// 会话聊天相关
+// import { MessageBox, Row, Col, Button, Input, Loading, Dialog, Dropdown, DropdownMenu, DropdownItem, Checkbox, CheckboxGroup, Divider, Popover, Collapse, CollapseItem, Form, FormItem, Select, Option, Menu, MenuItem, MenuItemGroup, Submenu, Tooltip} from 'element-ui'
+import Avatar from './components/customerService/conversation/components/avatar.vue'
+// import Index from './components/customerService/conversation/index.vue'
+// import './components/customerService/conversation/assets/icon/iconfont.css'
+// import './components/customerService/conversation/assets/icon/tim.css'
+// import './components/customerService/conversation/assets/css/animate.css'
+// import trtcCalling from './trtc-calling'
+// window.TRTCCalling = TRTCCalling
+// window.trtcCalling = trtcCalling
 
 window.tim = tim
 window.TIM = TIM
 window.store = store
+// window.store2 = store2
 Vue.prototype.tim = tim
 Vue.prototype.TIM = TIM
-// let options = {
-//   SDKAppID: 1400623394 // 接入时需要将0替换为您的即时通信 IM 应用的 SDKAppID
-// }
-// // 创建 SDK 实例，TIM.create() 方法对于同一个 SDKAppID 只会返回同一份实例
-// let tim = TIM.create(options) // SDK 实例通常用 tim 表示
-//
-// // 设置 SDK 日志输出级别，详细分级请参见 setLogLevel 接口的说明
-// tim.setLogLevel(0) // 普通级别，日志量较多，接入时建议使用
-// // tim.setLogLevel(1); // release 级别，SDK 输出关键信息，生产环境时建议使用
-//
-// // 注册腾讯云即时通信 IM 上传插件
-// tim.registerPlugin({'tim-upload-plugin': TIMUploadPlugin})
-
 axios.defaults.baseURL = '/api'
 axios.defaults.withCredentials = true
 Vue.prototype.$trtcCalling = createTrtcCalling()
@@ -47,21 +46,48 @@ Vue.use(ElementUI)
 Vue.prototype.$md5 = md5
 Vue.prototype.$cookie = jsCookie
 Vue.prototype.$store = store
-
+// Vue.prototype.$store2 = store2
 Vue.prototype.$TRTCCalling = TRTCCalling
 Vue.prototype.TrtcCalling = TRTCCalling
-
 Vue.config.productionTip = false
 window.tim = Vue.prototype.$trtcCalling.tim
-window.TIM = TIM
-Vue.prototype.tim = tim
-Vue.prototype.TIM = TIM
+// 会话相关
+Vue.prototype.$confirm = ElementUI.MessageBox.confirm
+Vue.prototype.$bus = new Vue()
+// Vue.prototype.trtcCalling = trtcCalling
+Vue.use(ElementUI.Button)
+Vue.use(ElementUI.Row)
+Vue.use(ElementUI.Col)
+Vue.use(ElementUI.Input)
+Vue.use(ElementUI.Loading)
+Vue.use(ElementUI.Dialog)
+Vue.use(ElementUI.Dropdown)
+Vue.use(ElementUI.DropdownMenu)
+Vue.use(ElementUI.DropdownItem)
+// Vue.use(VueClipboard)
+Vue.use(ElementUI.Checkbox)
+Vue.use(ElementUI.CheckboxGroup)
+Vue.use(ElementUI.Divider)
+Vue.use(ElementUI.Popover)
+Vue.use(ElementUI.Collapse)
+Vue.use(ElementUI.CollapseItem)
+Vue.use(ElementUI.Form)
+Vue.use(ElementUI.FormItem)
+Vue.use(ElementUI.Select)
+Vue.use(ElementUI.Option)
+Vue.use(ElementUI.Menu)
+Vue.use(ElementUI.MenuItem)
+Vue.use(ElementUI.MenuItemGroup)
+Vue.use(ElementUI.Submenu)
+Vue.use(ElementUI.Tooltip)
+Vue.component('avatar', Avatar)
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   store,
+  // store2,
   components: { App },
   template: '<App/>'
 })

@@ -150,9 +150,9 @@ li {
   _position: relative;
   top: 50%;
   left: 50%;
-  width: 1450px;
+  width: 1300px;
   height: 720px;
-  margin-left: -725px;
+  margin-left: -650px;
   margin-top: -360px;
   z-index: 10;
   /*border: 2px solid red;*/

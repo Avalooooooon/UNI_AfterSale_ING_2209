@@ -1,6 +1,21 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import user from './modules/user'
 import {Message} from 'element-ui'
+
+
+// 引入TIM相关的store
+
+import conversation from './modules2/conversation'
+import group from './modules2/group'
+// import user2 from './modules/user'
+import video from './modules2/video'
+import friend from './modules2/friend'
+import blacklist from './modules2/blacklist'
+import groupLive from './modules2/groupLive'
+
+
+
 
 Vue.use(Vuex)
 
@@ -18,7 +33,12 @@ function createStore () {
       muteAudioUserIdList: [],
       current: Date.now(), // 当前时间
       intervalID: 0,
-      message: undefined
+      message: undefined,
+
+      // 新增
+      current: Date.now(), // 当前时间
+      intervalID: 0,
+      // message: undefined
     },
     getters: {
       hidden (state) {
@@ -96,6 +116,16 @@ function createStore () {
           offset: 40
         })
       }
+    },
+    modules: {
+      user,
+      conversation,
+      group,
+      friend,
+      blacklist,
+      // user2,
+      video,
+      groupLive,
     }
   })
 }
