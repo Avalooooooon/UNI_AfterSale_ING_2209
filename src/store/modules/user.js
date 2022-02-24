@@ -5,7 +5,7 @@ const user = {
     isLogin: false,
     isSDKReady: false, // TIM SDK 是否 ready
     userID: 0,
-    userSig: '', 
+    userSig: '',
     sdkAppID: 0
   },
   mutations: {

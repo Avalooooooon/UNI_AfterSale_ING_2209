@@ -1,5 +1,5 @@
 
-export function throttle(func, wait) {
+export function throttle (func, wait) {
   let timeout
   return function () {
     let that = this
@@ -19,7 +19,7 @@ export function throttle(func, wait) {
  * @export
  * @param {Number} count
  */
-export function titleNotify(count) {
+export function titleNotify (count) {
   const hasNewMessage = count > 0
   if (hasNewMessage) {
     if (document.title.search(/\((.*?)\)/) >= 0) {

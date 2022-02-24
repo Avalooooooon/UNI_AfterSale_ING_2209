@@ -4,7 +4,8 @@ import TIMUploadPlugin from 'tim-upload-plugin'
 // 初始化 SDK 实例
 
 const tim = TIM.create({
-  SDKAppID: 1400623394
+  SDKAppID: 1400589788
+  // SDKAppID: 1400623394
 })
 
 window.setLogLevel = tim.setLogLevel

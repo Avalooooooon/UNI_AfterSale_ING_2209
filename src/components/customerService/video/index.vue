@@ -442,6 +442,8 @@ export default {
         userID: this.userId,
         userSig: this.userSig
       })
+      console.log(this.userId, '视频')
+      console.log(this.userSig, '视频')
     },
     handleAutoLogin: async function () {
     },

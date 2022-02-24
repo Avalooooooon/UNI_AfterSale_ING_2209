@@ -165,8 +165,6 @@ export default {
   },
   methods: {
     selectConversation () {
-      console.log(this.conversation.conversationID)
-      console.log(this.currentConversation.conversationID)
       if (this.conversation.conversationID !== this.currentConversation.conversationID) {
         this.$store.dispatch(
           'checkoutConversation',

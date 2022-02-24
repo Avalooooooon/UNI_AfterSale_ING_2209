@@ -95,6 +95,7 @@ export default {
       this.userID = ''
     },
     handleKeydown (event) {
+      // eslint-disable-next-line no-mixed-operators
       if (event.keyCode !== 38 && event.keyCode !== 40 || this.isCheckouting) {
         return
       }

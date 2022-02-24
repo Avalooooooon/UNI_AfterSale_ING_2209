@@ -8,34 +8,34 @@ const friendModules = {
     friendGroupList: [],
     currentMemberList: [],
     friendContent: {},
-    applicationContent: {},
-    },
+    applicationContent: {}
+  },
   mutations: {
-    updateFriendList(state, friendList) {
+    updateFriendList (state, friendList) {
       state.friendList = friendList
     },
-    updateUnreadCount(state, unreadCount) {
+    updateUnreadCount (state, unreadCount) {
       state.unreadCount = unreadCount
     },
-    updateFriendGroupList(state, friendGroupList) {
+    updateFriendGroupList (state, friendGroupList) {
       state.friendGroupList = friendGroupList
     },
-    updateApplicationList(state, applicationList) {
+    updateApplicationList (state, applicationList) {
       state.applicationList = applicationList
     },
-    updateFriendContent(state, friendContent) {
+    updateFriendContent (state, friendContent) {
       state.friendContent = friendContent
     },
-    updateApplicationContent(state, applicationContent) {
+    updateApplicationContent (state, applicationContent) {
       state.applicationContent = applicationContent
     },
-    resetApplicationContent(state) {
+    resetApplicationContent (state) {
       state.applicationContent = {}
     },
-    resetFriendContent(state) {
+    resetFriendContent (state) {
       state.friendContent = {}
     },
-    deleteApplicationList(state, applicationInfo) {
+    deleteApplicationList (state, applicationInfo) {
       const { to, applicationType } = applicationInfo
       if (applicationType === TIM.TYPES.APPLICATION_TYPE_COMEIN) {
         state.comeInApplicationList = state.comeInApplicationList.filter(item => item.to !== to)
@@ -44,25 +44,24 @@ const friendModules = {
         state.sendOutApplicationList = state.sendOutApplicationList.filter(item => item.to !== to)
       }
     },
-    deleteFriend(state, userID) {
+    deleteFriend (state, userID) {
       state.friendList = state.friendList.filter(item => item.userID !== userID)
     },
     // 删除好友分组
-    deleteFriendGroupList(state, groupNameList) {
+    deleteFriendGroupList (state, groupNameList) {
       state.friendGroupList = state.friendGroupList.filter((groupItem) => !groupNameList.includes(groupItem.groupName))
     },
     // 增加好友分组
-    addFriendGroupList(state, friendGroup) {
+    addFriendGroupList (state, friendGroup) {
       state.friendGroupList = [...state.friendGroupList, ...friendGroup]
     },
     // 更新分组信息
-    updateFriendGroupInfo(state, groupInfo) {
-      state.friendGroupList = state.friendGroupList.map( groupItem=> {
+    updateFriendGroupInfo (state, groupInfo) {
+      state.friendGroupList = state.friendGroupList.map(groupItem => {
         return groupItem.groupName === groupInfo.groupName ? groupInfo : groupItem
       })
-
     },
-    reset(state) {
+    reset (state) {
       Object.assign(state, {
         friendGroupList: [],
         friendList: [],
@@ -72,17 +71,16 @@ const friendModules = {
     }
   },
   actions: {
-    setFriendContent(context, friendContent) {
+    setFriendContent (context, friendContent) {
       context.commit('resetCurrentConversation')
       context.commit('resetApplicationContent')
       context.commit('updateFriendContent', friendContent)
     },
-    setApplicationContent(context, applicationContent) {
+    setApplicationContent (context, applicationContent) {
       context.commit('resetCurrentConversation')
       context.commit('resetFriendContent')
       context.commit('updateApplicationContent', applicationContent)
-
-    },
+    }
   }
 }
 

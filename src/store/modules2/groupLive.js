@@ -18,7 +18,7 @@ const groupLiveModules = {
      * @param {Object} state
      * @param {Object} payload
      */
-    updateGroupLiveInfo(state, payload) {
+    updateGroupLiveInfo (state, payload) {
       state.groupLiveInfo = { ...state.groupLiveInfo, ...payload }
     },
     /**
@@ -26,7 +26,7 @@ const groupLiveModules = {
      * @param {Object} state
      * @param {Object} payload
      */
-    resetGroupLiveInfo(state, payload) {
+    resetGroupLiveInfo (state, payload) {
       state.groupLiveInfo = { ...state.groupLiveInfo, ...payload }
     },
     /**
@@ -34,7 +34,7 @@ const groupLiveModules = {
      * @param {Object} state
      * @param {Object} payload
      */
-    clearAvChatRoomMessageList(state) {
+    clearAvChatRoomMessageList (state) {
       state.avChatRoomMessageList = []
       state.avChatRoomBarrageMessageList = []
       state.avChatRoomGiftMessageList = []
@@ -45,7 +45,7 @@ const groupLiveModules = {
      * @param {Message[]|Message} data
      * @returns
      */
-    pushAvChatRoomMessageList(state, data) {
+    pushAvChatRoomMessageList (state, data) {
       // 自定义消息结构体
       // "{"version":"1.0.0","message":"","command":"4","action":301}" 点赞消息
       // "{"version":"1.0.0","message":"Qq","command":"5","action":301}" 弹幕消息
@@ -81,7 +81,7 @@ const groupLiveModules = {
         //   }
         // }
       }
-    },
+    }
   },
   actions: {}
 }

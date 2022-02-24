@@ -1,6 +1,6 @@
 import TIM from 'tim-js-sdk/tim-js-friendship'
 
-export function translateGroupSystemNotice(message) {
+export function translateGroupSystemNotice (message) {
   const groupName = message.payload.groupProfile.name || message.payload.groupProfile.groupID
   switch (message.payload.operationType) {
     case 1:
@@ -42,34 +42,35 @@ export const errorMap = {
   620: '用户不存在',
   621: '密码错误'
 }
-export function filterCallingMessage(currentMessageList) {
+export function filterCallingMessage (currentMessageList) {
   currentMessageList.forEach((item) => {
-    if (item.callType) {   // 对于自己伪造的消息不需要解析
+    if (item.callType) { // 对于自己伪造的消息不需要解析
       return
     }
     if (item.type === TIM.TYPES.MSG_MERGER && item.payload.downloadKey !== '') {
       let promise = window.tim.downloadMergerMessage(item)
-      promise.then(function(imResponse) {
+      promise.then(function (imResponse) {
         // 下载成功后，SDK会更新 message.payload.messageList 等信息
         item = imResponse
-      }).catch(function(imError) {
+      }).catch(function (imError) {
         // 下载失败
         console.warn('downloadMergerMessage error:', imError)
       })
     }
-    if(item.type === TIM.TYPES.MSG_CUSTOM) {
+    if (item.type === TIM.TYPES.MSG_CUSTOM) {
       let payloadData = {}
       try {
         payloadData = JSON.parse(item.payload.data)
-      }catch (e) {
+      } catch (e) {
         payloadData = {}
       }
-      if(payloadData.businessID === 1) {
-        if(item.conversationType === TIM.TYPES.CONV_GROUP) {
-          if(payloadData.actionType === 5) {
-            item.nick = payloadData.inviteeList ? payloadData.inviteeList.join(','):item.from
+      if (payloadData.businessID === 1) {
+        if (item.conversationType === TIM.TYPES.CONV_GROUP) {
+          if (payloadData.actionType === 5) {
+            item.nick = payloadData.inviteeList ? payloadData.inviteeList.join(',') : item.from
           }
           let _text = window.trtcCalling.extractCallingInfoFromMessage(item)
+          // eslint-disable-next-line camelcase
           let group_text = `${_text}`
           item.type = TIM.TYPES.MSG_GRP_TIP
           let customData = {
@@ -77,18 +78,17 @@ export function filterCallingMessage(currentMessageList) {
             text: group_text,
             userIDList: []
           }
-          item.payload = customData//JSON.stringify(customData)
+          item.payload = customData// JSON.stringify(customData)
         }
-        if(item.conversationType === TIM.TYPES.CONV_C2C) {
+        if (item.conversationType === TIM.TYPES.CONV_C2C) {
+          // eslint-disable-next-line camelcase
           let c2c_text = window.trtcCalling.extractCallingInfoFromMessage(item)
           let customData = {
             text: c2c_text
           }
-          item.payload = customData//JSON.stringify(customData)
+          item.payload = customData// JSON.stringify(customData)
         }
       }
     }
-
   })
 }
-

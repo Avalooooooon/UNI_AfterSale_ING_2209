@@ -68,6 +68,7 @@
 
 <script>
 import { mapState } from 'vuex'
+// eslint-disable-next-line standard/object-curly-even-spacing
 import { Select, Option, Form, FormItem, Input} from 'element-ui'
 
 // import FriendItem from './friend-item.vue'

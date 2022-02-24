@@ -41,6 +41,7 @@ export default {
               type: 'success'
             })
             this.tim.getGroupMemberProfile({groupID, userIDList: successUserIDList})
+              // eslint-disable-next-line standard/object-curly-even-spacing
               .then(({ data: { memberList }}) => {
                 this.$store.commit('updateCurrentMemberList', memberList)
               })

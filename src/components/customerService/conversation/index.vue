@@ -1,37 +1,4 @@
 <template>
-<!--  <div class="container">-->
-<!--    <div id="wrapper" v-if="!isLogin" >-->
-<!--      <login />-->
-<!--       <qr-code-list/> -->
-<!--    </div>-->
-<!--    <div-->
-<!--      class="loading"-->
-<!--      v-else-->
-<!--      v-loading="showLoading"-->
-<!--      element-loading-text="正在拼命初始化..."-->
-<!--      element-loading-background="rgba(0, 0, 0, 0.8)"-->
-<!--    >-->
-<!--      <div class="chat-wrapper">-->
-<!--        <el-row>-->
-<!--          <el-col :xs="10" :sm="10" :md="8" :lg="8" :xl="7">-->
-<!--            <side-bar />-->
-<!--          </el-col>-->
-<!--          <el-col :xs="14" :sm="14" :md="16" :lg="16" :xl="17">-->
-<!--             <current-conversation />-->
-<!--          </el-col>-->
-<!--        </el-row>-->
-<!--        <a-->
-<!--          class="official-link"-->
-<!--          href="https://cloud.tencent.com/product/im"-->
-<!--          target="_blank"-->
-<!--        >登录 即时通信IM 官网，了解更多体验方式</a>-->
-<!--      </div>-->
-<!--       <calling  ref="callLayer" class="chat-wrapper"/> -->
-<!--       <image-previewer /> -->
-<!--       <group-live /> -->
-<!--    </div>-->
-<!--    <div class="bg"></div>-->
-<!--  </div>-->
   <div class="box">
     <div class="box-left">
       <side-bar />
@@ -50,30 +17,23 @@ import { mapState } from 'vuex'
 import CurrentConversation from './components/conversation/current-conversation'
 import SideBar from './components/layout/side-bar'
 import Login from './components/user/login'
-// import ImagePreviewer from './components/message/image-previewer.vue'
-// import QrCodeList from './components/qr-code-list'
 import { translateGroupSystemNotice } from './utils/common'
-// import GroupLive from './components/group-live/index'
-// import Calling from './components/message/trtc-calling/calling-index'
 import { ACTION } from './utils/trtcCustomMessageMap'
-
-// import genTestUserSig from '../public/debug/GenerateTestUserSig'
 
 export default {
   title: 'TIMSDK DEMO',
   data () {
     return {
-      loginType: 2 // github 登录只使用默认账号登录
+      loginType: 2, // github 登录只使用默认账号登录
+      userId: '',
+      userSig: '',
+      sdkAppID: 1400589788
     }
   },
   components: {
     Login,
     SideBar,
     CurrentConversation
-    // ImagePreviewer,
-    // QrCodeList,
-    // GroupLive,
-    // Calling,
   },
 
   computed: {
@@ -84,10 +44,10 @@ export default {
       audioCall: state => state.conversation.audioCall,
       isLogin: state => state.user.isLogin,
       isSDKReady: state => state.user.isSDKReady,
-      isBusy: state => state.video.isBusy,
-      userID: state => state.user.userID,
-      userSig: state => state.user.userSig,
-      sdkAppID: state => state.user.sdkAppID
+      isBusy: state => state.video.isBusy
+      // userID: state => state.user.userID,
+      // userSig: state => state.user.userSig,
+      // sdkAppID: state => state.user.sdkAppID
     }),
     // 是否显示 Loading 状态
     showLoading () {
@@ -100,6 +60,8 @@ export default {
     // console.error(genTestUserSig)
   },
   created () {
+    this.userId = sessionStorage.getItem('video_id')
+    this.userSig = sessionStorage.getItem('usersig')
     this.login()
   },
 
@@ -133,12 +95,43 @@ export default {
 
       this.tim.on(this.TIM.EVENT.FRIEND_GROUP_LIST_UPDATED, this.onFriendGroupListUpdated)
     },
+    // login () {
+    //   this.loading = true
+    //   const userSig = 'eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwqXFqUWGhlCZ4pTsxIKCzBQlK0MTAwMzI2NjSxOITGpFQWZRKlDc1NTUyMDAACJakpkLEjMzMTUwM7eEiRZnpgMN9vP1NfMNCHdPtjR01Y4sMCh2qvBN0Y4IcbWM0TctTHZJzk1JyQhLy8sptwi0VaoFAFPKMVA_'
+    //   const sdkAppID = 1400623394
+    //   const userID = 'user11'
+    //   this.tim
+    //     .login({
+    //       userID: userID,
+    //       userSig: userSig
+    //     })
+    //     .then(() => {
+    //       console.log(userID, '聊天')
+    //       console.log(userSig, '聊天')
+    //       console.log(sdkAppID, '聊天')
+    //       this.loading = false
+    //       this.$store.commit('toggleIsLogin', true)
+    //       this.$store.commit('startComputeCurrent')
+    //       this.$store.commit({
+    //         type: 'GET_USER_INFO',
+    //         userID: userID,
+    //         userSig: userSig,
+    //         sdkAppID: sdkAppID
+    //       })
+    //     })
+    //     .catch(error => {
+    //       this.loading = false
+    //       this.$store.commit('showMessage', {
+    //         message: '登录失败：' + error.message,
+    //         type: 'error'
+    //       })
+    //     })
+    // },
     login () {
       this.loading = true
-
-      const userSig = 'eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwqXFqUWGhlCZ4pTsxIKCzBQlK0MTAwMzI2NjSxOITGpFQWZRKlDc1NTUyMDAACJakpkLEjMzMTUwM7eEiRZnpgMN9vP1NfMNCHdPtjR01Y4sMCh2qvBN0Y4IcbWM0TctTHZJzk1JyQhLy8sptwi0VaoFAFPKMVA_'
-      const sdkAppID = 1400623394
-      const userID = 'user11'
+      const userSig = this.userSig
+      const sdkAppID = this.sdkAppID
+      const userID = this.userId
       this.tim
         .login({
           userID: userID,
@@ -148,17 +141,19 @@ export default {
           this.loading = false
           this.$store.commit('toggleIsLogin', true)
           this.$store.commit('startComputeCurrent')
-          // this.$store.commit('showMessage', { type: 'success', message: '登录成功' })
           this.$store.commit({
             type: 'GET_USER_INFO',
             userID: userID,
             userSig: userSig,
             sdkAppID: sdkAppID
           })
-          // this.$store.commit('showMessage', {
-          //   type: 'success',
-          //   message: '登录成功'
-          // })
+          console.log(this.userId, '聊天')
+          console.log(this.userSig, '聊天')
+          console.log(this.sdkAppID, '聊天')
+          this.$store.commit('showMessage', {
+            type: 'success',
+            message: '登录成功'
+          })
         })
         .catch(error => {
           this.loading = false
