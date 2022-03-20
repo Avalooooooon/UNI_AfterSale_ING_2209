@@ -20,11 +20,12 @@
                 class="input"
                 v-model="userInfo.password"
                 show-password
+                @keyup.enter.native="handleSubmit"
               ></el-input>
               <el-checkbox class="check" v-model="checked">
                 <span style="font-size: 16px">自动登录</span>
               </el-checkbox>
-              <el-button type="primary" class="submit" @click.prevent="handleSubmit()">登 录</el-button>
+              <el-button type="primary" class="submit" @click.prevent="handleSubmit">登 录</el-button>
             </el-form>
           </div>
         </div>
@@ -50,8 +51,8 @@ export default {
     return {
       userInfo: {
         bizid: 'uniwarm',
-        username: 'dong',
-        password: 'donglichao'
+        username: '',
+        password: ''
       },
       checked: true,
       videoId: '',
@@ -83,16 +84,6 @@ export default {
           console.log(res.data.video_id)
           this.videoId = res.data.video_id
           sessionStorage.setItem('video_id', res.data.video_id)
-          saleApi.getVideo(this.videoId).then(
-            /**
-             * @param res.usersig
-             */
-            (res) => {
-              console.log(res)
-              console.log(res.usersig)
-              this.userSig = res.usersig
-              sessionStorage.setItem('usersig', res.usersig)
-            })
           if (res.data.res === 0) {
             cookie.set('token', res.data.token, {expires: 7})
             sessionStorage.setItem('headimg', res.data.headimg)
@@ -100,15 +91,25 @@ export default {
               name: 'Home'
             })
             this.$message.success('登陆成功')
+            saleApi.getVideo(this.videoId).then(
+              /**
+               * @param res.usersig
+               */
+              (res) => {
+                console.log(res)
+                console.log(res.usersig)
+                this.userSig = res.usersig
+                sessionStorage.setItem('usersig', res.usersig)
+              })
           } else if (res.data.res === 404) {
-            this.$router.push('/login')
+            // this.$router.push('/login')
             this.$message({
               showClose: true,
               message: '用户名或密码错误！',
               type: 'error'
             })
           } else if (res.data.res === 414) {
-            this.$router.push('/login')
+            // this.$router.push('/login')
             this.$message({
               showClose: true,
               message: '请输入用户名和密码！',
@@ -209,7 +210,7 @@ li {
   font-size: 18px;
 }
 
-/deep/ .el-input__inner{
+/deep/ .el-input__inner {
   height: 55px;
 }
 
