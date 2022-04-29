@@ -81,6 +81,7 @@ ul, ol, li {
 
 .box {
   width: 100%;
+  min-width: 1400px;
   height: 70px;
   background-color: #F3F4F9;
   border-bottom: 2px solid #E7E7EA;
@@ -95,7 +96,7 @@ ul, ol, li {
       margin-left: 75px;
       line-height: 90px;
       width: 100px;
-      font-size: 12px;
+      font-size: 14px;
       text-align: center;
     }
 

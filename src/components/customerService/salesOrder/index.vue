@@ -1,124 +1,123 @@
 <template>
-  <div>
-    <div>
-      <div class="box" id="box" :style="{'min-width': this.width}">
-        <div class="content">
-          <div class="selectchoose">
-            <div style="margin-top: 30px">
-              <div class="selects">
-                <span class="selecters">售后类型：</span>
-                <el-select
-                  v-model="formData.saletype"
-                  size="mini"
-                  style="width: 150px;min-width: 50px"
-                  placeholder="请选择"
-                >
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-                <span class="selecters">服务商品 :</span>
-                <el-select
-                  v-model="formData.serviceshop"
-                  size="mini"
-                  style="width: 150px"
-                  placeholder="请选择"
-                >
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-                <span class="selecters">售后ID :</span>
-                <el-select
-                  v-model="formData.lastname"
-                  size="mini"
-                  style="width: 150px"
-                  placeholder="请选择"
-                >
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-                <span class="selecters">最后操作人 :</span>
-                <el-select
-                  v-model="formData.lastname"
-                  size="mini"
-                  style="width: 150px"
-                  placeholder="请选择"
-                >
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-                <span class="selecters">最后操作时间 :</span>
-                <el-date-picker
-                  size="mini"
-                  v-model="formData.lasttime"
-                  type="daterange"
-                  unlink-panels
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  :picker-options="pickerOptions"
-                >
-                </el-date-picker>
-              </div>
-              <div class="button-check">
-                <el-button type="primary" size="mini">筛选</el-button>
-                <el-button type="primary" size="mini">重置</el-button>
-              </div>
-            </div>
+  <div class="box" id="box"><!--      :style="{'min-width': this.width}"-->
+    <div class="content">
+      <div class="selectchoose">
+        <div style="margin-top: 30px">
+          <div class="selects">
+            <span class="selecters">售后类型：</span>
+            <el-select
+              v-model="formData.saletype"
+              size="mini"
+              style="width: 150px;min-width: 50px"
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+            <span class="selecters">服务商品 :</span>
+            <el-select
+              v-model="formData.serviceshop"
+              size="mini"
+              style="width: 150px"
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+            <span class="selecters">售后ID :</span>
+              <el-input style="width: 150px" size="mini" v-model="formData.aftersaleId"></el-input>
+<!--            <el-select-->
+<!--              v-model="formData.aftersaleId"-->
+<!--              size="mini"-->
+<!--              style="width: 150px"-->
+<!--              placeholder="请选择"-->
+<!--            >-->
+<!--              <el-option-->
+<!--                v-for="item in options"-->
+<!--                :key="item.value"-->
+<!--                :label="item.label"-->
+<!--                :value="item.value"-->
+<!--              >-->
+<!--              </el-option>-->
+<!--            </el-select>-->
+            <span class="selecters">最后操作人 :</span>
+            <el-select
+              v-model="formData.lastname"
+              size="mini"
+              style="width: 150px"
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+            <span class="selecters">最后操作时间 :</span>
+            <el-date-picker
+              size="mini"
+              v-model="formData.lasttime"
+              type="daterange"
+              unlink-panels
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              :picker-options="pickerOptions"
+            >
+            </el-date-picker>
           </div>
-          <div class="main">
-            <div class="main-left">
-              <ul style="margin-top: 10px">
-                <li
-                  v-for="item in items"
-                  v-bind:key="item"
-                  class="collection-item"
-                  :class="{ active_li: activeName === item }"
-                  @click="selected(item)"
-                >
-                  <a :class="{ active_a: activeName === item }"> {{ item }}</a>
-                </li>
-              </ul>
-            </div>
-            <div class="main-right">
-              <div class="user_skills" style="margin-top: 20px">
-                <!--header-cell-style="color:black"-->
-                <el-table
-                  class="tableBox"
-                  :data="tableData"
-                  :show-overflow-tooltip="true"
-                  style="font-size: 12px"
-                  v-loading="loading"
-                  element-loading-background="rgba(233,235,244,0.8)"
-                >
-                  <el-table-column label="ID" width="280">
-                    <template slot-scope="scope">
+          <div class="button-check">
+            <el-button type="primary" size="mini">筛选</el-button>
+            <el-button type="primary" size="mini" @click="handleReset">重置</el-button>
+          </div>
+        </div>
+      </div>
+      <div class="main">
+        <div class="main-left">
+          <ul style="margin-top: 10px">
+            <li
+              v-for="item in items"
+              v-bind:key="item"
+              class="collection-item"
+              :class="{ active_li: activeName === item }"
+              @click="selected(item)"
+            >
+              <a :class="{ active_a: activeName === item }"> {{ item }}</a>
+            </li>
+          </ul>
+        </div>
+        <div class="main-right">
+          <div class="user_skills" style="margin-top: 20px">
+            <!--header-cell-style="color:black"-->
+            <el-table
+              class="tableBox"
+              :data="tableData"
+              :show-overflow-tooltip="true"
+              style="font-size: 13px"
+              v-loading="loading"
+              element-loading-background="rgba(233,235,244,0.8)"
+            >
+              <el-table-column label="ID" width="280">
+                <template slot-scope="scope">
                     <span style="margin-left: 10px; font-weight: 600">{{
                         scope.row.id
                       }}</span>
-                    </template>
-                  </el-table-column>
-                  <el-table-column label="售后类型" width="140">
-                    <template slot-scope="scope">
+                </template>
+              </el-table-column>
+              <el-table-column label="售后类型" width="140">
+                <template slot-scope="scope">
                     <span style="color: gray">
                       {{
                         scope.row.service_type === 'repair'
@@ -128,60 +127,60 @@
                             : ''
                       }}
                     </span>
-                    </template>
-                  </el-table-column>
-                  <el-table-column label="服务商品" width="400">
-                    <template slot-scope="scope">
-                      <span></span>
-                      <span style="color: gray">{{
-                          scope.row.product_name
-                        }}</span>
-                    </template>
-                  </el-table-column>
-                  <el-table-column label="申请人" width="250">
-                    <template slot-scope="scope">
+                </template>
+              </el-table-column>
+              <el-table-column label="服务商品" width="400">
+                <template slot-scope="scope">
+                  <span></span>
+                  <span style="color: gray">{{
+                      scope.row.product_name
+                    }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column label="申请人" width="250">
+                <template slot-scope="scope">
                     <span></span
                     ><span style="color: gray">{{ scope.row.name }}</span>
-                    </template>
-                  </el-table-column>
-                  <el-table-column label="申请时间" width="250">
-                    <template slot-scope="scope">
+                </template>
+              </el-table-column>
+              <el-table-column label="申请时间" width="250">
+                <template slot-scope="scope">
                     <span></span
                     ><span style="color: gray">{{
-                        scope.row.create_time
-                      }}</span>
-                    </template>
-                  </el-table-column>
-                  <el-table-column label="状态" width="120">
-                    <template slot-scope="scope">
-                      <span></span>
-                      <span style="color: gray">
+                    scope.row.create_time
+                  }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column label="状态" width="120">
+                <template slot-scope="scope">
+                  <span></span>
+                  <span style="color: gray">
                       {{
-                          scope.row.progress === 'audit'
-                            ? '审核'
-                            : scope.row.progress === 'mailing'
-                              ? '寄件'
-                              : scope.row.progress === 'diagnosis'
-                                ? '诊断'
-                                : scope.row.progress === 'process'
-                                  ? '处理'
-                                  : scope.row.progress === 'receiving'
-                                    ? '收货'
-                                    : scope.row.progress === 'done'
-                                      ? '完成'
-                                      : scope.row.progress === 'mailback'
-                                        ? '寄回'
-                                        : scope.row.progress === 'recback'
-                                          ? '收货'
-                                          : scope.row.progress === 'cancel'
-                                            ? '取消'
-                                            : ''
-                        }}
+                      scope.row.progress === 'audit'
+                        ? '审核'
+                        : scope.row.progress === 'mailing'
+                          ? '寄件'
+                          : scope.row.progress === 'diagnosis'
+                            ? '诊断'
+                            : scope.row.progress === 'process'
+                              ? '处理'
+                              : scope.row.progress === 'receiving'
+                                ? '收货'
+                                : scope.row.progress === 'done'
+                                  ? '完成'
+                                  : scope.row.progress === 'mailback'
+                                    ? '寄回'
+                                    : scope.row.progress === 'recback'
+                                      ? '收货'
+                                      : scope.row.progress === 'cancel'
+                                        ? '取消'
+                                        : ''
+                    }}
                     </span>
-                    </template>
-                  </el-table-column>
-                  <el-table-column label="操作" min-width="200px" align="center">
-                    <template slot-scope="scope">
+                </template>
+              </el-table-column>
+              <el-table-column label="操作" min-width="200px" align="center">
+                <template slot-scope="scope">
                     <span
                       style="
                         font-weight: 600;
@@ -193,41 +192,39 @@
                     >
                       查看
                     </span>
-                      <el-dropdown>
+                  <el-dropdown>
                       <span
                         class="el-dropdown-link"
                         style="
                           font-weight: 600;
                           color: #d79432;
                           margin-left: 50px;
-                          font-size: 12px;
+                          font-size: 13px;
                         "
                       >
                         更多<i class="el-icon-arrow-down el-icon--right"></i>
                       </span>
-                        <el-dropdown-menu slot="dropdown">
-                          <el-dropdown-item>编辑</el-dropdown-item>
-                          <el-dropdown-item>激活</el-dropdown-item>
-                          <el-dropdown-item>关闭</el-dropdown-item>
-                          <el-dropdown-item>删除</el-dropdown-item>
-                        </el-dropdown-menu>
-                      </el-dropdown>
-                    </template>
-                  </el-table-column>
-                </el-table>
-              </div>
-              <div class="sysBox">
-                <el-pagination
-                  class="pagination"
-                  @current-change="handleCurrentChange"
-                  :current-page="currentPage"
-                  :page-size="pagerow"
-                  layout="total, prev, pager, next"
-                  :total="parseInt(total)"
-                >
-                </el-pagination>
-              </div>
-            </div>
+                    <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item>编辑</el-dropdown-item>
+                      <el-dropdown-item>激活</el-dropdown-item>
+                      <el-dropdown-item>关闭</el-dropdown-item>
+                      <el-dropdown-item>删除</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </el-dropdown>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+          <div class="sysBox">
+            <el-pagination
+              class="pagination"
+              @current-change="handleCurrentChange"
+              :current-page="currentPage"
+              :page-size="pagerow"
+              layout="total, prev, pager, next"
+              :total="parseInt(total)"
+            >
+            </el-pagination>
           </div>
         </div>
       </div>
@@ -268,7 +265,7 @@ export default {
       formData: {
         saletype: '',
         serviceshop: '',
-        saleId: '',
+        afterSaleId: '',
         lastname: '',
         lasttime: ''
       },
@@ -337,7 +334,7 @@ export default {
     this.saleList()
   },
   mounted () {
-    this.width = document.documentElement.clientWidth + 'px'
+    // this.width = document.documentElement.clientWidth + 'px'
   },
   methods: {
     selected (item) {
@@ -374,9 +371,14 @@ export default {
     },
     // 分页器查询指定的数据
     handleCurrentChange (currentPage) {
+      console.log(currentPage)
       this.loading = true
       this.currentPage = currentPage
       this.saleList()
+    },
+    // 重置
+    handleReset () {
+      this.formData = {}
     }
   }
 }
@@ -388,7 +390,7 @@ export default {
   width: 100%;
   color: #d79432;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .active_li {
@@ -397,12 +399,12 @@ export default {
   font-weight: 600;
   box-sizing: border-box;
   border-right: 3px solid #d79432;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 /*未选中样式*/
 .collection-item {
-  font-size: 12px;
+  font-size: 14px;
   /*padding: 10px 2px;*/
   /*margin-bottom: 5px;*/
 }
@@ -429,7 +431,7 @@ export default {
 
 .selecters {
   margin-left: 40px;
-  font-size: 12px;
+  font-size: 14px;
   color: gray;
 }
 
@@ -442,7 +444,7 @@ export default {
 
 .main-left {
   width: 182px;
-  height: calc(100vh - 260px);
+  height: calc(100vh - 265px);
   border-right: 1px solid #c3c8ce;
   /* overflow-x: hidden; */
   background-color: #e9ebf4;
@@ -458,7 +460,7 @@ export default {
   padding: 0 59px;
   list-style: none;
   /*text-align: center;*/
-  font-size: 12px;
+  font-size: 14px;
   color: gray;
   margin-top: 30px;
 }
@@ -471,10 +473,12 @@ export default {
 
 .main-right {
   width: calc(100% - 182px);
-  height: calc(100vh - 260px);
+  height: calc(100vh - 265px);
   background-color: #e9ebf4;
   position: relative;
-  overflow-y: auto;
+  overflow: hidden;
+  overflow-y: scroll;
+  /*overflow-x: scroll;*/
 }
 
 .main-right::-webkit-scrollbar {
@@ -505,6 +509,7 @@ export default {
   position: absolute;
   right: 40px;
   margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .pagination {
@@ -512,6 +517,7 @@ export default {
   /*right: 40px;*/
   /* margin-top: 50px; */
   float: right;
+  margin-bottom: 30px;
 }
 
 .el-dropdown-link {
@@ -520,7 +526,7 @@ export default {
 }
 
 .el-icon-arrow-down {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 /*===============================*/
@@ -573,9 +579,15 @@ export default {
 }
 
 .box {
-  width: 1500px;
+  width: 100%;
   margin: 0 auto;
+  height: calc(100% - 175px);
+  /*overflow-x: scroll;*/
 }
+
+/*.content{*/
+/*  border: 1px solid red;*/
+/*}*/
 
 /deep/ .el-pager li.active {
   color: #d79432;

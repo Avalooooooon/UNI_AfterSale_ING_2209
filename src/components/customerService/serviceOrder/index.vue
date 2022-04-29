@@ -1,15 +1,24 @@
 <template>
-  <div>
-    <h1>服务单</h1>
+  <div class="main">
+    <div class="text">功能暂未开通~</div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'index'
+  name: 'Index'
 }
 </script>
 
 <style scoped>
-
+.main{
+  width: 100%;
+  height: calc(100vh - 175px);
+  margin: 0 auto;
+  text-align: center;
+  font-size: 25px;
+}
+.text{
+  line-height: calc(100vh - 175px);
+}
 </style>

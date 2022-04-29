@@ -27,20 +27,20 @@ export default {
   /* margin-top: 60px; */
 }
 
-::-webkit-scrollbar {
-  width: 6px;
-}
+/*::-webkit-scrollbar {*/
+/*  width: 6px;*/
+/*}*/
 
-::-webkit-scrollbar-thumb {
-  background: transparent;
-  border-radius: 4px;
-}
+/*::-webkit-scrollbar-thumb {*/
+/*  background: transparent;*/
+/*  border-radius: 4px;*/
+/*}*/
 
-:hover::-webkit-scrollbar-thumb {
-  background: #e9ebf4;
-}
+/*:hover::-webkit-scrollbar-thumb {*/
+/*  background: #e9ebf4;*/
+/*}*/
 
-:hover::-webkit-scrollbar-track {
-  background: #e9ebf4;
-}
+/*:hover::-webkit-scrollbar-track {*/
+/*  background: #e9ebf4;*/
+/*}*/
 </style>

@@ -20,10 +20,11 @@
                 class="input"
                 v-model="userInfo.password"
                 show-password
+                @keyup.enter.native="handleSubmit()"
               ></el-input>
-              <el-checkbox class="check" v-model="checked">
-                <span style="font-size: 16px">自动登录</span>
-              </el-checkbox>
+<!--              <el-checkbox class="check" v-model="checked">-->
+<!--                <span style="font-size: 16px">自动登录</span>-->
+<!--              </el-checkbox>-->
               <el-button type="primary" class="submit" @click.prevent="handleSubmit()">登 录</el-button>
             </el-form>
           </div>
@@ -96,6 +97,7 @@ export default {
           if (res.data.res === 0) {
             cookie.set('token', res.data.token, {expires: 7})
             sessionStorage.setItem('headimg', res.data.headimg)
+            sessionStorage.setItem('username', this.userInfo.username)
             this.$router.replace({
               name: 'Home'
             })
@@ -222,7 +224,7 @@ li {
   width: 80%;
   height: 55px;
   margin-left: 70px;
-  margin-top: 18px;
+  margin-top: 70px;
   font-size: 20px;
 }
 

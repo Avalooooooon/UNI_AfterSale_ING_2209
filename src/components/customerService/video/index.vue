@@ -8,7 +8,7 @@
           </span>
           <div class="customerServiceInfo">
             <div style="width: 100%;height: 25px;display: flex">
-              <h6>会话客服{{userId}}</h6>
+              <h6>会话客服{{ userId }}</h6>
               <div
                 style="font-size: 11px;margin-left: 20px;padding: 0 5px;color: #d79432;border: 1px solid #d79432;border-radius: 3px;height: 16px;line-height: 16px;cursor:pointer">
                 提交下线
@@ -50,7 +50,8 @@
           </div>
         </div>
         <div class="videoList" v-if="listModel">
-          <div class="videoList-line" v-for="(item, index) in videoList" v-bind:key="index" @click="handleCustomer(item)">
+          <div class="videoList-line" v-for="(item, index) in videoList" v-bind:key="index"
+               @click="handleCustomer(item)">
             <div class="image"><img style="width: 100%;height: 100%;border-radius: 50px" :src="item.img" alt=""></div>
             <span style="margin-left: 30px;font-size: 14px">{{ item.name }}</span>
             <span style="position: absolute;right: 100px;font-size: 12px;color: #B2B7C5">{{ item.type }}</span>
@@ -59,6 +60,7 @@
         </div>
       </div>
       <div class="box-middle">
+<!--        历史记录单-->
         <div class="historyService" v-if="historyService">
           <h4 style="width: 100%;text-align: center">历史服务单</h4>
           <div class="historyList">
@@ -70,133 +72,172 @@
             </div>
           </div>
         </div>
-<!--        <div class="video-call-section">-->
-<!--          <div :class="{ 'video-conference': true, 'is-show': isShowVideoCall }">-->
+<!--        视频聊天-->
+        <div class="video-call-section" v-if="videoCall">
+          <div :class="{ 'video-conference': true, 'is-show': isShowVideoCall }">
 
-<!--            <div class="video-conference-list">-->
-<!--              <div-->
-<!--                v-for="userId in meetingUserIdList.filter(userId => userId === loginUserInfo.userId)"-->
-<!--                :key="`video-${userId}`"-->
-<!--                :id="`video-${userId}`"-->
-<!--                :class="{'user-video-container': true, 'is-me': userId === loginUserInfo.userId}"-->
-<!--              >-->
-<!--                <div class="user-status">-->
-<!--                  <div-->
-<!--                    :class="{'user-video-status': true, 'is-mute': isUserMute(muteVideoUserIdList, userId)}"-->
-<!--                  ></div>-->
-<!--                  <div-->
-<!--                    :class="{'user-audio-status': true, 'is-mute': isUserMute(muteAudioUserIdList, userId)}"-->
-<!--                  ></div>-->
-<!--                </div>-->
-<!--                <div class="video-item-username">{{ userId2Name[userId] || userId }}</div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div class="video-conference-action" v-if="operation">-->
-<!--              <el-button-->
-<!--                class="action-btn"-->
-<!--                type="success"-->
-<!--                @click="toggleVideo"-->
-<!--              >{{ isVideoOn ? '关闭摄像头' : '打开摄像头' }}-->
-<!--              </el-button>-->
+            <div class="video-conference-list">
+              <div
+                v-for="userId in meetingUserIdList.filter(userId => userId === loginUserInfo.userId)"
+                :key="`video-${userId}`"
+                :id="`video-${userId}`"
+                :class="{'user-video-container': true, 'is-me': userId === loginUserInfo.userId}"
+              >
+                <div class="user-status">
+                  <div
+                    :class="{'user-video-status': true, 'is-mute': isUserMute(muteVideoUserIdList, userId)}"
+                  ></div>
+                  <div
+                    :class="{'user-audio-status': true, 'is-mute': isUserMute(muteAudioUserIdList, userId)}"
+                  ></div>
+                </div>
+                <div class="video-item-username">{{ userId2Name[userId] || userId }}</div>
+              </div>
+            </div>
+            <div class="video-conference-action" v-if="operation">
+              <el-button
+                class="action-btn"
+                type="success"
+                @click="toggleVideo"
+              >{{ isVideoOn ? '关闭摄像头' : '打开摄像头' }}
+              </el-button>
 
-<!--              <el-button-->
-<!--                class="action-btn"-->
-<!--                type="success"-->
-<!--                @click="toggleAudio"-->
-<!--              >{{ isAudioOn ? '关闭麦克风' : '打开麦克风' }}-->
-<!--              </el-button>-->
+              <el-button
+                class="action-btn"
+                type="success"
+                @click="toggleAudio"
+              >{{ isAudioOn ? '关闭麦克风' : '打开麦克风' }}
+              </el-button>
 
-<!--              <el-button class="action-btn" type="danger" @click="handleHangup">挂断</el-button>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-      </div>
-      <div class="box-right">
-        <div class="historyServiceInfo">
-          <h4 style="width: 100%; text-align: center">服务详情</h4>
-          <h6 style="width: 100%; text-align: center; margin-top: 20px">包装破损需要退款</h6>
-          <table style="width: 100%;margin-top: 20px">
-            <tr>
-              <td class="table-row-title">用户名称：</td>
-              <td class="table-row-value">{{ detailInfo.name }}</td>
-              <td class="table-row-title">用户id：</td>
-              <td class="table-row-value">{{ detailInfo.id }}</td>
-            </tr>
-            <tr>
-              <td class="table-row-title">联系方式：</td>
-              <td class="table-row-value">{{ detailInfo.phone }}</td>
-              <td class="table-row-title">会话类型：</td>
-              <td class="table-row-value">{{ detailInfo.type }}</td>
-            </tr>
-            <tr>
-              <td class="table-row-title">接待客服：</td>
-              <td class="table-row-value">{{ detailInfo.customerServiceName }}</td>
-              <td class="table-row-title">会话时间：</td>
-              <td class="table-row-value">{{ detailInfo.time }}</td>
-            </tr>
-            <tr>
-              <td class="table-row-title">资讯产品：</td>
-              <td class="table-row-value" colspan="3">{{ detailInfo.product }}</td>
-            </tr>
-            <tr>
-              <td class="table-row-title">用户问题：</td>
-              <td class="table-row-value" style="padding-top: 20px" colspan="3">{{ detailInfo.problem }}</td>
-            </tr>
-            <tr>
-              <td class="table-row-title">会话截图：</td>
-              <td colspan="3">
-<!--                <span style="font-size: 12px;color: #D79432">全部 > </span>-->
-<!--                <div class="screenshot">-->
-<!--                  <div class="screenshot-picture"></div>-->
-<!--                  <div class="screenshot-picture"></div>-->
-<!--                  <div class="screenshot-picture"></div>-->
-<!--                  <div class="screenshot-picture"></div>-->
-<!--                </div>-->
-              </td>
-            </tr>
-            <tr>
-              <td class="table-row-title">解决方式：</td>
-              <td class="table-row-value" colspan="3">{{ detailInfo.way }}</td>
-            </tr>
-            <tr>
-              <td class="table-row-title">售后单：</td>
-              <td colspan="3"></td>
-            </tr>
-          </table>
+              <el-button class="action-btn" type="danger" @click="handleHangup">挂断</el-button>
+            </div>
+          </div>
         </div>
-<!--        <div style="line-height: 80px;text-align: center">-->
-<!--          <h3>会话服务单</h3>-->
-<!--          <el-form :label-position="labelPosition" label-width="100px" :model="form">-->
-<!--            <el-form-item label="服务单名称：">-->
-<!--              <el-input v-model="form.name"></el-input>-->
-<!--            </el-form-item>-->
-<!--            <el-form-item label="联系方式：">-->
-<!--              <el-input v-model="form.phone"></el-input>-->
-<!--            </el-form-item>-->
-<!--            <el-form-item label="咨询产品：">-->
-<!--              <el-input v-model="form.production"></el-input>-->
-<!--            </el-form-item>-->
-<!--            <el-form-item label="用户问题：">-->
-<!--              <el-input type="textarea" rows="4" v-model="form.problem" placeholder="请输入用户问题..."></el-input>-->
-<!--            </el-form-item>-->
-<!--            <el-form-item label="会话截图：">-->
-<!--            </el-form-item>-->
-<!--            <el-form-item label="解决方式：">-->
-<!--              <el-select style="width: 100%" v-model="form.region" placeholder="请选择">-->
-<!--                <el-option label="区域一" value="shanghai"></el-option>-->
-<!--                <el-option label="区域二" value="beijing"></el-option>-->
-<!--              </el-select>-->
-<!--            </el-form-item>-->
-<!--            <el-form-item label="售后单：">-->
-<!--              <el-input type="textarea">-->
-
-<!--              </el-input>-->
-<!--            </el-form-item>-->
-<!--            <el-form-item>-->
-<!--              <el-button class="save" type="primary" @click="handleEnd()">保存并结束会话</el-button>-->
-<!--            </el-form-item>-->
-<!--          </el-form>-->
-<!--        </div>-->
+      </div>
+      <div class="box-right-top">
+        <div class="box-right">
+          <span class="historyTag" tabindex="1" @click="clickHistoryslip">历史服务单</span>
+          <span class="conversationTag" tabindex="1" @click="clickConversationslip">会话服务单</span>
+          <!--会话服务单-->
+          <div class="historyServiceInfo" v-if="conversationSlip">
+            <h4 style="width: 100%; text-align: center">会话服务单</h4>
+            <el-form style="margin-top: 30px;position: relative" ref="form" :model="form" label-width="100px">
+              <el-form-item label="服务单名称 :">
+                <el-input size="small" v-model="form.name" placeholder="请输入服务单名称"></el-input>
+              </el-form-item>
+              <el-form-item label="联系方式 :">
+                <el-input size="small" v-model="form.phone" placeholder="请输入联系方式"></el-input>
+              </el-form-item>
+              <el-form-item label="咨询产品 :">
+                <el-select
+                  size="small"
+                  style="width: 100%"
+                  v-model="form.consultProduct"
+                  multiple
+                  collapse-tags
+                  placeholder="请选择咨询产品">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="用户问题 :">
+                <el-input size="small" type="textarea" :rows="5" v-model="form.desc"></el-input>
+              </el-form-item>
+              <el-form-item label="会话截图 :">
+                <div class="screenshot">
+                  <div class="screenshot-picture"></div>
+                  <div class="screenshot-picture"></div>
+                  <div class="screenshot-picture"></div>
+                  <div class="screenshot-picture"></div>
+                </div>
+              </el-form-item>
+              <el-form-item label="解决方式 :">
+                <el-select style="width: 100%" size="small" v-model="form.type" placeholder="请选择解决方式">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="售后单 :">
+                <el-upload
+                  class="upload-demo"
+                  action="/"
+                  :on-preview="handlePreview"
+                  :on-remove="handleRemove"
+                  :before-remove="beforeRemove"
+                  multiple
+                  :http-request="uploadFile"
+                  :file-list="form.fileList">
+                  <el-button class="addlist" size="mini" type="primary">添加售后单</el-button>
+                </el-upload>
+              </el-form-item>
+              <el-form-item>
+                <el-button class="handleSaveEnd" size="mini" type="primary" @click="onSubmit">保存并结束会话</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+          <!--历史服务单-->
+          <div class="historyServiceInfo" v-if="checkDetail">
+            <h4 style="width: 100%; text-align: center">服务详情</h4>
+            <h6 style="width: 100%; text-align: center; margin-top: 20px">包装破损需要退款</h6>
+            <table style="width: 100%;margin-top: 20px">
+              <tr>
+                <td class="table-row-title">用户名称：</td>
+                <td class="table-row-value">{{ detailInfo.name }}</td>
+                <td class="table-row-title">用户id：</td>
+                <td class="table-row-value">{{ detailInfo.id }}</td>
+              </tr>
+              <tr>
+                <td class="table-row-title">联系方式：</td>
+                <td class="table-row-value">{{ detailInfo.phone }}</td>
+                <td class="table-row-title">会话类型：</td>
+                <td class="table-row-value">{{ detailInfo.type }}</td>
+              </tr>
+              <tr>
+                <td class="table-row-title">接待客服：</td>
+                <td class="table-row-value">{{ detailInfo.customerServiceName }}</td>
+                <td class="table-row-title">会话时间：</td>
+                <td class="table-row-value">{{ detailInfo.time }}</td>
+              </tr>
+              <tr>
+                <td class="table-row-title">资讯产品：</td>
+                <td class="table-row-value" colspan="3">{{ detailInfo.product }}</td>
+              </tr>
+              <tr>
+                <td class="table-row-title">用户问题：</td>
+                <td class="table-row-value" style="padding-top: 20px" colspan="3">{{ detailInfo.problem }}</td>
+              </tr>
+              <tr>
+                <td class="table-row-title">会话截图：</td>
+                <td colspan="3">
+                  <!--                <span style="font-size: 12px;color: #D79432">全部 > </span>-->
+                  <div class="screenshot">
+                    <div class="screenshot-picture"></div>
+                    <div class="screenshot-picture"></div>
+                    <div class="screenshot-picture"></div>
+                    <div class="screenshot-picture"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="table-row-title">解决方式：</td>
+                <td class="table-row-value" colspan="3">{{ detailInfo.way }}</td>
+              </tr>
+              <tr>
+                <td class="table-row-title">售后单：</td>
+                <td colspan="3"></td>
+              </tr>
+            </table>
+          </div>
+          <!--历史服务单结束-->
+        </div>
       </div>
     </div>
   </div>
@@ -256,13 +297,13 @@ export default {
       url: 'http://www.bizspace.cn:8690',
       headimg: '',
       labelPosition: 'left',
-      form: {
-        name: '',
-        phone: '',
-        production: '',
-        problem: '',
-        type: ''
-      },
+      // form: {
+      //   name: '',
+      //   phone: '',
+      //   production: '',
+      //   problem: '',
+      //   type: ''
+      // },
       userId: '',
       userSig: '',
       callTypeDisplayName: '',
@@ -292,13 +333,41 @@ export default {
       historyService: true,
       detailInfo: [],
       historyList: [],
+      checkDetail: false,
+      conversationSlip: true,
+      options: [{
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }],
+      form: {
+        name: '',
+        phone: '',
+        consultProduct: '',
+        desc: '',
+        type: '',
+        fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
+          {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}
+        ]
+      },
       videoList: [
         {
           id: '01',
-          img: require('../../../assets/headimg.jpg'),
+          img: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fnimg.ws.126.net%2F%3Furl%3Dhttp%253A%252F%252Fdingyue.ws.126.net%252F2022%252F0302%252Fc2d81864j00r843200014c000bl00blg.jpg%26thumbnail%3D660x2147483647%26quality%3D80%26type%3Djpg&refer=http%3A%2F%2Fnimg.ws.126.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1653794014&t=c4e2c7084d5d8d23f739528abf04fc40',
           name: '熊大',
           type: '已结束',
-          date: '9月23日',
+          date: '15:30',
           historyServiceList: [
             {
               id: '1',
@@ -335,72 +404,128 @@ export default {
                 problem: '美国弄完就公婆我今儿个胖娃价格',
                 way: '维修保养'
               }
-            },
-            {
-              id: '3',
-              message: '关于快递停发通知造成的发货延误',
-              date: '2022.2.10 14:47',
-              code: 'SF14619616184583',
-              name: '客服001'
-            },
-            {
-              id: '4',
-              message: '关于快递停发通知造成的发货延误',
-              date: '2022.2.10 14:47',
-              code: 'SF14619616184583',
-              name: '客服001'
-            },
-            {
-              id: '5',
-              message: '关于快递停发通知造成的发货延误',
-              date: '2022.2.10 14:47',
-              code: 'SF14619616184583',
-              name: '客服001'
-            },
-            {
-              id: '6',
-              message: '关于快递停发通知造成的发货延误',
-              date: '2022.2.10 14:47',
-              code: 'SF14619616184583',
-              name: '客服001'
             }
           ]
         },
         {
           id: '02',
-          img: require('../../../assets/headimg.jpg'),
-          name: '熊大',
+          img: 'https://img0.baidu.com/it/u=2243311923,806496101&fm=253&fmt=auto&app=120&f=JPEG?w=640&h=637',
+          name: '熊二',
+          type: '已结束',
+          date: '15:30'
+        },
+        {
+          id: '03',
+          img: 'https://img1.baidu.com/it/u=791924201,3020731664&fm=253&fmt=auto&app=138&f=JPEG?w=502&h=500',
+          name: '光头强',
+          type: '已结束',
+          date: '15:30'
+        },
+        {
+          id: '04',
+          img: 'https://img2.baidu.com/it/u=303214140,375680236&fm=253&fmt=auto&app=138&f=JPEG?w=505&h=500',
+          name: '白雪公主的后妈',
+          type: '已结束',
+          date: '昨天'
+        },
+        {
+          id: '05',
+          img: 'https://img1.baidu.com/it/u=244227653,443360515&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
+          name: '灰姑娘',
+          type: '已结束',
+          date: '昨天'
+        },
+        {
+          id: '06',
+          img: 'https://img1.baidu.com/it/u=3228295310,2105988952&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
+          name: '辛黛瑞拉',
+          type: '已结束',
+          date: '9月23日'
+        },
+        {
+          id: '02',
+          img: 'https://img1.baidu.com/it/u=3062431084,2454108195&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
+          name: '仙女酵母',
           type: '已结束',
           date: '9月23日'
         },
         {
           id: '03',
-          img: require('../../../assets/headimg.jpg'),
-          name: '熊大',
+          img: 'https://img2.baidu.com/it/u=2827612488,2245691605&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500',
+          name: '海绵宝宝',
           type: '已结束',
           date: '9月23日'
         },
         {
           id: '04',
-          img: require('../../../assets/headimg.jpg'),
-          name: '熊大',
+          img: 'https://img1.baidu.com/it/u=1074380126,1294250081&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
+          name: '派大星',
           type: '已结束',
           date: '9月23日'
         },
         {
           id: '05',
-          img: require('../../../assets/headimg.jpg'),
-          name: '熊大',
+          img: 'https://img2.baidu.com/it/u=429697566,1955344911&fm=253&fmt=auto&app=138&f=JPEG?w=200&h=200',
+          name: '海绵大宝',
+          type: '已结束',
+          date: '9月23日'
+        },
+        {
+          id: '03',
+          img: 'https://img1.baidu.com/it/u=791924201,3020731664&fm=253&fmt=auto&app=138&f=JPEG?w=502&h=500',
+          name: '光头强',
+          type: '已结束',
+          date: '9月23日'
+        },
+        {
+          id: '04',
+          img: 'https://img2.baidu.com/it/u=303214140,375680236&fm=253&fmt=auto&app=138&f=JPEG?w=505&h=500',
+          name: '白雪公主的后妈',
+          type: '已结束',
+          date: '9月23日'
+        },
+        {
+          id: '05',
+          img: 'https://img1.baidu.com/it/u=244227653,443360515&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
+          name: '灰姑娘',
           type: '已结束',
           date: '9月23日'
         },
         {
           id: '06',
-          img: require('../../../assets/headimg.jpg'),
-          name: '熊大',
+          img: 'https://img1.baidu.com/it/u=3228295310,2105988952&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
+          name: '辛黛瑞拉',
           type: '已结束',
           date: '9月23日'
-        }
+        },
+        {
+          id: '02',
+          img: 'https://img1.baidu.com/it/u=3062431084,2454108195&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
+          name: '仙女酵母',
+          type: '已结束',
+          date: '9月23日'
+        },
+        {
+          id: '03',
+          img: 'https://img2.baidu.com/it/u=2827612488,2245691605&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500',
+          name: '海绵宝宝',
+          type: '已结束',
+          date: '9月23日'
+        },
+        {
+          id: '04',
+          img: 'https://img1.baidu.com/it/u=1074380126,1294250081&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
+          name: '派大星',
+          type: '已结束',
+          date: '9月23日'
+        },
+        {
+          id: '05',
+          img: 'https://img2.baidu.com/it/u=429697566,1955344911&fm=253&fmt=auto&app=138&f=JPEG?w=200&h=200',
+          name: '海绵大宝',
+          type: '已结束',
+          date: '9月23日'
+        },
       ]
     }
   },
@@ -617,6 +742,9 @@ export default {
       this.historyService = false
       this.videoModel = true
       this.videoCall = true
+      this.historyService = false
+      this.historyService = false
+      this.videoCall = true
       this.handleDebounce(this.handleAcceptCall(), 500)
     },
 
@@ -722,6 +850,8 @@ export default {
       this.none = true
       this.turnOn = false
       this.videoCall = false
+      this.videoModel = false
+      this.listModel = true
       this.$store.commit('userAccepted', false)
     },
     handleNoResponse: async function ({userID}) {
@@ -820,6 +950,7 @@ export default {
         this.calling = false
         this.none = true
         this.videoCall = false
+        this.historyService = true
         this.$store.commit('updateCallStatus', 'idle')
       }).catch(() => {
         this.$message({
@@ -918,11 +1049,41 @@ export default {
     handleClick (hs) {
       // console.log(hs.id)
       this.detailInfo = hs.detail
+      this.checkDetail = true
     },
     // 查看通话客户历史服务单
     handleCustomer (item) {
       console.log(item.id)
       this.historyList = item.historyServiceList
+    },
+    // 保存并结束会话
+    onSubmit () {
+      this.$message.success('保存成功')
+    },
+    // 点击历史服务单
+    clickHistoryslip () {
+      this.checkDetail = true
+      this.conversationSlip = false
+    },
+    // 点击会话服务单
+    clickConversationslip () {
+      this.checkDetail = false
+      this.conversationSlip = true
+    },
+    // 添加售后单
+    handleRemove (file, fileList) {
+      console.log(file, fileList)
+    },
+    handlePreview (file) {
+      console.log(file)
+    },
+    beforeRemove (file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`)
+    },
+    uploadFile (file) {
+      console.log(file, '上传的文件')
+      this.form.fileList.push(file.file)
+      console.log(this.fileList)
     }
   }
 }
@@ -938,8 +1099,8 @@ body {
 
 #box {
   width: 100%;
-  min-width: 100%;
-  height: calc(100vh - 170px);
+  /*min-width: 100%;*/
+  height: calc(100vh - 175px);
   margin: 0 auto;
   background-color: #F3F4F9;
   display: flex;
@@ -949,6 +1110,8 @@ body {
   width: 22%;
   min-width: 350px;
   height: 100%;
+  overflow: hidden;
+  border-right: 1px solid lightgrey;
 }
 
 .top-bar {
@@ -985,18 +1148,106 @@ body {
 .box-middle {
   width: 50%;
   height: 100%;
+  min-width: 600px;
   background-color: #E9EBF4;
   position: relative;
+  /*z-index: 1;*/
   overflow: hidden;
+  border-right: 1px solid lightgrey;
   overflow-y: scroll;
-  max-height: calc(100vh - 170px);
+}
+.box-middle::-webkit-scrollbar {
+  width: 10px;
 }
 
-.box-right {
+.box-middle::-webkit-scrollbar-thumb {
+  background: #D5D7DD;
+  border-radius: 4px;
+}
+
+.box-middle:hover::-webkit-scrollbar-thumb {
+  background: #D5D7DD;
+}
+
+.box-middle:hover::-webkit-scrollbar-track {
+  background: rgb(233, 235, 244);
+}
+.box-right-top{
   width: 28%;
+  height: 100%;
+  min-width: 400px;
+  position: relative;
+}
+.box-right {
+  width: 100%;
   height: 100%;
   box-sizing: border-box;
   padding: 0 30px;
+  /*position: relative;*/
+  overflow-y: scroll;
+}
+.box-right::-webkit-scrollbar {
+  width: 10px;
+}
+
+.box-right::-webkit-scrollbar-thumb {
+  background: #D5D7DD;
+  border-radius: 4px;
+}
+
+.box-right:hover::-webkit-scrollbar-thumb {
+  background: #D5D7DD;
+}
+
+.box-right:hover::-webkit-scrollbar-track {
+  background: rgb(243, 244, 249);
+}
+.box-right .historyTag:focus{
+  color: #d79432;
+  font-weight: bold;
+}
+
+.historyTag {
+  width: 100px;
+  height: 30px;
+  font-size: 12px;
+  background-color: white;
+  text-align: center;
+  line-height: 30px;
+  color: black;
+  border-bottom-left-radius: 20px;
+  border-top-left-radius: 20px;
+  position: absolute;
+  top: 10px;
+  left: -101px;
+  z-index: 1000;
+  cursor: pointer;
+}
+.historyTag:hover{
+  background-color: rgb(244, 245, 250);
+}
+.box-right .conversationTag:focus{
+  color: #d79432;
+  font-weight: bold;
+}
+.conversationTag {
+  width: 100px;
+  height: 30px;
+  font-size: 12px;
+  background-color: white;
+  text-align: center;
+  line-height: 30px;
+  color: black;
+  border-bottom-left-radius: 20px;
+  border-top-left-radius: 20px;
+  position: absolute;
+  top: 50px;
+  left: -101px;
+  z-index: 1000;
+  cursor: pointer;
+}
+.conversationTag:hover{
+  background-color: rgb(244, 245, 250);
 }
 
 .video-conference-list {
@@ -1009,6 +1260,7 @@ body {
 .video-call-section {
   width: 100%;
   height: 100%;
+  /*border: 1px solid white;*/
 }
 
 .video-conference {
@@ -1094,6 +1346,29 @@ body {
     margin: 5px;
   }
 }
+.upload-demo:hover {
+  border-color: #409eff;
+}
+.upload-demo{
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px dashed #d9d9d9;
+}
+/deep/ .el-upload-list__item-name {
+  color: #d79432;
+}
+/deep/ .el-icon-document:before{
+  color: #d79432;
+}
+/deep/ .el-upload-list__item .el-icon-upload-success{
+  color: #d79432;
+}
+.addlist{
+  background-color: rgb(243, 244, 249);
+  color: #d79432;
+  border:1px solid #d79432;
+  border-radius: 3px;
+}
 
 .callInfo {
   width: 100%;
@@ -1109,11 +1384,31 @@ body {
 .turnOn {
   position: absolute;
   right: 20px;
-  top: 5px;
+  /*top: 5px;*/
 }
 
 .videoList {
   width: 100%;
+  height: calc(100% - 130px);
+  /*border: 1px solid black;*/
+  /*overflow: hidden;*/
+  overflow-y: scroll;
+}
+.videoList::-webkit-scrollbar {
+  width: 0;
+}
+
+.videoList::-webkit-scrollbar-thumb {
+  background: #D5D7DD;
+  border-radius: 4px;
+}
+
+.videoList:hover::-webkit-scrollbar-thumb {
+  background: #D5D7DD;
+}
+
+.videoList:hover::-webkit-scrollbar-track {
+  background: #F3F4F9;
 }
 
 .videoList-line {
@@ -1123,6 +1418,7 @@ body {
   display: flex;
   line-height: 60px;
   position: relative;
+  cursor: pointer;
 }
 
 .videoList-line:hover {
@@ -1161,10 +1457,12 @@ body {
   box-sizing: border-box;
   padding: 10px 20px;
   position: relative;
-}
-.historyList-line{
   cursor: pointer;
 }
+.historyList-line:hover{
+  background-color: rgb(244, 245, 250);
+}
+
 .save {
   height: 30px;
   font-size: 14px;
@@ -1172,34 +1470,40 @@ body {
   right: 0;
   line-height: 5px;
 }
+
 .historyService-message {
   font-size: 13px;
   font-weight: 600;
 }
-.historyService-date{
+
+.historyService-date {
   position: absolute;
   right: 20px;
   font-size: 12px;
 }
-.historyService-code{
+
+.historyService-code {
   position: absolute;
   bottom: 10px;
   left: 20px;
   font-size: 12px;
 }
-.historyService-name{
+
+.historyService-name {
   position: absolute;
   right: 20px;
   bottom: 10px;
   font-size: 12px;
 }
+
 .historyServiceInfo {
   width: 100%;
   height: 100%;
   padding: 30px 0;
   box-sizing: border-box;
 }
-.table-row-title{
+
+.table-row-title {
   width: 100px;
   height: 50px;
   line-height: 50px;
@@ -1207,10 +1511,16 @@ body {
   font-size: 13px;
   min-width: 100px;
 }
-.table-row-value{
+.handleSaveEnd{
+  margin-bottom: 30px;
+  position: absolute;
+  right: 0;
+}
+.table-row-value {
   font-size: 13px;
 }
-.screenshot{
+
+.screenshot {
   width: 100%;
   /*height: 80px;*/
   /*border: 1px solid black;*/
@@ -1219,7 +1529,8 @@ body {
   display: flex;
 
 }
-.screenshot-picture{
+
+.screenshot-picture {
   width: 60px;
   height: 60px;
   border: 1px solid lightgray;

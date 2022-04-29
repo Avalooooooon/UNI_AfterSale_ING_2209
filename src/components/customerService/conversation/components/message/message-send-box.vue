@@ -1,5 +1,5 @@
 <template>
-  <div id="message-send-box-wrapper" :style="focus ? {'backgroundColor': 'white'} : {}" @drop="dropHandler">
+  <div id="message-send-box-wrapper" @drop="dropHandler"> <!--:style="focus ? {'backgroundColor': 'white'} : {}"-->
     <div class="send-header-bar">
       <el-popover placement="top" width="400" trigger="click">
         <div class="emojis">
@@ -10,23 +10,23 @@
         <i class="iconfont icon-smile" slot="reference" title="发表情"></i>
       </el-popover>
       <i class="iconfont icon-tupian" title="发图片" @click="handleSendImageClick"></i>
-      <i class="el-icon-camera" title="发视频" @click="handleSendVideoClick"></i>
-      <i class="iconfont icon-wenjian" title="发文件" @click="handleSendFileClick"></i>
+<!--      <i class="el-icon-camera" title="发视频" @click="handleSendVideoClick"></i>-->
+<!--      <i class="iconfont icon-wenjian" title="发文件" @click="handleSendFileClick"></i>-->
       <i class="iconfont icon-zidingyi" title="发自定义消息" @click="sendCustomDialogVisible = true"></i>
-      <i class="iconfont icon-diaocha" title="小调查" @click="surveyDialogVisible = true"></i>
-      <el-dropdown>
-      <span class="el-dropdown-link">
-      <i class="el-icon-phone-outline" v-if="toAccount !== userID" title="语音通话"></i>
-      </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item  @click.native="trtcCalling('video')">视频通话</el-dropdown-item>
-          <el-dropdown-item  @click.native="trtcCalling('audio')">语音通话</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-      <div class="group-live-icon-box" v-if="currentConversationType === TIM.TYPES.CONV_GROUP && groupProfile.type !== 'AVChatRoom'" title="群直播" @click="groupLive">
-        <i class="group-live-icon"></i>
-        <i class="group-live-icon-hover"></i>
-      </div>
+<!--      <i class="iconfont icon-diaocha" title="小调查" @click="surveyDialogVisible = true"></i>-->
+<!--      <el-dropdown>-->
+<!--      <span class="el-dropdown-link">-->
+<!--      <i class="el-icon-phone-outline" v-if="toAccount !== userID" title="语音通话"></i>-->
+<!--      </span>-->
+<!--        <el-dropdown-menu slot="dropdown">-->
+<!--          <el-dropdown-item  @click.native="trtcCalling('video')">视频通话</el-dropdown-item>-->
+<!--          <el-dropdown-item  @click.native="trtcCalling('audio')">语音通话</el-dropdown-item>-->
+<!--        </el-dropdown-menu>-->
+<!--      </el-dropdown>-->
+<!--      <div class="group-live-icon-box" v-if="currentConversationType === TIM.TYPES.CONV_GROUP && groupProfile.type !== 'AVChatRoom'" title="群直播" @click="groupLive">-->
+<!--        <i class="group-live-icon"></i>-->
+<!--        <i class="group-live-icon-hover"></i>-->
+<!--      </div>-->
     </div>
     <el-dialog title="发自定义消息" :visible.sync="sendCustomDialogVisible" width="30%">
       <el-form label-width="100px">
@@ -90,7 +90,10 @@
         placement="left-start"
       >
         <div class="btn-send" @click="sendTextMessage">
-          <div class="tim-icon-send" style="color: rgba(67, 141, 243)"></div>
+          <div>
+<!--            <el-button size="mini" style="background-color: rgb(233, 235, 244);border: 1px solid rgb(39, 54, 72);color: rgb(39, 54, 72)">结束会话</el-button>-->
+            <el-button type="primary" size="mini">发送</el-button>
+          </div>
         </div>
       </el-tooltip>
     </div>
@@ -639,9 +642,11 @@ export default {
 </script>
 <style lang="stylus" scoped>
 #message-send-box-wrapper {
+  height 180px;
   box-sizing: border-box;
   overflow: hidden;
   padding: 3px 20px 20px 20px;
+  background-color rgb(233, 235, 244);
 }
 
 .emojis {
@@ -686,6 +691,7 @@ textarea {
   border: none;
   outline: none;
   background-color: transparent;
+  //border 1px solid black;
 }
 
 .block {
@@ -704,7 +710,7 @@ textarea {
     color: $primary;
     font-size: 30px;
     right: 0;
-    bottom: -5px;
+    bottom: -50px;
     padding: 6px 6px 4px 4px;
     border-radius: 50%;
   }

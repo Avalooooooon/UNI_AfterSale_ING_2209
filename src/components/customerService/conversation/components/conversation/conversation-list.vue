@@ -150,6 +150,7 @@ export default {
   width 100%
   display flex
   flex-direction column // -reverse
+  //overflow-y scroll
   .header-bar
     flex-shrink 0
     height 50px
@@ -183,12 +184,26 @@ export default {
         transform: rotate(360deg);
         color $light-primary
   .scroll-container
-    //overflow-y scroll
+    overflow-y scroll
     flex 1
 .bottom-circle-btn {
   position: absolute;
   bottom: 20px;
   right: 20px;
+}
+.scroll-container::-webkit-scrollbar {
+  width: 0;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background: #D5D7DD;
+  border-radius: 4px;
+}
+.scroll-container:hover::-webkit-scrollbar-thumb {
+  background: #D5D7DD;
+}
+.scroll-container:hover::-webkit-scrollbar-track {
+  background: rgb(243, 244, 249);
 }
 
 .refresh {

@@ -201,6 +201,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.conversation-item-container:hover{
+  background-color white
+}
 .conversation-item-container
   //padding 15px 20px
   cursor pointer
@@ -292,4 +295,7 @@ export default {
   border: 2px solid $primary;
   border-radius: 8px;
 }
+  .text-ellipsis{
+    font-size 12px
+  }
 </style>

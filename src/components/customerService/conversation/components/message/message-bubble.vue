@@ -238,24 +238,29 @@ export default {
       font-size 24px // 32px 在mac上会模糊 24px正常 , window 24px模糊 28px 32px正常  36px windows mac 基本一致，但是太大
   .message-received
     background-color rgb(243, 244, 249)
+    //background-color white
     margin-left 15px
     border-radius 0 4px 4px 4px
+    //color black
     &::before
       left -10px
       transform scaleX(-1)
       color rgb(243, 244, 249)
+    //color red
     &.new
       transform: scale(0);
       transform-origin: top left;
       animation: bounce 500ms linear both;
   .message-send
-    background-color rgb(106, 174, 255)
+    //background-color rgb(106, 174, 255)
+    background-color lightgray
     margin-right 15px
     border-radius 4px 0 4px 4px
     color $white
+    //color: black
     &::before
       right: -10px
-      color: rgb(106, 174, 255)
+      color: lightgray
     &.new
       transform: scale(0);
       transform-origin: top right;

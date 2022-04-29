@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="top">
-      <table style="width: 100%">
+      <table style="width: 100%;">
         <tr>
           <td>
             <div class="logo">
@@ -12,7 +12,7 @@
               />
             </div>
           </td>
-          <td style="width: 800px; align-content: center">
+          <td style="width: 800px; align-content: center;">
             <div class="top-router">
               <div class="top-router-inner">
                 <ul>
@@ -39,15 +39,17 @@
           </td>
           <td>
             <div class="top-workbench">
-              <div style="margin-top: 5px; position: absolute; right: 80px">
-                <i class="el-icon-bell" style="font-size: 30px"/>
-              </div>
+<!--              <div style="position: absolute; right: 80px">-->
+<!--                <i class="el-icon-bell" style="font-size: 30px"/>-->
+<!--              </div>-->
+              <span style="line-height: 100px">{{username}}</span>
               <div
                 style="
-                  margin-left: 35px;
-                  margin-top: 10px;
-                  position: absolute;
-                  right: 0;
+                  /*margin-left: 35px;*/
+                  /*margin-top: 10px;*/
+                  /*position: absolute;*/
+                  /*right: 0;*/
+                  /*border: 1px solid black;*/
                 "
               >
                 <el-dropdown>
@@ -75,11 +77,13 @@ export default {
   name: 'home',
   created () {
     this.headImg = sessionStorage.getItem('headimg')
+    this.username = sessionStorage.getItem('username')
   },
   data () {
     return {
       url: 'http://www.bizspace.cn:8690',
-      headImg: ''
+      headImg: '',
+      username: ''
     }
   },
   methods: {
@@ -109,6 +113,7 @@ li {
 .top {
   width: 100%;
   height: 100px;
+  min-width: 1400px;
   position: relative;
   background-color: #ffffff;
   display: flex;
@@ -141,22 +146,31 @@ li {
 .top-router-inner ul li {
   flex: 1;
   font-weight: 550;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .logo {
-  margin-left: 40px;
+  float: left;
+  padding-left: 40px;
+  box-sizing: border-box;
+  /*margin-left: 40px;*/
+  /*border: 1px solid black;*/
 }
 
 .top-workbench {
-  width: 300px;
-  float: right;
-  height: 100px;
-  line-height: 100px;
-  right: 40px;
-  /*border: 1px solid blue;*/
   display: flex;
-  position: relative;
+  float: right;
+  box-sizing: border-box;
+  padding-right: 40px;
+  justify-content: flex-end;
+  width: 300px;
+  /*float: right;*/
+  /*height: 100px;*/
+  /*line-height: 100px;*/
+  right: 200px;
+  /*border: 1px solid blue;*/
+  /*display: flex;*/
+  /*position: relative;*/
 }
 
 a {
@@ -167,8 +181,15 @@ a {
 .author {
   width: 40px;
   height: 40px;
+  margin-top: 30px;
+  margin-left: 30px;
   border-radius: 50px;
   display: flex;
+  box-sizing: border-box;
+  border: 1px solid lightgray;
+  /*position: absolute;*/
+  /*right: 0;*/
+  /*top: 30px;*/
 }
 
 .router-link-exact-active {

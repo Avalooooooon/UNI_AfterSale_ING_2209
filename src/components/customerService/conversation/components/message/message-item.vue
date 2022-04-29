@@ -8,7 +8,7 @@
       <div class="col-1" v-if="showAvatar">
         <!-- 头像 -->
 <!--        <avatar :src="url+headimg" />-->
-        <avatar :src="avatar" />
+<!--        <avatar :src="avatar" />-->
       </div>
       <div class="col-2">
         <!-- 消息主体 -->

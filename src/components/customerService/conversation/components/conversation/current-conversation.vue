@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="content">
-        <div class="message-list" ref="message-list" @scroll="this.onScroll">
+       <div class="message-list" ref="message-list" @scroll="this.onScroll"> <!-- @scroll="this.onScroll"-->
           <div class="more" v-if="!isCompleted">
             <el-button
               type="text"
@@ -339,7 +339,9 @@ export default {
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: $height;
+    //height: $height;
+    height: calc(100vh - 175px);
+    //border 1px solid blue;
   .profile
     height: $height;
     overflow-y: scroll;
@@ -415,20 +417,34 @@ export default {
         border-color $light-primary
 .content
   display: flex;
-  height: 600px;
-  max-height 600px;
-  overflow-y scroll;
+  height: 100%;
+  //min-height 600px;
   flex 1
   flex-direction: column;
-  height: 100%;
+  //height: 100%;
   overflow: hidden;
+  //overflow-y scroll;
   position: relative;
+  //border: 1px solid black;
   .message-list
     width: 100%;
     box-sizing: border-box;
     overflow-y: scroll;
     padding: 0 20px;
     //border 1px solid black
+  .message-list::-webkit-scrollbar {
+    width: 10px;
+  }
+  .message-list::-webkit-scrollbar-thumb {
+    background: #D5D7DD;
+    border-radius: 4px;
+  }
+  .message-list:hover::-webkit-scrollbar-thumb {
+    background: #D5D7DD;
+  }
+  .message-list:hover::-webkit-scrollbar-track {
+    background: rgb(233, 235, 244);
+  }
   .newMessageTips
     position: absolute
     cursor: pointer;
@@ -444,8 +460,24 @@ export default {
     border: $border-light 1px solid;
     background-color: rgb(255, 255, 255);
     color: $primary;
+.content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: #D5D7DD;
+  border-radius: 4px;
+}
+.content:hover::-webkit-scrollbar-thumb {
+  background: #D5D7DD;
+}
+.content:hover::-webkit-scrollbar-track {
+  background: rgb(243, 244, 249);
+}
 .footer
-  border-top: 1px solid $border-base;
+  //border-top: 1px solid $border-base;
+  //border 1px solid red;
+  height 180px;
   .merger-btn {
     height 150px
     padding 3px 20px 20px 20px
