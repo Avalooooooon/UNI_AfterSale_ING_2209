@@ -16,8 +16,14 @@ export default {
   margin: 0;
   padding: 0;
 }
+html,body,#app{
+  height: 100%;
+  width: 100%;
+}
 
 #app {
+  width: 100%;
+  height: 100vh;
   overflow: auto;
   font-family: PingFang SC, Microsoft YaHei, Arial, Helvetica, sans-serif, "宋体";
   -webkit-font-smoothing: antialiased;

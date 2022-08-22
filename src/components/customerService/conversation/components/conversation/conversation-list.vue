@@ -184,8 +184,11 @@ export default {
         transform: rotate(360deg);
         color $light-primary
   .scroll-container
+    width 100%;
+    height 100%;
+    //border 1px solid black;
     overflow-y scroll
-    flex 1
+    //flex 1
 .bottom-circle-btn {
   position: absolute;
   bottom: 20px;

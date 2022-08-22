@@ -12,16 +12,16 @@ const conversationModules = {
     conversationList: [],
     callingInfo: {
       memberList: [],
-      type: 'C2C',   //C2C，GROUP
+      type: 'C2C' // C2C，GROUP
     },
     audioCall: false,
     isShowConversationList: false,
-    selectedMessageList:[],
-    relayType: 1,   // 1: 转发  2: 逐条转发 3: 合并转发
+    selectedMessageList: [],
+    relayType: 1, // 1: 转发  2: 逐条转发 3: 合并转发
     mergerMessageList: [],
     mergerMessage: {},
     relayMessage: {},
-    selectMessage: false,
+    selectMessage: false
   },
   getters: {
     toAccount: state => {
@@ -67,7 +67,7 @@ const conversationModules = {
      * @param {Object} state
      * @param {Conversation} setCallingList
      */
-    setCallingList(state, value) {
+    setCallingList (state, value) {
       state.callingInfo.memberList = value.memberList
       state.callingInfo.type = value.type
     },
@@ -78,41 +78,40 @@ const conversationModules = {
      * @param {Conversation} showAudioCall
      */
 
-    showConversationList(state, value) {
+    showConversationList (state, value) {
       state.isShowConversationList = value
     },
-    setSelectedMessageList(state, value) {
+    setSelectedMessageList (state, value) {
       state.selectedMessageList = value
     },
-    setRelayType(state, value) {
+    setRelayType (state, value) {
       state.relayType = value
     },
-    setMergerMessage(state, value) {
+    setMergerMessage (state, value) {
       state.mergerMessage = value
       state.mergerMessageList = [...state.mergerMessageList, value]
     },
-    setRelayMessage(state, value) {
+    setRelayMessage (state, value) {
       state.relayMessage = value
     },
-    updateMergerMessage(state, value) {
+    updateMergerMessage (state, value) {
       state.mergerMessage = value
       state.mergerMessageList.pop()
-
     },
-    setSelectedMessage(state, value) {
+    setSelectedMessage (state, value) {
       state.selectMessage = value
     },
-    resetSelectedMessage(state, value) {
+    resetSelectedMessage (state, value) {
       state.selectMessage = value
       Object.assign(state, {
-        selectedMessageList: [],
+        selectedMessageList: []
       })
     },
-    resetMergerMessage(state, value) {
+    resetMergerMessage (state, value) {
       state.mergerMessagePop = value
       Object.assign(state, {
         mergerMessage: {},
-        mergerMessageList: [],
+        mergerMessageList: []
       })
     },
     /**
@@ -121,7 +120,7 @@ const conversationModules = {
      * @param {Conversation} showAudioCall
      */
 
-    showAudioCall(state, value) {
+    showAudioCall (state, value) {
       state.audioCall = value
     },
 
@@ -131,7 +130,7 @@ const conversationModules = {
      * @param {Object} state
      * @param {Conversation} conversation
      */
-    updateCurrentConversation(state, conversation) {
+    updateCurrentConversation (state, conversation) {
       state.currentConversation = conversation
       state.currentMessageList = []
       state.nextReqMessageID = ''
@@ -143,7 +142,7 @@ const conversationModules = {
      * @param {Object} state
      * @param {Conversation[]} conversationList
      */
-    updateConversationList(state, conversationList) {
+    updateConversationList (state, conversationList) {
       state.conversationList = conversationList
     },
     /**
@@ -151,7 +150,7 @@ const conversationModules = {
      * 调用时机：需要重置当前会话时，例如：当前会话是一个群组，正好被踢出群时（被踢群事件触发），重置当前会话
      * @param {Object} state
      */
-    resetCurrentConversation(state) {
+    resetCurrentConversation (state) {
       state.currentConversation = {}
     },
     /**
@@ -161,7 +160,7 @@ const conversationModules = {
      * @param {Message[]|Message} data
      * @returns
      */
-    pushCurrentMessageList(state, data) {
+    pushCurrentMessageList (state, data) {
       // 还没当前会话，则跳过
       if (!state.currentConversation.conversationID) {
         return
@@ -181,13 +180,13 @@ const conversationModules = {
      * @param {Object} state
      * @param {Message} message
      */
-    removeMessage(state, message) {
+    removeMessage (state, message) {
       const index = state.currentMessageList.findIndex(({ ID }) => ID === message.ID)
       if (index >= 0) {
         state.currentMessageList.splice(index, 1)
       }
     },
-    reset(state) {
+    reset (state) {
       Object.assign(state, {
         currentConversation: {},
         currentMessageList: [],
@@ -204,7 +203,7 @@ const conversationModules = {
      * @param {Object} context
      * @param {String} conversationID
      */
-    getMessageList(context, conversationID) {
+    getMessageList (context, conversationID) {
       if (context.state.isCompleted) {
         context.commit('showMessage', {
           message: '已经没有更多的历史消息了哦',
@@ -220,7 +219,6 @@ const conversationModules = {
         // 更新当前消息列表，从头部插入
         context.state.currentMessageList = [...imReponse.data.messageList, ...currentMessageList]
         filterCallingMessage(context.state.currentMessageList)
-
       })
     },
     /**
@@ -229,7 +227,7 @@ const conversationModules = {
      * @param {Object} context
      * @param {String} conversationID
      */
-    checkoutConversation(context, conversationID) {
+    checkoutConversation (context, conversationID) {
       context.commit('resetCurrentMemberList')
       context.commit('resetSelectedMessage', false)
       context.commit('resetFriendContent')

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="box" :style="{'min-width': this.width}">
+    <div id="box">
       <div class="box-left">
         <div class="top-bar">
           <span class="headimg">
@@ -52,7 +52,7 @@
         <div class="videoList" v-if="listModel">
           <div class="videoList-line" v-for="(item, index) in videoList" v-bind:key="index"
                @click="handleCustomer(item)">
-            <div class="image"><img style="width: 100%;height: 100%;border-radius: 50px" :src="item.img" alt=""></div>
+            <div class="image"><img style="width: 100%;height: 100%;border-radius: 5px" :src="item.img" alt=""></div>
             <span style="margin-left: 30px;font-size: 14px">{{ item.name }}</span>
             <span style="position: absolute;right: 100px;font-size: 12px;color: #B2B7C5">{{ item.type }}</span>
             <span style="position: absolute;right: 30px;font-size: 12px">{{ item.date }}</span>
@@ -71,6 +71,10 @@
               <span class="historyService-name">{{ hs.name }}</span>
             </div>
           </div>
+<!--          <div class="box" style="width: 280px;height: 280px;line-height: 280px;border: 1px solid black;text-align: center;vertical-align: middle;">-->
+<!--            <img style="width: 100px;height: 100px;vertical-align: middle" src="https://img2.baidu.com/it/u=429697566,1955344911&fm=253&fmt=auto&app=138&f=JPEG?w=200&h=200" alt="">-->
+<!--            文字信息-->
+<!--          </div>-->
         </div>
 <!--        视频聊天-->
         <div class="video-call-section" v-if="videoCall">
@@ -116,8 +120,8 @@
       </div>
       <div class="box-right-top">
         <div class="box-right">
-          <span class="historyTag" tabindex="1" @click="clickHistoryslip">历史服务单</span>
-          <span class="conversationTag" tabindex="1" @click="clickConversationslip">会话服务单</span>
+          <span class="tab" v-on:click="handleClickTab('historySlip')" v-bind:class="{'selected':buttonSelected==='historySlip'}">历史服务单</span>
+          <span class="tab" style="margin-top: 50px;" v-on:click="handleClickTab('consationSlip')" v-bind:class="{'selected':buttonSelected==='consationSlip'}">会话服务单</span>
           <!--会话服务单-->
           <div class="historyServiceInfo" v-if="conversationSlip">
             <h4 style="width: 100%; text-align: center">会话服务单</h4>
@@ -294,7 +298,7 @@ export default {
       width: '', // 页面宽度
       SDKAPPIDConfig: 1400589788,
       SECRETKEYConfig: 'ca448d4e7634381fabfb70462588c6d0a768a2a2b9d560581c737fb4b7b170f3',
-      url: 'http://www.bizspace.cn:8690',
+      url: 'https://www.uniwarm.net',
       headimg: '',
       labelPosition: 'left',
       // form: {
@@ -413,120 +417,9 @@ export default {
           name: '熊二',
           type: '已结束',
           date: '15:30'
-        },
-        {
-          id: '03',
-          img: 'https://img1.baidu.com/it/u=791924201,3020731664&fm=253&fmt=auto&app=138&f=JPEG?w=502&h=500',
-          name: '光头强',
-          type: '已结束',
-          date: '15:30'
-        },
-        {
-          id: '04',
-          img: 'https://img2.baidu.com/it/u=303214140,375680236&fm=253&fmt=auto&app=138&f=JPEG?w=505&h=500',
-          name: '白雪公主的后妈',
-          type: '已结束',
-          date: '昨天'
-        },
-        {
-          id: '05',
-          img: 'https://img1.baidu.com/it/u=244227653,443360515&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
-          name: '灰姑娘',
-          type: '已结束',
-          date: '昨天'
-        },
-        {
-          id: '06',
-          img: 'https://img1.baidu.com/it/u=3228295310,2105988952&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
-          name: '辛黛瑞拉',
-          type: '已结束',
-          date: '9月23日'
-        },
-        {
-          id: '02',
-          img: 'https://img1.baidu.com/it/u=3062431084,2454108195&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
-          name: '仙女酵母',
-          type: '已结束',
-          date: '9月23日'
-        },
-        {
-          id: '03',
-          img: 'https://img2.baidu.com/it/u=2827612488,2245691605&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500',
-          name: '海绵宝宝',
-          type: '已结束',
-          date: '9月23日'
-        },
-        {
-          id: '04',
-          img: 'https://img1.baidu.com/it/u=1074380126,1294250081&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
-          name: '派大星',
-          type: '已结束',
-          date: '9月23日'
-        },
-        {
-          id: '05',
-          img: 'https://img2.baidu.com/it/u=429697566,1955344911&fm=253&fmt=auto&app=138&f=JPEG?w=200&h=200',
-          name: '海绵大宝',
-          type: '已结束',
-          date: '9月23日'
-        },
-        {
-          id: '03',
-          img: 'https://img1.baidu.com/it/u=791924201,3020731664&fm=253&fmt=auto&app=138&f=JPEG?w=502&h=500',
-          name: '光头强',
-          type: '已结束',
-          date: '9月23日'
-        },
-        {
-          id: '04',
-          img: 'https://img2.baidu.com/it/u=303214140,375680236&fm=253&fmt=auto&app=138&f=JPEG?w=505&h=500',
-          name: '白雪公主的后妈',
-          type: '已结束',
-          date: '9月23日'
-        },
-        {
-          id: '05',
-          img: 'https://img1.baidu.com/it/u=244227653,443360515&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
-          name: '灰姑娘',
-          type: '已结束',
-          date: '9月23日'
-        },
-        {
-          id: '06',
-          img: 'https://img1.baidu.com/it/u=3228295310,2105988952&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
-          name: '辛黛瑞拉',
-          type: '已结束',
-          date: '9月23日'
-        },
-        {
-          id: '02',
-          img: 'https://img1.baidu.com/it/u=3062431084,2454108195&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
-          name: '仙女酵母',
-          type: '已结束',
-          date: '9月23日'
-        },
-        {
-          id: '03',
-          img: 'https://img2.baidu.com/it/u=2827612488,2245691605&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500',
-          name: '海绵宝宝',
-          type: '已结束',
-          date: '9月23日'
-        },
-        {
-          id: '04',
-          img: 'https://img1.baidu.com/it/u=1074380126,1294250081&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
-          name: '派大星',
-          type: '已结束',
-          date: '9月23日'
-        },
-        {
-          id: '05',
-          img: 'https://img2.baidu.com/it/u=429697566,1955344911&fm=253&fmt=auto&app=138&f=JPEG?w=200&h=200',
-          name: '海绵大宝',
-          type: '已结束',
-          date: '9月23日'
-        },
-      ]
+        }
+      ],
+      buttonSelected: 'consationSlip'
     }
   },
   mounted () {
@@ -548,9 +441,10 @@ export default {
     this.headimg = sessionStorage.getItem('headimg')
     this.userId = sessionStorage.getItem('video_id')
     this.userSig = sessionStorage.getItem('usersig')
-    console.log(this.userId, '0000000000')
+    // console.log(this.userId, '0000000000')
     this.login()
     this.initListener()
+    this.handleClickTab('consationSlip')
     // await this.handleAutoLogin();
   },
   methods: {
@@ -1049,7 +943,9 @@ export default {
     handleClick (hs) {
       // console.log(hs.id)
       this.detailInfo = hs.detail
+      this.conversationSlip = false
       this.checkDetail = true
+      this.buttonSelected = 'historySlip'
     },
     // 查看通话客户历史服务单
     handleCustomer (item) {
@@ -1060,15 +956,15 @@ export default {
     onSubmit () {
       this.$message.success('保存成功')
     },
-    // 点击历史服务单
-    clickHistoryslip () {
-      this.checkDetail = true
-      this.conversationSlip = false
-    },
-    // 点击会话服务单
-    clickConversationslip () {
-      this.checkDetail = false
-      this.conversationSlip = true
+    handleClickTab (e) {
+      this.buttonSelected = e
+      if (e === 'historySlip') {
+        this.checkDetail = true
+        this.conversationSlip = false
+      } else if (e === 'consationSlip') {
+        this.checkDetail = false
+        this.conversationSlip = true
+      }
     },
     // 添加售后单
     handleRemove (file, fileList) {
@@ -1111,13 +1007,13 @@ body {
   min-width: 350px;
   height: 100%;
   overflow: hidden;
-  border-right: 1px solid lightgrey;
+  /*border-right: 1px solid lightgrey;*/
 }
 
 .top-bar {
   width: 100%;
   height: 100px;
-  border-bottom: 1px solid #D5D7DD;
+  /*border-bottom: 1px solid #D5D7DD;*/
   display: flex;
 }
 
@@ -1148,12 +1044,12 @@ body {
 .box-middle {
   width: 50%;
   height: 100%;
-  min-width: 600px;
+  min-width: 650px;
   background-color: #E9EBF4;
   position: relative;
   /*z-index: 1;*/
   overflow: hidden;
-  border-right: 1px solid lightgrey;
+  /*border-right: 1px solid lightgrey;*/
   overflow-y: scroll;
 }
 .box-middle::-webkit-scrollbar {
@@ -1177,6 +1073,8 @@ body {
   height: 100%;
   min-width: 400px;
   position: relative;
+  background-color: #f3f4f9;
+  /*border: 1px solid black;*/
 }
 .box-right {
   width: 100%;
@@ -1185,6 +1083,9 @@ body {
   padding: 0 30px;
   /*position: relative;*/
   overflow-y: scroll;
+  /*overflow-x: scroll;*/
+  /*border: 1px solid red;*/
+  /*background-color: #f3f4f9;*/
 }
 .box-right::-webkit-scrollbar {
   width: 10px;
@@ -1207,7 +1108,7 @@ body {
   font-weight: bold;
 }
 
-.historyTag {
+.tab{
   width: 100px;
   height: 30px;
   font-size: 12px;
@@ -1223,31 +1124,9 @@ body {
   z-index: 1000;
   cursor: pointer;
 }
-.historyTag:hover{
-  background-color: rgb(244, 245, 250);
-}
-.box-right .conversationTag:focus{
+.selected {
   color: #d79432;
   font-weight: bold;
-}
-.conversationTag {
-  width: 100px;
-  height: 30px;
-  font-size: 12px;
-  background-color: white;
-  text-align: center;
-  line-height: 30px;
-  color: black;
-  border-bottom-left-radius: 20px;
-  border-top-left-radius: 20px;
-  position: absolute;
-  top: 50px;
-  left: -101px;
-  z-index: 1000;
-  cursor: pointer;
-}
-.conversationTag:hover{
-  background-color: rgb(244, 245, 250);
 }
 
 .video-conference-list {
@@ -1389,7 +1268,8 @@ body {
 
 .videoList {
   width: 100%;
-  height: calc(100% - 130px);
+  /*height: calc(100% - 130px);*/
+  /*border: 1px solid red;*/
   /*border: 1px solid black;*/
   /*overflow: hidden;*/
   overflow-y: scroll;
@@ -1460,7 +1340,7 @@ body {
   cursor: pointer;
 }
 .historyList-line:hover{
-  background-color: rgb(244, 245, 250);
+  /*background-color: rgb(244, 245, 250);*/
 }
 
 .save {

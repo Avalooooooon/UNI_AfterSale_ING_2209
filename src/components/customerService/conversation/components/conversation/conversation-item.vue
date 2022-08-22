@@ -27,23 +27,23 @@
                 </span>
               </div>
             </div>
-            <div class="unread-count">
-              <span class="badge" v-if="showUnreadCount">
-                {{conversation.unreadCount > 99 ? '99+' : conversation.unreadCount}}
-              </span>
+            <div class="date">
+              {{date}}
             </div>
           </div>
           <div class="row-2">
             <div class="summary">
-              <div v-if="conversation.lastMessage" class="text-ellipsis">
+              <div v-if="conversation.lastMessage" style="font-size: 12px;">
                 <span class="remind"  v-if="hasMessageAtMe">{{messageAtMeText}}</span>
                 <span class="text" :title="conversation.lastMessage.messageForShow">
                   {{messageForShow}}
                 </span>
               </div>
             </div>
-            <div class="date">
-              {{date}}
+            <div class="unread-count">
+              <span class="badge" v-if="showUnreadCount">
+<!--                {{conversation.unreadCount > 99 ? '99+' : conversation.unreadCount}}-->
+              </span>
             </div>
           </div>
         </div>
@@ -61,8 +61,15 @@ export default {
   data () {
     return {
       popoverVisible: false,
-      showMessageAtMe_text: ''
+      showMessageAtMe_text: '',
+      conversationList: []
     }
+  },
+  created () {
+    // console.log(this.conversation.conversationID, '5555555555555555')
+    // this.conversationList.push(this.conversation.conversationID)
+    // console.log(this.conversationList)
+    // console.log(this.conversationList[0].conversationID, '6666666666')
   },
   computed: {
     hasMessageAtMe () {
@@ -165,6 +172,8 @@ export default {
   },
   methods: {
     selectConversation () {
+      console.log(this.conversation.conversationID)
+      console.log(this.currentConversation.conversationID)
       if (this.conversation.conversationID !== this.currentConversation.conversationID) {
         this.$store.dispatch(
           'checkoutConversation',
@@ -201,9 +210,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.conversation-item-container:hover{
-  background-color white
-}
+//.conversation-item-container:hover{
+//  background-color white
+//}
 .conversation-item-container
   //padding 15px 20px
   cursor pointer
@@ -213,7 +222,7 @@ export default {
   // &:first-child
   //   padding-top 30px
   &:hover
-    background-color $background
+    background-color #e9ebf4
     .close-btn
       right 3px
   .close-btn
@@ -249,26 +258,12 @@ export default {
         color $font-light
         flex 1
         min-width 0
-      .unread-count
-        padding-left 10px
+      .date
+        padding-right 20px
         flex-shrink 0
+        text-align right
         color $font-dark
-        font-size 12px
-        .badge
-          vertical-align bottom
-          background-color #EF0B0B
-          border-radius 50px
-          color #FFF
-          display inline-block
-          font-size 12px
-          width 15px
-          height 15px
-          //max-width 40px
-          line-height 15px
-          //padding 0 6px
-          text-align center
-          white-space nowrap
-          margin-right 10px
+        font-size 12px;
     .row-2
       display flex
       font-size 12px
@@ -282,13 +277,30 @@ export default {
         color: $secondary
         .remind
           color $danger
-      .date
+      .unread-count
         padding-left 10px
         flex-shrink 0
-        text-align right
         color $font-dark
+        font-size 12px
+        //border 1px solid black;
+        padding-bottom 10px;
+        .badge
+          //vertical-align bottom
+          background-color #EF0B0B
+          border-radius 50px
+          color #FFF
+          display inline-block
+          font-size 12px
+          width 8px
+          height 8px
+          //max-width 40px
+          //line-height 15px
+          //padding 0 6px
+          text-align center
+          white-space nowrap
+          margin-right 10px
 .choose {
-  background-color: $background;
+  background-color: #e9ebf4;
 }
 .context-menu-button {
   padding: 10px
@@ -296,6 +308,7 @@ export default {
   border-radius: 8px;
 }
   .text-ellipsis{
-    font-size 12px
+    font-size 13px;
+    font-weight bold;
   }
 </style>

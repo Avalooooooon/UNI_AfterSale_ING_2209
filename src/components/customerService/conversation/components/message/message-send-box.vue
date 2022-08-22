@@ -10,23 +10,7 @@
         <i class="iconfont icon-smile" slot="reference" title="发表情"></i>
       </el-popover>
       <i class="iconfont icon-tupian" title="发图片" @click="handleSendImageClick"></i>
-<!--      <i class="el-icon-camera" title="发视频" @click="handleSendVideoClick"></i>-->
-<!--      <i class="iconfont icon-wenjian" title="发文件" @click="handleSendFileClick"></i>-->
       <i class="iconfont icon-zidingyi" title="发自定义消息" @click="sendCustomDialogVisible = true"></i>
-<!--      <i class="iconfont icon-diaocha" title="小调查" @click="surveyDialogVisible = true"></i>-->
-<!--      <el-dropdown>-->
-<!--      <span class="el-dropdown-link">-->
-<!--      <i class="el-icon-phone-outline" v-if="toAccount !== userID" title="语音通话"></i>-->
-<!--      </span>-->
-<!--        <el-dropdown-menu slot="dropdown">-->
-<!--          <el-dropdown-item  @click.native="trtcCalling('video')">视频通话</el-dropdown-item>-->
-<!--          <el-dropdown-item  @click.native="trtcCalling('audio')">语音通话</el-dropdown-item>-->
-<!--        </el-dropdown-menu>-->
-<!--      </el-dropdown>-->
-<!--      <div class="group-live-icon-box" v-if="currentConversationType === TIM.TYPES.CONV_GROUP && groupProfile.type !== 'AVChatRoom'" title="群直播" @click="groupLive">-->
-<!--        <i class="group-live-icon"></i>-->
-<!--        <i class="group-live-icon-hover"></i>-->
-<!--      </div>-->
     </div>
     <el-dialog title="发自定义消息" :visible.sync="sendCustomDialogVisible" width="30%">
       <el-form label-width="100px">
@@ -45,28 +29,6 @@
         <el-button type="primary" @click="sendCustomMessage">确 定</el-button>
       </span>
     </el-dialog>
-<!--    <el-dialog title="对IM Web demo的建议和使用感受" :visible.sync="surveyDialogVisible" width="30%">-->
-<!--      <el-form label-width="100px">-->
-<!--        <el-form-item label="评分">-->
-<!--          <div class="block">-->
-<!--            <el-rate v-model="rate" :colors="colors" show-text></el-rate>-->
-<!--          </div>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="建议">-->
-<!--          <el-input-->
-<!--            type="textarea"-->
-<!--            :rows="2"-->
-<!--            placeholder="请输入内容"-->
-<!--            resize="none"-->
-<!--            v-model="suggestion"-->
-<!--          ></el-input>-->
-<!--        </el-form-item>-->
-<!--      </el-form>-->
-<!--      <span slot="footer" class="dialog-footer">-->
-<!--        <el-button @click="surveyDialogVisible = false">取 消</el-button>-->
-<!--        <el-button type="primary" @click="sendSurvey">确 定</el-button>-->
-<!--      </span>-->
-<!--    </el-dialog>-->
     <div class="bottom">
       <textarea
         ref="text-input"
@@ -91,7 +53,6 @@
       >
         <div class="btn-send" @click="sendTextMessage">
           <div>
-<!--            <el-button size="mini" style="background-color: rgb(233, 235, 244);border: 1px solid rgb(39, 54, 72);color: rgb(39, 54, 72)">结束会话</el-button>-->
             <el-button type="primary" size="mini">发送</el-button>
           </div>
         </div>
@@ -691,6 +652,7 @@ textarea {
   border: none;
   outline: none;
   background-color: transparent;
+  //line-height 30px;
   //border 1px solid black;
 }
 

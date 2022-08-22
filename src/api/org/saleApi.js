@@ -4,7 +4,7 @@ export default {
   // 售后单列表
   getSaleList (page) {
     return request({
-      url: 'api/aftersale/v1/service/listall',
+      url: '/erp/aftersale/v1/service/listall',
       method: 'get',
       params: {
         page: page
@@ -14,7 +14,7 @@ export default {
   // 售后单详情
   getSaleDetail (rowId) {
     return request({
-      url: 'api/aftersale/v1/service/detail',
+      url: '/erp/aftersale/v1/service/detail',
       method: 'get',
       params: {
         service_id: rowId
@@ -24,7 +24,7 @@ export default {
   // 客服审核
   customerServiceReview (rowId, remark, operation) {
     return request({
-      url: 'api/aftersale/v1/service/audit',
+      url: '/erp/aftersale/v1/service/audit',
       method: 'get',
       params: {
         service_id: rowId,
@@ -36,7 +36,7 @@ export default {
   // 确认收货
   receiptSure (rowId, receiptRemark) {
     return request({
-      url: 'api/aftersale/v1/service/recsure',
+      url: '/erp/aftersale/v1/service/recsure',
       method: 'get',
       params: {
         service_id: rowId,
@@ -47,7 +47,7 @@ export default {
   // 确认收款
   PaymentSure (rowId, diagnosisRemark, operationPay) {
     return request({
-      url: 'api/aftersale/v1/service/diagnosis',
+      url: '/erp/aftersale/v1/service/diagnosis',
       method: 'get',
       params: {
         service_id: rowId,
@@ -59,7 +59,7 @@ export default {
   // 获取视频
   getVideo (videoId) {
     return request({
-      url: 'api/videophone/v1/videophone/usersig',
+      url: '/erp/videophone/v1/videophone/usersig',
       method: 'get',
       params: {
         user_id: videoId

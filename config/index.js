@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://www.bizspace.cn:8690',
+        target: 'http://www.uniwarm.net:8690',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''
@@ -58,7 +58,8 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: '/uniwarm_aftersale/',
+    // assetsPublicPath: './',
 
     /**
      * Source Maps

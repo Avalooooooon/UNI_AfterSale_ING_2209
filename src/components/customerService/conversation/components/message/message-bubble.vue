@@ -13,7 +13,7 @@
         <el-dropdown-item command="revoke" v-if="isMine&&!isTimeout">撤回</el-dropdown-item>
         <el-dropdown-item command="relay" v-show="message.status !=='fail'">转发</el-dropdown-item>
         <el-dropdown-item command="merger" v-show="message.status !=='fail'">多选</el-dropdown-item>
-        <el-dropdown-item command="fuzhi" >复制</el-dropdown-item>
+<!--        <el-dropdown-item command="fuzhi" >复制</el-dropdown-item>-->
       </el-dropdown-menu>
     </el-dropdown>
     <div class="group-tip-element-wrapper" v-if="message.isRevoked">
@@ -155,7 +155,7 @@ export default {
           document.execCommand('copy')
           transfer.blur()
           document.body.removeChild(transfer)
-          alert('复制成功')
+          // alert('复制成功')
           console.error(command, 'fuzhi', this.message)
           break
         default:
@@ -237,6 +237,7 @@ export default {
       font-family 'tim' !important
       font-size 24px // 32px 在mac上会模糊 24px正常 , window 24px模糊 28px 32px正常  36px windows mac 基本一致，但是太大
   .message-received
+    max-width 600px;
     background-color rgb(243, 244, 249)
     //background-color white
     margin-left 15px
@@ -252,6 +253,7 @@ export default {
       transform-origin: top left;
       animation: bounce 500ms linear both;
   .message-send
+    max-width 600px;
     //background-color rgb(106, 174, 255)
     background-color lightgray
     margin-right 15px

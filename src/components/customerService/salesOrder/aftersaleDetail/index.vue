@@ -96,7 +96,7 @@
                     <div class="demo-image__preview">
                       <el-image
                         style="width: 60px; height: 60px"
-                        :src="'http://www.bizspace.cn:8690'+ a"
+                        :src="'https://www.uniwarm.net'+ a"
                         :preview-src-list="srcList">
                       </el-image>
                     </div>
@@ -524,7 +524,7 @@ export default {
           let imgPathList = this.Detaildata.service_image
           // 遍历图片链接
           for (let i = 0; i < imgPathList.length; i++) {
-            this.srcList.push('http://www.bizspace.cn:8690' + imgPathList[i])
+            this.srcList.push('https://www.uniwarm.net' + imgPathList[i])
           }
           console.log(this.Allinfo)
           for (let i = 0; i < this.orderStep.length; i++) {

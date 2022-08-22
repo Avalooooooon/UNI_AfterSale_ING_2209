@@ -433,7 +433,7 @@ export default {
     padding: 0 20px;
     //border 1px solid black
   .message-list::-webkit-scrollbar {
-    width: 10px;
+    width: 5px;
   }
   .message-list::-webkit-scrollbar-thumb {
     background: #D5D7DD;

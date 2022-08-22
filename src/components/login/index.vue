@@ -62,7 +62,7 @@ export default {
   methods: {
     handleSubmit () {
       axios({
-        url: '/api/aftersale/v1/service/login',
+        url: '/erp/aftersale/v1/service/login',
         method: 'post',
         data: qs.stringify({
           'bizid': this.userInfo.bizid,

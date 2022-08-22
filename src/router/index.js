@@ -1,14 +1,31 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Conversation from '../components/customerService/conversation'
+// import Layout from '../components/layout'
 
 Vue.use(Router)
-const routes = [
+export const constantRoutes = [
+  // {
+  //   path: '/redirect',
+  //   hidden: true,
+  //   children: [{
+  //     path: '/redirect/:path(.*)',
+  //     component: () => import('../components/redirect/index')
+  //   }]
+  // },
+  {
+    path: '/',
+    name: 'Login',
+    component: () => import('../components/login')
+    // redirect: '/login'
+  },
   {
     path: '/login',
+    name: 'Login',
     component: () => import('../components/login')
   },
   {
-    path: '/',
+    path: '/home',
     name: 'Home',
     component: () => import('../components/common/home'),
     redirect: '/customerService/salesOrder',
@@ -24,7 +41,7 @@ const routes = [
           {
             path: 'conversation',
             name: 'Conversation',
-            component: () => import('../components/customerService/conversation')
+            component: Conversation
           },
           // 视频
           {
@@ -78,53 +95,21 @@ const routes = [
   }
 ]
 
-const router = new Router({
-  // linkExactActiveClass: 'active',
-  routes,
-  mode: 'history'
-})
-export default router
-
-// export default new Router({
-//   mode: 'history',
-//   routes: [
-//     {
-//       path: '/login',
-//       name: 'Login',
-//       component: Login
-//     },
-//     // 客服
-//     {
-//       path: '/customerService',
-//       name: 'CustomerService',
-//       component: SalesOrder,
-//       redirect: '/customerService/salesOrder',
-//       children: [
-//         // 售后单
-//         {
-//           path: 'salesOrder',
-//           name: 'SalesOrder',
-//           component: SalesOrder
-//         }
-//       ]
-//     },
-//     // 售后单详情
-//     {
-//       path: '/customerService/salesOrder/detail',
-//       name: 'AftersaleDetail',
-//       component: AftersaleDetail
-//     },
-//     // 会话
-//     {
-//       path: '/customerService/conversation',
-//       name: 'Conversation',
-//       component: Conversation
-//     },
-//     // 视频
-//     {
-//       path: '/customerService/video',
-//       name: 'Video',
-//       component: Video
-//     }
-//   ]
+// const router = new Router({
+//   // linkExactActiveClass: 'active',
+//   routes,
+//   mode: 'history'
 // })
+// export default router
+
+const createRouter = () => new Router({
+  // mode: 'history', // require service support
+  scrollBehavior: () => ({
+    y: 0
+  }),
+  routes: [...constantRoutes]
+})
+
+const router = createRouter()
+
+export default router

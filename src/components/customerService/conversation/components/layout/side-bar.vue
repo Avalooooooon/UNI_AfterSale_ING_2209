@@ -1,88 +1,8 @@
 <template>
   <div class="side-bar-wrapper">
-<!--    <div class="bar-left">-->
-<!--      <my-profile />-->
-<!--      <div class="tab-items" @click="handleClick">-->
-<!--        <div-->
-<!--          id="conversation-list"-->
-<!--          class="iconfont icon-conversation"-->
-<!--          :class="{ active: showConversationList }"-->
-<!--          title="会话列表"-->
-<!--        >-->
-<!--          <sup class="unread" v-if="totalUnreadCount !== 0">-->
-<!--            <template v-if="totalUnreadCount > 99">99+</template>-->
-<!--            <template v-else>{{totalUnreadCount}}</template>-->
-<!--          </sup>-->
-<!--        </div>-->
-<!--        <div-->
-<!--          id="group-list"-->
-<!--          class="iconfont icon-group"-->
-<!--          :class="{ active: showGroupList }"-->
-<!--          title="群组列表"-->
-<!--        ></div>-->
-<!--        <div-->
-<!--          id="friend-list"-->
-<!--          class="iconfont icon-contact"-->
-<!--          :class="{ active: showFriendList }"-->
-<!--          title="好友列表"-->
-<!--        >-->
-<!--&lt;!&ndash;          &lt;!&ndash; <sup class="unread" v-if="applicationUnreadCount !== 0">&ndash;&gt;-->
-<!--&lt;!&ndash;            <template v-if="applicationUnreadCount > 99">99+</template>&ndash;&gt;-->
-<!--&lt;!&ndash;            <template v-else>{{applicationUnreadCount}}</template>&ndash;&gt;-->
-<!--&lt;!&ndash;          </sup> &ndash;&gt;&ndash;&gt;-->
-<!--        </div>-->
-<!--        <div-->
-<!--          id="black-list"-->
-<!--          class="iconfont icon-blacklist"-->
-<!--          :class="{ active: showBlackList }"-->
-<!--          title="黑名单列表"-->
-<!--        ></div>-->
-<!--        <div-->
-<!--          id="group-live"-->
-<!--          class="group-live"-->
-<!--          title="群直播"-->
-<!--        ></div>-->
-<!--      </div>-->
-<!--      <div class="bottom">-->
-<!--        <div class="iconfont icon-tuichu" @click="$store.dispatch('logout')" title="退出"></div>-->
-<!--      </div>-->
-<!--    </div>-->
-    <div class="bar-right">
-      <div class="top-bar">
-          <span class="headimg">
-            <img style="width: 50px;height: 50px" :src="url + headimg" alt="">
-          </span>
-        <div class="customerServiceInfo">
-          <div style="width: 100%;height: 25px;display: flex">
-            <h6>会话客服{{userId}}</h6>
-            <div
-              style="font-size: 11px;margin-left: 20px;padding: 0 5px;color: #d79432;border: 1px solid #d79432;border-radius: 3px;height: 16px;line-height: 16px;cursor:pointer">
-              提交下线
-            </div>
-<!--            <div id="icon" style="font-size: 20px">-->
-<!--              <i @click="rebackVideo()" v-if="camera" class="el-icon-video-camera"></i>-->
-<!--              <i @click="rebackList()" v-if="time" class="el-icon-time"></i>-->
-<!--            </div>-->
-          </div>
-          <div style="width: 100%;height: 25px">
-            <span style="font-size: 11px;color: #d79432">在线</span>
-            <span style="font-size: 11px;margin-left: 20px">本次工作时长：1小时20分钟</span>
-          </div>
-        </div>
+      <div style="width: 100%;height: calc(100vh - 300px);background-color: #f3f4f9">
+        <conversation-list style="height: 100%;" v-show="showConversationList" />
       </div>
-      <div class="callInfo">
-        <span>暂无用户请求</span>
-<!--        <span v-if="none">暂无用户请求</span>-->
-<!--        <span v-if="shout">用户 '{{ this.inviterName }}' 呼叫... </span>-->
-<!--        <span v-if="connect">正在接入用户 '{{ this.inviterName }}' ... </span>-->
-<!--        <span v-if="calling">正在与 '{{ this.inviterName }}' 通话</span>-->
-<!--        <el-button v-if="turnOn" class="turnOn" type="warning" size="mini" @click="handleAccept">接通</el-button>-->
-      </div>
-      <conversation-list v-show="showConversationList" />
-      <!-- <group-list v-show="showGroupList" /> -->
-      <!-- <friend-list v-show="showFriendList" /> -->
-      <!-- <black-list v-show="showBlackList" /> -->
-    </div>
   </div>
 </template>
 
@@ -90,9 +10,6 @@
 import { mapGetters, mapState } from 'vuex'
 import MyProfile from '../my-profile'
 import ConversationList from '../conversation/conversation-list'
-// import GroupList from '../group/group-list'
-// import FriendList from '../friend/friend-list'
-// import BlackList from '../blacklist/blacklist'
 
 const activeName = {
   CONVERSATION_LIST: 'conversation-list',
@@ -114,7 +31,6 @@ export default {
     return {
       active: activeName.CONVERSATION_LIST,
       activeName: activeName,
-      url: 'http://www.bizspace.cn:8690',
       headimg: '',
       userId: ''
     }
@@ -242,42 +158,13 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.top-bar {
-  width: 100%;
-  height: 100px;
-  border-bottom: 1px solid #D5D7DD;
-  display: flex;
-}
-
-.headimg {
-  width: 50px;
-  height: 50px;
-  border-radius: 50px;
-  margin: 25px 20px 25px 40px;
-}
-
-.customerServiceInfo {
-  height: 50px;
-  margin-top: 25px;
-  width: calc(100% - 110px);
-  position: relative;
-}
-.callInfo {
-  width: 100%;
-  height: 30px;
-  background-color: #D5D7DD;
-  line-height: 30px;
-  text-align: center;
-  position: relative;
-  font-size: 12px;
-  box-sizing: border-box;
-}
 .side-bar-wrapper {
-  height: 100%;
+  width: 100%;
+  height: calc(100vh - 305px);
   color: $black;
   display: flex;
-  width: 100%;
   overflow: hidden;
+  //background-color red;
 
   .bar-left {
     display: flex;
@@ -355,7 +242,6 @@ export default {
         text-align: center;
         cursor: pointer;
       }
-
       .iconfont {
         height: 70px;
         line-height: 70px;
@@ -376,16 +262,6 @@ export default {
       color: $white;
     }
   }
-
-  .bar-right {
-    // flex 1
-    flex: 1 1 auto;
-    width: 100%;
-    min-width: 0;
-    height: $height;
-    position: relative;
-    background-color: $background-dark;
-  }
   .group-live {
     position relative
     top 10px
@@ -395,6 +271,54 @@ export default {
     background url('../../assets/image/live-icon-gray.png') center no-repeat
     background-size cover
     cursor pointer
+  }
+  .bar-right {
+    // flex 1
+    //flex: 1 1 auto;
+    width: 100%;
+    height: calc(100vh - 175px);
+    //border 1px solid blue;
+    min-width: 0;
+    //height: $height;
+    position: relative;
+    background-color: $background-dark;
+    .top-bar {
+      width: 100%;
+      height: 100px;
+      display: flex;
+      //border 1px solid black;
+      .headimg {
+        width: 50px;
+        height: 100px;
+        border 1px solid #f3f4f9
+        border-radius: 50px;
+        box-sizing border-box;
+        padding-top 25px;
+        margin-left 40px;
+        margin-right 20px;
+        //margin: 25px 20px 25px 40px;
+      }
+
+      .customerServiceInfo {
+        height: 100px;
+        //margin-top: 25px;
+        width: calc(100% - 110px);
+        border 1px solid #f3f4f9;
+        position: relative;
+        box-sizing border-box;
+        padding-top 25px;
+      }
+    }
+    .callInfo {
+      width: 100%;
+      height: 30px;
+      background-color: #D5D7DD;
+      line-height: 30px;
+      text-align: center;
+      position: relative;
+      font-size: 12px;
+      box-sizing: border-box;
+    }
   }
 }
 </style>

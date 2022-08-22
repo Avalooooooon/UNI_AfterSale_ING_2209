@@ -57,7 +57,7 @@
                     <img :src="url + headImg" alt="">
                   </div>
                   <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item><span @click="logout()">退出</span></el-dropdown-item>
+                    <el-dropdown-item ><span @click="logout()">退出</span></el-dropdown-item>
                   </el-dropdown-menu>
                 </el-dropdown>
               </div>
@@ -81,7 +81,7 @@ export default {
   },
   data () {
     return {
-      url: 'http://www.bizspace.cn:8690',
+      url: 'https://www.uniwarm.net',
       headImg: '',
       username: ''
     }

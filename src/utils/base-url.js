@@ -1,5 +1,5 @@
 const baseURL = {
-  login: 'http://www.bizspace.cn:8690'
+  login: 'http://www.uniwarm.net:8690'
 }
 
 export default baseURL

@@ -8,7 +8,7 @@
             <el-select
               v-model="formData.saletype"
               size="mini"
-              style="width: 150px;min-width: 50px"
+              style="width: 100px;min-width: 50px"
               placeholder="请选择"
             >
               <el-option
@@ -23,7 +23,7 @@
             <el-select
               v-model="formData.serviceshop"
               size="mini"
-              style="width: 150px"
+              style="width: 100px"
               placeholder="请选择"
             >
               <el-option
@@ -35,7 +35,7 @@
               </el-option>
             </el-select>
             <span class="selecters">售后ID :</span>
-              <el-input style="width: 150px" size="mini" v-model="formData.aftersaleId"></el-input>
+              <el-input style="width: 100px" size="mini" placeholder="请填写" v-model="formData.aftersaleId"></el-input>
 <!--            <el-select-->
 <!--              v-model="formData.aftersaleId"-->
 <!--              size="mini"-->
@@ -54,7 +54,7 @@
             <el-select
               v-model="formData.lastname"
               size="mini"
-              style="width: 150px"
+              style="width: 100px"
               placeholder="请选择"
             >
               <el-option
@@ -68,6 +68,7 @@
             <span class="selecters">最后操作时间 :</span>
             <el-date-picker
               size="mini"
+              style="width: 250px"
               v-model="formData.lasttime"
               type="daterange"
               unlink-panels

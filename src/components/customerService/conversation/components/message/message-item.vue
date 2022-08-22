@@ -226,11 +226,40 @@ export default {
     return {
       renderDom: [],
       headimg: '',
-      url: 'http://www.bizspace.cn:8690'
+      url: 'https://www.uniwarm.net'
     }
   },
   created () {
     this.headimg = sessionStorage.getItem('headimg')
+    let onMessageReceived = function (event) {
+      // event.data - 存储 Message 对象的数组 - [Message]
+      const messageList = event.data
+      messageList.forEach((message) => {
+        if (message.type === TIM.TYPES.MSG_TEXT) {
+          // 文本消息 - https://web.sdk.qcloud.com/im/doc/zh-cn/Message.html#.TextPayload
+        } else if (message.type === TIM.TYPES.MSG_IMAGE) {
+          // 图片消息 - https://web.sdk.qcloud.com/im/doc/zh-cn/Message.html#.ImagePayload
+        } else if (message.type === TIM.TYPES.MSG_SOUND) {
+          // 音频消息 - https://web.sdk.qcloud.com/im/doc/zh-cn/Message.html#.AudioPayload
+        } else if (message.type === TIM.TYPES.MSG_VIDEO) {
+          // 视频消息 - https://web.sdk.qcloud.com/im/doc/zh-cn/Message.html#.VideoPayload
+        } else if (message.type === TIM.TYPES.MSG_FILE) {
+          // 文件消息 - https://web.sdk.qcloud.com/im/doc/zh-cn/Message.html#.FilePayload
+        } else if (message.type === TIM.TYPES.MSG_CUSTOM) {
+          console.log(message, '22222222222')
+          // 自定义消息 - https://web.sdk.qcloud.com/im/doc/zh-cn/Message.html#.CustomPayload
+        } else if (message.type === TIM.TYPES.MSG_MERGER) {
+          // 合并消息 - https://web.sdk.qcloud.com/im/doc/zh-cn/Message.html#.MergerPayload
+        } else if (message.type === TIM.TYPES.MSG_LOCATION) {
+          // 地理位置消息 - https://web.sdk.qcloud.com/im/doc/zh-cn/Message.html#.LocationPayload
+        } else if (message.type === TIM.TYPES.MSG_GRP_TIP) {
+          // 群提示消息 - https://web.sdk.qcloud.com/im/doc/zh-cn/Message.html#.GroupTipPayload
+        } else if (message.type === TIM.TYPES.MSG_GRP_SYS_NOTICE) {
+          // 群系统通知 - https://web.sdk.qcloud.com/im/doc/zh-cn/Message.html#.GroupSystemNoticePayload
+        }
+      })
+    }
+    tim.on(TIM.EVENT.MESSAGE_RECEIVED, onMessageReceived)
   },
   computed: {
     ...mapState({

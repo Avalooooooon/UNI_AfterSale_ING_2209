@@ -1,143 +1,178 @@
 <template>
-  <div class="box">
-    <div class="box-left">
-      <side-bar />
-    </div>
-    <div class="box-middle">
-      <current-conversation />
-    </div>
-    <div class="box-right-top">
-      <div class="box-right">
-        <span class="historyTag" tabindex="1" @click="clickHistoryslip">历史服务单</span>
-        <span class="conversationTag" tabindex="1" @click="clickConversationslip">会话服务单</span>
-        <!--会话服务单-->
-        <div class="historyServiceInfo" style="padding: 30px" v-if="conversationSlip">
-          <h4 style="width: 100%;text-align: center">会话服务单</h4>
-          <el-form style="margin-top: 30px;" ref="form" :model="form" label-width="100px">
-            <el-form-item label="服务单名称 :">
-              <el-input size="small" v-model="form.name" placeholder="请输入服务单名称"></el-input>
-            </el-form-item>
-            <el-form-item label="联系方式 :">
-              <el-input size="small" v-model="form.phone" placeholder="请输入联系方式"></el-input>
-            </el-form-item>
-            <el-form-item label="咨询产品 :">
-              <el-select
-                size="small"
-                style="width: 100%"
-                v-model="form.consultProduct"
-                multiple
-                collapse-tags
-                placeholder="请选择咨询产品">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="用户问题 :">
-              <el-input size="small" type="textarea" :rows="5" v-model="form.desc"></el-input>
-            </el-form-item>
-            <el-form-item label="解决方式 :">
-              <el-select style="width: 100%" size="small" v-model="form.type" placeholder="请选择解决方式">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="售后单 :">
-              <el-upload
-                class="upload-demo"
-                action="/"
-                :on-preview="handlePreview"
-                :on-remove="handleRemove"
-                :before-remove="beforeRemove"
-                multiple
-                :http-request="uploadFile"
-                :file-list="form.fileList">
-                <el-button class="addlist" size="mini" type="primary">添加售后单</el-button>
-              </el-upload>
-            </el-form-item>
-            <el-form-item>
-              <el-button class="handleSaveEnd" size="mini" type="primary" @click="onSubmit">保存并结束会话</el-button>
-            </el-form-item>
-          </el-form>
-        </div>
-        <!--历史服务单-->
-        <div class="historyServiceInfo" v-if="checkDetail">
-          <div class="historyService" v-if="historyService">
-            <h4 style="width: 100%;text-align: center">历史服务单</h4>
-            <div class="historyList">
-              <div class="historyList-line" v-for="(hs, ind) in historyList" v-bind:key="ind" @click="handleClick(hs)">
-                <span class="historyService-message">{{ hs.message }}</span>
-                <span class="historyService-date">{{ hs.date }}</span>
-                <span class="historyService-code">{{ hs.code }}</span>
-                <span class="historyService-name">{{ hs.name }}</span>
+    <div id="box">
+      <div class="box-left">
+        <div class="top-bar">
+          <span class="headimg">
+            <img style="width: 50px;height: 50px" :src="'https://www.uniwarm.net' + headimg" alt="">
+          </span>
+          <div class="customerServiceInfo">
+            <div style="width: 100%;height: 25px;display: flex">
+              <span style="font-size: 14px;font-weight: bold;">会话客服{{ userId }}</span>
+              <div
+                style="font-size: 11px;margin-left: 20px;padding: 0 5px;color: #d79432;border: 1px solid #d79432;border-radius: 3px;height: 16px;line-height: 16px;cursor:pointer">
+                提交下线
               </div>
+<!--              <div id="icon" style="font-size: 20px">-->
+<!--                <i @click="rebackVideo()" v-if="camera" class="el-icon-video-camera"></i>-->
+<!--                <i @click="rebackList()" v-if="time" class="el-icon-time"></i>-->
+<!--              </div>-->
+            </div>
+            <div style="width: 100%;height: 25px">
+              <span style="font-size: 11px;color: #d79432">在线</span>
+              <span style="font-size: 11px;margin-left: 20px">本次工作时长：1小时20分钟</span>
             </div>
           </div>
-          <!--历史服务单详情-->
-          <div class="historyDetail" v-if="historyDetail">
-            <div style="color: #d79432; cursor: pointer" @click="toback">
-              <i class="el-icon-arrow-left" />
-              返回
+        </div>
+        <div class="callInfo">
+          <span>暂无用户请求</span>
+<!--          <span v-if="shout">用户 '{{ this.inviterName }}' 呼叫... </span>-->
+<!--          <span v-if="connect">正在接入用户 '{{ this.inviterName }}' ... </span>-->
+<!--          <span v-if="calling">正在与 '{{ this.inviterName }}' 通话</span>-->
+<!--          <el-button v-if="turnOn" class="turnOn" type="warning" size="mini" @click="handleAccept">接通</el-button>-->
+        </div>
+        <div class="videoList">
+          <side-bar />
+        </div>
+      </div>
+      <div class="box-middle">
+        <div class="video-call-section">
+          <current-conversation />
+        </div>
+      </div>
+      <div class="box-right-top">
+        <div class="box-right">
+          <span class="tab" v-on:click="handleClickTab('historySlip')" v-bind:class="{'selected':buttonSelected==='historySlip'}">历史服务单</span>
+          <span class="tab" style="margin-top: 50px;" v-on:click="handleClickTab('consationSlip')" v-bind:class="{'selected':buttonSelected==='consationSlip'}">会话服务单</span>
+          <!--会话服务单-->
+          <div class="historyServiceInfo" style="padding: 30px" v-if="conversationSlip">
+            <h4 style="width: 100%;text-align: center">会话服务单</h4>
+            <el-form style="margin-top: 30px;" ref="form" :model="form" label-width="100px">
+              <el-form-item label="服务单名称 :">
+                <el-input size="small" v-model="form.name" placeholder="请输入服务单名称"></el-input>
+              </el-form-item>
+              <el-form-item label="联系方式 :">
+                <el-input size="small" v-model="form.phone" placeholder="请输入联系方式"></el-input>
+              </el-form-item>
+              <el-form-item label="咨询产品 :">
+                <el-select
+                  size="small"
+                  style="width: 100%"
+                  v-model="form.consultProduct"
+                  multiple
+                  collapse-tags
+                  placeholder="请选择咨询产品">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="用户问题 :">
+                <el-input size="small" type="textarea" :rows="5" v-model="form.desc"></el-input>
+              </el-form-item>
+              <el-form-item label="解决方式 :">
+                <el-select style="width: 100%" size="small" v-model="form.type" placeholder="请选择解决方式">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="售后单 :">
+                <el-upload
+                  class="upload-demo"
+                  action="/"
+                  :on-preview="handlePreview"
+                  :on-remove="handleRemove"
+                  :before-remove="beforeRemove"
+                  multiple
+                  :http-request="uploadFile"
+                  :file-list="form.fileList">
+                  <el-button class="addlist" size="mini" type="primary">添加售后单</el-button>
+                </el-upload>
+              </el-form-item>
+              <el-form-item>
+                <el-button class="handleSaveEnd" size="mini" type="primary" @click="onSubmit">保存并结束会话</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+          <!--历史服务单-->
+          <div class="historyServiceInfo" v-if="checkDetail">
+            <div class="historyService" v-if="historyService">
+              <h4 style="width: 100%;text-align: center">历史服务单</h4>
+              <div class="historyList">
+                <div class="historyList-line" v-for="(hs, ind) in historyList" v-bind:key="ind" @click="handleClick(hs)">
+                  <span class="historyService-message">{{ hs.message }}</span>
+                  <span class="historyService-date">{{ hs.date }}</span>
+                  <span class="historyService-code">{{ hs.code }}</span>
+                  <span class="historyService-name">{{ hs.name }}</span>
+                </div>
+              </div>
             </div>
-            <h4 style="width: 100%;text-align: center;">服务详情</h4>
-            <table style="margin-top: 20px;">
-              <tr>
-                <td class="table-row-title">20220411 { ID }</td>
-                <td class="table-row-value">包装破损需要退款</td>
-              </tr>
-              <tr>
-                <td class="table-row-title">用户名称：</td>
-                <td class="table-row-value">{{ historyDetailInfo.name }}</td>
-                <td class="table-row-title">用户id：</td>
-                <td class="table-row-value">{{ historyDetailInfo.id }}</td>
-              </tr>
-              <tr>
-                <td class="table-row-title">联系方式：</td>
-                <td class="table-row-value">{{ historyDetailInfo.phone }}</td>
-                <td class="table-row-title">会话类型：</td>
-                <td class="table-row-value">{{ historyDetailInfo.type }}</td>
-              </tr>
-              <tr>
-                <td class="table-row-title">接待客服：</td>
-                <td class="table-row-value">{{ historyDetailInfo.customerServiceName }}</td>
-                <td class="table-row-title">会话时间：</td>
-                <td class="table-row-value">{{ historyDetailInfo.time }}</td>
-              </tr>
-              <tr>
-                <td class="table-row-title">资讯产品：</td>
-                <td class="table-row-value" colspan="3">{{ historyDetailInfo.product }}</td>
-              </tr>
-              <tr>
-                <td class="table-row-title">用户问题：</td>
-                <td class="table-row-value" style="padding-top: 20px" colspan="3">{{ historyDetailInfo.problem }}</td>
-              </tr>
-              <tr>
-                <td class="table-row-title">解决方式：</td>
-                <td class="table-row-value" colspan="3">{{ historyDetailInfo.way }}</td>
-              </tr>
-              <tr>
-                <td class="table-row-title">售后单：</td>
-                <td colspan="3"></td>
-              </tr>
-            </table>
+            <!--历史服务单详情-->
+            <div class="historyDetail" v-if="historyDetail">
+              <div style="color: #d79432; cursor: pointer" @click="toback">
+                <i class="el-icon-arrow-left" />
+                返回
+              </div>
+              <h4 style="width: 100%;text-align: center;">服务详情</h4>
+              <table style="margin-top: 20px;">
+                <tr>
+                  <td class="table-row-title">20220411 (ID)</td>
+                  <td class="table-row-value" style="color: #d79432">&nbsp;&nbsp;&nbsp;包装破损需要退款</td>
+                </tr>
+                <tr>
+                  <td class="table-row-title">用户名称：</td>
+                  <td class="table-row-value">{{ historyDetailInfo.name }}</td>
+                  <td class="table-row-title">用户id：</td>
+                  <td class="table-row-value">{{ historyDetailInfo.id }}</td>
+                </tr>
+                <tr>
+                  <td class="table-row-title">联系方式：</td>
+                  <td class="table-row-value">{{ historyDetailInfo.phone }}</td>
+                  <td class="table-row-title">会话类型：</td>
+                  <td class="table-row-value">{{ historyDetailInfo.type }}</td>
+                </tr>
+                <tr>
+                  <td class="table-row-title">接待客服：</td>
+                  <td class="table-row-value">{{ historyDetailInfo.customerServiceName }}</td>
+                  <td class="table-row-title">会话时间：</td>
+                  <td class="table-row-value">{{ historyDetailInfo.time }}</td>
+                </tr>
+                <tr>
+                  <td class="table-row-title">资讯产品：</td>
+                  <td class="table-row-value" colspan="3">{{ historyDetailInfo.product }}</td>
+                </tr>
+                <tr>
+                  <td class="table-row-title">用户问题：</td>
+                  <td class="table-row-value" style="padding-top: 20px" colspan="3">{{ historyDetailInfo.problem }}</td>
+                </tr>
+                <tr>
+                  <td class="table-row-title">解决方式：</td>
+                  <td class="table-row-value" colspan="3">{{ historyDetailInfo.way }}</td>
+                </tr>
+                <tr>
+                  <td class="table-row-title">售后单：</td>
+                  <td colspan="3"></td>
+                </tr>
+              </table>
+            </div>
           </div>
         </div>
       </div>
+      <image-previewer />
     </div>
-  </div>
 </template>
 
 <script>
 import { Notification } from 'element-ui'
 import { mapState } from 'vuex'
 import CurrentConversation from './components/conversation/current-conversation'
+import ImagePreviewer from './components/message/image-previewer.vue'
 import SideBar from './components/layout/side-bar'
 import Login from './components/user/login'
 import { translateGroupSystemNotice } from './utils/common'
@@ -156,6 +191,7 @@ export default {
       historyService: true,
       historyDetail: false,
       historyDetailInfo: {},
+      headimg: '',
       form: {
         name: '',
         phone: '',
@@ -203,13 +239,15 @@ export default {
             way: '维修保养'
           }
         }
-      ]
+      ],
+      buttonSelected: 'historySlip'
     }
   },
   components: {
     Login,
     SideBar,
-    CurrentConversation
+    CurrentConversation,
+    ImagePreviewer
   },
 
   computed: {
@@ -221,9 +259,6 @@ export default {
       isLogin: state => state.user.isLogin,
       isSDKReady: state => state.user.isSDKReady,
       isBusy: state => state.video.isBusy
-      // userID: state => state.user.userID,
-      // userSig: state => state.user.userSig,
-      // sdkAppID: state => state.user.sdkAppID
     }),
     // 是否显示 Loading 状态
     showLoading () {
@@ -233,15 +268,14 @@ export default {
   mounted () {
     // 初始化监听器
     this.initListener()
-    // console.error(genTestUserSig)
   },
   created () {
+    this.headimg = sessionStorage.getItem('headimg')
     this.userId = sessionStorage.getItem('video_id')
+    console.log('当前登陆的客服的ID', this.userId)
     this.userSig = sessionStorage.getItem('usersig')
     this.login()
-  },
-
-  watch: {
+    this.handleClickTab('historySlip')
   },
 
   methods: {
@@ -271,38 +305,6 @@ export default {
 
       this.tim.on(this.TIM.EVENT.FRIEND_GROUP_LIST_UPDATED, this.onFriendGroupListUpdated)
     },
-    // login () {
-    //   this.loading = true
-    //   const userSig = 'eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwqXFqUWGhlCZ4pTsxIKCzBQlK0MTAwMzI2NjSxOITGpFQWZRKlDc1NTUyMDAACJakpkLEjMzMTUwM7eEiRZnpgMN9vP1NfMNCHdPtjR01Y4sMCh2qvBN0Y4IcbWM0TctTHZJzk1JyQhLy8sptwi0VaoFAFPKMVA_'
-    //   const sdkAppID = 1400623394
-    //   const userID = 'user11'
-    //   this.tim
-    //     .login({
-    //       userID: userID,
-    //       userSig: userSig
-    //     })
-    //     .then(() => {
-    //       console.log(userID, '聊天')
-    //       console.log(userSig, '聊天')
-    //       console.log(sdkAppID, '聊天')
-    //       this.loading = false
-    //       this.$store.commit('toggleIsLogin', true)
-    //       this.$store.commit('startComputeCurrent')
-    //       this.$store.commit({
-    //         type: 'GET_USER_INFO',
-    //         userID: userID,
-    //         userSig: userSig,
-    //         sdkAppID: sdkAppID
-    //       })
-    //     })
-    //     .catch(error => {
-    //       this.loading = false
-    //       this.$store.commit('showMessage', {
-    //         message: '登录失败：' + error.message,
-    //         type: 'error'
-    //       })
-    //     })
-    // },
     login () {
       this.loading = true
       const userSig = this.userSig
@@ -331,13 +333,13 @@ export default {
           //   message: '登录成功'
           // })
         })
-        // .catch(error => {
-        //   this.loading = false
-        //   // this.$store.commit('showMessage', {
-        //   //   message: '登录失败：' + error.message,
-        //   //   type: 'error'
-        //   // })
-        // })
+      // .catch(error => {
+      //   this.loading = false
+      //   // this.$store.commit('showMessage', {
+      //   //   message: '登录失败：' + error.message,
+      //   //   type: 'error'
+      //   // })
+      // })
     },
     onFriendApplicationListUpdated (data) {
       this.$store.commit('updateApplicationList', data.data.friendApplicationList)
@@ -552,7 +554,7 @@ export default {
         return this.currentConversation.conversationID === message.conversationID &&
           message.type === this.TIM.TYPES.MSG_GRP_TIP &&
           (message.payload.operationType === this.TIM.TYPES.GRP_TIP_MBR_QUIT ||
-          message.payload.operationType === this.TIM.TYPES.GRP_TIP_MBR_KICKED_OUT)
+            message.payload.operationType === this.TIM.TYPES.GRP_TIP_MBR_KICKED_OUT)
       })
       // 清理当前会话的群成员列表
       if (groupTips.length > 0) {
@@ -592,6 +594,16 @@ export default {
       this.checkDetail = false
       this.conversationSlip = true
     },
+    handleClickTab (e) {
+      this.buttonSelected = e
+      if (e === 'historySlip') {
+        this.checkDetail = true
+        this.conversationSlip = false
+      } else if (e === 'consationSlip') {
+        this.checkDetail = false
+        this.conversationSlip = true
+      }
+    },
     // 历史服务单详情
     handleClick (hs) {
       console.log(hs)
@@ -608,41 +620,105 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
-.box{
-  width: 100%;
-  height: calc(100vh - 175px);
-  display flex ;
-  min-width 1350px;
-  //border 1px solid black
-}
-.box-left{
-  width: 22%;
-  min-width: 350px;
+<style scoped>
+html,
+body {
+  margin: 0;
+  padding: 0;
   height: 100%;
-  border-right: 1px solid lightgrey;
-  //overflow hidden;
-  //overflow-y scroll;
 }
-.box-middle{
+
+#box {
+  width: 100%;
+  /*min-width: 100%;*/
+  height: calc(100vh - 175px);
+  margin: 0 auto;
+  background-color: #F3F4F9;
+  display: flex;
+}
+
+.box-left {
+  width: 22%;
+  height: 100%;
+  min-width: 350px;
+  overflow: hidden;
+  /*border: 1px solid red;*/
+  background-color: #f3f4f9;
+}
+
+.top-bar {
+  width: 100%;
+  height: 100px;
+  /*border: 1px solid blue;*/
+  display: flex;
+}
+
+.headimg {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  margin: 25px 20px 25px 40px;
+}
+
+.customerServiceInfo {
+  height: 50px;
+  margin-top: 25px;
+  width: calc(100% - 110px);
+  position: relative;
+}
+
+#icon {
+  width: 40px;
+  height: 40px;
+  font-size: 30px;
+  position: absolute;
+  right: 0;
+  top: -5px;
+  cursor: pointer;
+}
+
+.box-middle {
   width: 50%;
   height: 100%;
-  position relative;
-  background-color : rgb(233, 235, 244)
-  min-width 600px;
+  min-width: 650px;
+  background-color: #E9EBF4;
+  position: relative;
+  /*z-index: 1;*/
+  overflow: hidden;
+  /*border-right: 1px solid lightgrey;*/
+  overflow-y: scroll;
 }
-  .box-right-top{
-    width: 28%;
-    height: 100%;
-    position relative;
-    min-width 450px;
-  }
-.box-right{
+.box-middle::-webkit-scrollbar {
+  width: 10px;
+}
+
+.box-middle::-webkit-scrollbar-thumb {
+  background: #D5D7DD;
+  border-radius: 4px;
+}
+
+.box-middle:hover::-webkit-scrollbar-thumb {
+  background: #D5D7DD;
+}
+
+.box-middle:hover::-webkit-scrollbar-track {
+  background: rgb(233, 235, 244);
+}
+.box-right-top{
+  width: 28%;
+  height: 100%;
+  min-width: 400px;
+  position: relative;
+}
+.box-right {
   width: 100%;
   height: 100%;
-  border-left: 1px solid lightgrey;
-  //position: relative;
-  overflow-y scroll;
+  /*border: 1px solid black;*/
+  background-color: #f3f4f9;
+  box-sizing: border-box;
+  padding: 0 30px;
+  /*position: relative;*/
+  overflow-y: scroll;
 }
 .box-right::-webkit-scrollbar {
   width: 10px;
@@ -660,35 +736,11 @@ export default {
 .box-right:hover::-webkit-scrollbar-track {
   background: rgb(243, 244, 249);
 }
-.upload-demo:hover {
-  border-color: #409eff;
-}
-.upload-demo{
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px dashed #d9d9d9;
-}
-.handleSaveEnd {
-  position absolute;
-  //bottom 30px;
-  //right 30px;
-}
-/deep/ .el-upload-list__item-name {
+.box-right .historyTag:focus{
   color: #d79432;
+  font-weight: bold;
 }
-/deep/ .el-icon-document:before{
-  color: #d79432;
-}
-/deep/ .el-upload-list__item .el-icon-upload-success{
-  color: #d79432;
-}
-.addlist{
-  background-color: rgb(243, 244, 249);
-  color: #d79432;
-  border:1px solid #d79432;
-  border-radius: 3px;
-}
-.historyTag {
+.tab{
   width: 100px;
   height: 30px;
   font-size: 12px;
@@ -700,180 +752,99 @@ export default {
   border-top-left-radius: 20px;
   position: absolute;
   top: 10px;
-  left: -100px;
-  z-index: 100;
+  left: -101px;
+  z-index: 1000;
   cursor: pointer;
 }
-.box-right .historyTag:focus{
+.selected {
   color: #d79432;
   font-weight: bold;
-}
-.box-right .conversationTag:focus{
-  color: #d79432;
-  font-weight: bold;
-}
-.historyTag:hover{
-  background-color: rgb(244, 245, 250);
-}
-.conversationTag:hover{
-  background-color: rgb(244, 245, 250);
-}
-.historyList-line:hover{
-  background-color: rgb(244, 245, 250);
 }
 
-.conversationTag {
-  width: 100px;
+@media screen and (max-width: 767px) {
+}
+
+.video-call-section {
+  width: 100%;
+  height: 100%;
+  /*border: 1px solid white;*/
+}
+
+@media screen and (max-width: 767px) {
+  .video-conference-list {
+    margin: 0;
+  }
+
+  .user-video-container {
+    margin: 5px;
+  }
+}
+.upload-demo:hover {
+  border-color: #409eff;
+}
+.upload-demo{
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px dashed #d9d9d9;
+}
+.addlist{
+  background-color: rgb(243, 244, 249);
+  color: #d79432;
+  border:1px solid #d79432;
+  border-radius: 3px;
+}
+
+.callInfo {
+  width: 100%;
   height: 30px;
-  font-size: 12px;
-  background-color: white;
-  text-align: center;
+  background-color: #D5D7DD;
   line-height: 30px;
-  color: black;
-  border-bottom-left-radius: 20px;
-  border-top-left-radius: 20px;
-  position: absolute;
-  top: 50px;
-  left: -100px;
-  z-index: 100;
-  cursor: pointer;
-}
-body {
-  overflow: hidden;
-  margin: 0;
-  font-family:'Microsoft YaHei', '微软雅黑', 'MicrosoftJhengHei', 'Lantinghei SC', 'Open Sans', Arial, 'Hiragino Sans GB', 'STHeiti', 'WenQuanYi Micro Hei', SimSun, sans-serif;
-  background-color: $bg;
-  -ms-scroll-chaining: chained;
-  -ms-overflow-style: none;
-  -ms-content-zooming: zoom;
-  -ms-scroll-rails: none;
-  -ms-content-zoom-limit-min: 100%;
-  -ms-content-zoom-limit-max: 500%;
-  -ms-scroll-snap-type: proximity;
-  -ms-scroll-snap-points-x: snapList(100%, 200%, 300%, 400%, 500%);
-  -ms-overflow-style: none;
-  overflow: auto;
-
-  div {
-    box-sizing: border-box;
-
-    &::before, &::after {
-      box-sizing: border-box;
-    }
-  }
-}
-
-#wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding-top: 60px;
-}
-
-.container
-  width 100%;
-  position relative
-  height calc(100vh - 170px)
-.container
-  position relative
-  height calc(100vh - 170px)
-// TODO filter mac chrome 会有问题，下次修改可以去掉
-.bg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  background: url('~@/./assets/image/bg.jpg') no-repeat 0 0;
-  background-size: cover;
-  // filter blur(67px)
-}
-
-.loading {
-  height: calc(100vh - 170px);
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.text-ellipsis {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.chat-wrapper {
-  width 100%;
-  //margin-top: 2vh;
-  width: $width;
-  height: $height;
-  //max-width: 1280px;
-  box-shadow: 0 11px 20px 0 rgba(0, 0, 0, 0.3);
-
-  .official-link {
-    display: flex;
-    text-decoration: none;
-    color: #38c9ff;
-    width: fit-content;
-    float: right;
-    height: 45px;
-    align-items: center;
-  }
-}
-
-/* 设置滚动条的样式 */
-::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
-}
-
-/* 滚动槽 */
-::-webkit-scrollbar-track {
-  border-radius: 10px;
-}
-
-/* 滚动条滑块 */
-::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.1);
-}
-/deep/ .el-popover {
-  width 800px
-  position fixed
-  left 0
-  right 0
-  margin auto
-}
-  .historyDetail{
-    width 100%;
-    height 100%;
-    //border 1px solid red;
-    padding 30px 30px;
-    box-sizing border-box;
-  }
-.historyServiceInfo {
-  width: 100%;
-  height: 100%;
-  //border 1px solid black;
-  //padding: 30px 0;
+  text-align: center;
+  position: relative;
+  font-size: 12px;
   box-sizing: border-box;
-  //padding: 30px 30px;
-
 }
+
+.videoList {
+  width: 100%;
+  height: calc(100% - 130px);
+  /*border: 1px solid blue;*/
+  /*overflow: hidden;*/
+  overflow-y: scroll;
+}
+.videoList::-webkit-scrollbar {
+  width: 0;
+}
+
+.videoList::-webkit-scrollbar-thumb {
+  background: #D5D7DD;
+  border-radius: 4px;
+}
+
+.videoList:hover::-webkit-scrollbar-thumb {
+  background: #D5D7DD;
+}
+
+.videoList:hover::-webkit-scrollbar-track {
+  background: #F3F4F9;
+}
+
 .historyService {
   width: 100%;
   height: 100%;
-  padding: 30px 30px;
+  /*padding: 30px 30px;*/
+  /*border: 1px solid red;*/
   box-sizing: border-box;
-  background-color: rgb(243, 244, 249);
+  background-color: #f3f4f9;
 }
+
 .historyList {
-  width 100%;
-  margin-top 30px;
-  overflow-y: scroll;
+  /*border: 1px solid blue;*/
+  margin-top: 40px;
+  margin-left: 5%;
+  margin-right: 5%;
 }
+
 .historyList-line {
   width: 100%;
   height: 80px;
@@ -885,6 +856,10 @@ body {
   position: relative;
   cursor: pointer;
 }
+.historyList-line:hover{
+  /*background-color: rgb(244, 245, 250);*/
+}
+
 .historyService-message {
   font-size: 13px;
   font-weight: 600;
@@ -894,6 +869,7 @@ body {
   position: absolute;
   right: 20px;
   font-size: 12px;
+  top: 13px;
 }
 
 .historyService-code {
@@ -901,6 +877,7 @@ body {
   bottom: 10px;
   left: 20px;
   font-size: 12px;
+  font-weight: 600;
 }
 
 .historyService-name {
@@ -908,7 +885,22 @@ body {
   right: 20px;
   bottom: 10px;
   font-size: 12px;
+  font-weight: 600;
 }
+
+.historyServiceInfo {
+  width: 100%;
+  height: 100%;
+  padding: 30px 0;
+  box-sizing: border-box;
+}
+.historyDetail{
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  background-color: #f3f4f9;
+}
+
 .table-row-title {
   width: 100px;
   height: 50px;
@@ -917,9 +909,12 @@ body {
   font-size: 13px;
   min-width: 100px;
 }
-
+.handleSaveEnd{
+  margin-bottom: 30px;
+  position: absolute;
+  right: 0;
+}
 .table-row-value {
-  width 150px;
   font-size: 13px;
 }
 </style>
