@@ -61,7 +61,7 @@ service.interceptors.response.use(
             duration: 5 * 1000
           })
           cookie.remove('token')
-          cookie.replace('/')
+          cookie.replace('/login')
           return
         /*
        ====自定义弹出框的输出信息(如果需要则配置， 可以配置多个)====
@@ -83,7 +83,7 @@ service.interceptors.response.use(
             type: 'error',
             duration: 5 * 1000
           })
-          window.location.href = '/'
+          window.location.href = '/login'
           return
         case 414:
           console.log(resp)

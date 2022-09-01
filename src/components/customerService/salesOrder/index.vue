@@ -446,6 +446,7 @@ export default {
 .main-left {
   width: 182px;
   height: calc(100vh - 265px);
+  min-width: 182px;
   border-right: 1px solid #c3c8ce;
   /* overflow-x: hidden; */
   background-color: #e9ebf4;
@@ -535,6 +536,9 @@ export default {
 /*  width: 50%;*/
 /*  margin: auto;*/
 /*}*/
+.tableBox{
+  width: 100%;
+}
 .user_skills /deep/ .el-table--fit {
   padding: 0 20px;
 }

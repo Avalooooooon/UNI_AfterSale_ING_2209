@@ -24,7 +24,7 @@
                   <li>|</li>
                   <li>
                     <router-link :class="{'router-link-exact-active': routerLinkIsActive('/feedback')}"
-                                 to="/feedback" active-class="active" router-link-active>反馈
+                                 to="/feedback" active-class="git error: remote origin already exists.active" router-link-active>反馈
                     </router-link>
                   </li>
                   <li>|</li>
