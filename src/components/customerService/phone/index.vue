@@ -1,15 +1,11 @@
 <template>
   <div class="main">
     <div class="topbar">
-      <span class="headimg">
-        <img
-          style="width: 50px; height: 50px"
-          :src="'https://www.uniwarm.net' + headimg"
-          alt=""
-        />
-      </span>
+      <div class="headimg">
+        <img :src="'https://www.uniwarm.net' + headimg" alt="" />
+      </div>
       <div class="customerServiceInfo">
-        <div style="width: 100%; height: 25px; display: flex">
+        <div class="firstrow" style="width: 100%; height: 25px; display: flex">
           <span style="font-size: 14px; font-weight: bold"
             >会话客服{{ userId }}</span
           >
@@ -29,12 +25,45 @@
             提交下线
           </div>
         </div>
-        <div style="width: 100%; height: 25px">
+        <div class="lastrow" style="width: 100%; height: 25px">
           <span style="font-size: 11px; color: #d79432">在线</span>
           <span style="font-size: 11px; margin-left: 20px"
             >本次工作时长：1小时20分钟</span
           >
         </div>
+      </div>
+      <div class="newtask">
+        <el-button type="primary" size="mini">创建任务</el-button>
+      </div>
+    </div>
+    <!--会话服务单-->
+    <div class="itemlist">
+      <div
+        class="itemlist-line"
+        v-for="item in historyList"
+        :key="item.id"
+        @click="handleClick(item)"
+      >
+        <div class="itemmmain">
+          <div class="title">
+            <div class="itemname">{{ item.message }}</div>
+            <div class="iteminfo">{{ item.code }}</div>
+          </div>
+          <div class="detail">
+            <div class="itemname">客服:</div>
+            <div class="iteminfo">{{ item.detail.name }}</div>
+          </div>
+          <div class="detail">
+            <div class="itemname">创建时间：</div>
+            <div class="iteminfo">{{ item.date }}</div>
+          </div>
+          <div class="detail">
+            <div class="itemname">状态:</div>
+            <div class="iteminfo">{{ item.state }}</div>
+          </div>
+          <div class="check">查看</div>
+        </div>
+        <el-divider></el-divider>
       </div>
     </div>
   </div>
@@ -79,8 +108,9 @@ export default {
           date: "2022.2.10 14:47",
           code: "SF14619616184583",
           name: "客服001",
+          state: "维修保养申请1",
           detail: {
-            name: "小白",
+            name: "小小白",
             id: "1314520",
             phone: "123456789",
             type: "视频",
@@ -97,6 +127,7 @@ export default {
           date: "2022.2.10 14:47",
           code: "SF14619616184583",
           name: "客服002",
+          state: "维修保养申请2",
           detail: {
             name: "小黑",
             id: "16516161",
@@ -124,42 +155,129 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$img-size-base: 60px;
 html,
 body {
   margin: 0;
   padding: 0;
+  width: 100%;
   height: 100%;
 }
 
 .main {
-  width: 100%;
-  /* min-width: 100%; */
+  width: 100vw;
   height: calc(100vh - 175px);
-  margin: 0 auto;
   background-color: #f3f4f9;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
-.top-bar {
-  width: 100vw;
-  height: 10vh;
-  /*border: 1px solid blue;*/
+.topbar {
+  width: 97vw;
+  height: 12vh;
+  margin: 15px 0;
+  border-radius: 10px;
   display: flex;
   flex-direction: row;
-  background-color: aqua;
-  .headimg{
-    width: 50px;
-    height: 50px;
-    border-radius: 50px;
-    margin: 25px 20px 25px 40px;
+  flex-wrap: nowrap;
+  background-color: white;
+  position: relative;
+  .headimg {
+    width: $img-size-base;
+    height: 100%;
+    margin: 0 10px;
+    position: relative;
+    img {
+      width: $img-size-base;
+      height: $img-size-base;
+      border-radius: $img-size-base;
+      position: absolute;
+      top: 50%;
+      margin-top: -($img-size-base / 2);
+    }
+  }
+  .customerServiceInfo {
+    margin-top: auto 0;
+    width: calc(100% - 100px);
+    height: 100%;
+    right: 0px;
+    margin-top: 3vh;
+    // display: flex;
+    // flex-direction: column;
+    // .firstrow{
+    // }
+  }
+  .newtask {
+    position: absolute;
+    right: 80px;
+    top: 50%;
+    margin-top: -13px;
+    .el-button {
+      width: 100px;
+      border-radius: 2px;
+    }
   }
 }
 
-/* .customerServiceInfo {
-  height: 50px;
-  margin-top: 25px;
-  width: calc(100% - 110px);
-  position: relative;
-} */
+.itemlist {
+  width: 86vw;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2vh;
+  // background-color: rgb(51, 235, 255);
+  .itemlist-line {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    // position: relative;
+    .itemmmain {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      position: relative;
+      .itemname {
+        font-size: 12px;
+        font-weight: bold;
+        margin-bottom: 1vh;
+      }
+      .iteminfo {
+        font-size: 10px;
+        color: #616369;
+      }
+
+      .title {
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+      }
+      .detail {
+        width: 10%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .check {
+        color: #d79432;
+        font-size: 12px;
+        cursor: pointer;
+        position: absolute;
+        right: 0;
+
+        .el-icon-arrow-left {
+          font-weight: bolder;
+        }
+      }
+    }
+    .el-divider{
+      margin:1vh 0;
+    }
+  }
+}
 </style>
