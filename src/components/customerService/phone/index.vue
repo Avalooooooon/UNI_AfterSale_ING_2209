@@ -33,10 +33,16 @@
         </div>
       </div>
       <div class="newtask">
-        <el-button type="primary" size="mini">创建任务</el-button>
+        <el-button
+          type="primary"
+          size="mini"
+          v-if="isMainpage"
+          @click="checkAddIssue()"
+          >创建任务</el-button
+        >
       </div>
     </div>
-    <!--会话服务单-->
+    <!--电话主页列表-->
     <div class="itemlist" v-if="showlist">
       <div class="itemlist-line" v-for="item in historyList" :key="item.id">
         <div class="itemmmain">
@@ -56,12 +62,13 @@
             <div class="itemname">状态:</div>
             <div class="iteminfo">{{ item.state }}</div>
           </div>
-          <div class="check" @click="handleClick(item)">查看</div>
+          <div class="check" @click="checkDetail(item)">查看</div>
         </div>
         <el-divider></el-divider>
       </div>
     </div>
 
+    <!--电话列表详情-->
     <div class="itemdetail" v-if="showdetail">
       <div class="detail-title">
         <div class="title-item">{{ phoneDetailInfo.detail.id }} &nbsp;(ID)</div>
@@ -115,6 +122,101 @@
         </div>
       </div>
     </div>
+
+    <!--电话新增服务单（新增任务）-->
+    <div class="newissue" v-if="showNewissue">
+      <el-form ref="form" :model="form" label-width="100px">
+        <el-form-item label="服务单名称 :">
+          <el-input
+            size="small"
+            v-model="form.name"
+            placeholder="请输入服务单名称"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="联系方式 :">
+          <el-input
+            size="small"
+            v-model="form.phone"
+            placeholder="请输入联系方式"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="咨询产品 :">
+          <el-select
+            size="small"
+            style="width: 100%"
+            v-model="form.consultProduct"
+            multiple
+            collapse-tags
+            placeholder="请选择咨询产品"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="用户问题 :">
+          <el-input
+            size="small"
+            type="textarea"
+            :rows="5"
+            v-model="form.desc"
+          ></el-input>
+        </el-form-item>
+        <!-- <el-form-item label="会话截图 :">
+          <div class="screenshot">
+            <div class="screenshot-picture"></div>
+            <div class="screenshot-picture"></div>
+            <div class="screenshot-picture"></div>
+            <div class="screenshot-picture"></div>
+          </div>
+        </el-form-item> -->
+        <el-form-item label="解决方式 :">
+          <el-select
+            style="width: 100%"
+            size="small"
+            v-model="form.type"
+            placeholder="请选择解决方式"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <!-- <el-form-item label="售后单 :">
+          <el-upload
+            class="upload-demo"
+            action="/"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            multiple
+            :http-request="uploadFile"
+            :file-list="form.fileList"
+          >
+            <el-button class="addlist" size="mini" type="primary"
+              >添加售后单</el-button
+            >
+          </el-upload>
+        </el-form-item> -->
+        <el-form-item>
+          <el-button
+            class="handleSaveEnd"
+            size="mini"
+            type="primary"
+            @click="onSubmit"
+            >保存</el-button
+          >
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -128,6 +230,8 @@ export default {
       // sdkAppID: 1400589788,
       showlist: true,
       showdetail: false,
+      showNewissue: false,
+      isMainpage: true,
       phoneDetailInfo: {},
       headimg: "",
       form: {
@@ -223,12 +327,21 @@ export default {
   },
 
   methods: {
-    // 电话_服务详情
-    handleClick(item) {
+    // 创建服务
+    checkAddIssue() {
+      this.showlist = false;
+      this.showdetail = false;
+      this.showNewissue = true;
+      this.isMainpage = false;
+    },
+    // 查看已有的服务详情
+    checkDetail(item) {
       console.log(item);
       this.phoneDetailInfo = item;
-      this.showdetail = true;
       this.showlist = false;
+      this.showNewissue = false;
+      this.showdetail = true;
+      this.isMainpage = false;
     },
   },
 };
@@ -396,6 +509,27 @@ body {
       .upload-demo:hover {
         color: #ad8633;
       }
+    }
+  }
+}
+
+.newissue {
+  width: 86vw;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2vh;
+  .screenshot {
+    width: 100%;
+    /*height: 80px;*/
+    /*border: 1px solid black;*/
+    /*display: block;*/
+    margin-top: 30px;
+    display: flex;
+    .screenshot-picture {
+      width: 60px;
+      height: 60px;
+      border: 1px solid lightgray;
+      margin-right: 5px;
     }
   }
 }
