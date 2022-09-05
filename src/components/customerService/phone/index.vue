@@ -37,13 +37,8 @@
       </div>
     </div>
     <!--会话服务单-->
-    <div class="itemlist">
-      <div
-        class="itemlist-line"
-        v-for="item in historyList"
-        :key="item.id"
-        @click="handleClick(item)"
-      >
+    <div class="itemlist" v-if="showlist">
+      <div class="itemlist-line" v-for="item in historyList" :key="item.id">
         <div class="itemmmain">
           <div class="title">
             <div class="itemname">{{ item.message }}</div>
@@ -61,9 +56,63 @@
             <div class="itemname">状态:</div>
             <div class="iteminfo">{{ item.state }}</div>
           </div>
-          <div class="check">查看</div>
+          <div class="check" @click="handleClick(item)">查看</div>
         </div>
         <el-divider></el-divider>
+      </div>
+    </div>
+
+    <div class="itemdetail" v-if="showdetail">
+      <div class="detail-title">
+        <div class="title-item">{{ phoneDetailInfo.detail.id }} &nbsp;(ID)</div>
+        <div class="title-item">{{ phoneDetailInfo.detail.problem }}</div>
+      </div>
+      <div class="detail-info">
+        <div class="info-line">
+          <div class="info-item-multi">
+            联系方式：&nbsp;&nbsp;&nbsp;{{ phoneDetailInfo.detail.phone }}
+          </div>
+          <div class="info-item-multi">
+            回话类型：&nbsp;&nbsp;&nbsp;{{ phoneDetailInfo.detail.type }}
+          </div>
+          <div class="info-item-multi">
+            接待客服：&nbsp;&nbsp;&nbsp;{{ phoneDetailInfo.detail.name }}
+          </div>
+          <div class="info-item-multi">
+            会话时间：&nbsp;&nbsp;&nbsp;{{ phoneDetailInfo.detail.time }}
+          </div>
+        </div>
+        <div class="info-line">
+          <div class="info-item">
+            咨询产品：&nbsp;&nbsp;&nbsp;{{ phoneDetailInfo.detail.product }}
+          </div>
+        </div>
+        <div class="info-line">
+          <div class="info-item">
+            用户问题：&nbsp;&nbsp;&nbsp;{{
+              phoneDetailInfo.detail.problemdetail
+            }}
+          </div>
+        </div>
+        <div class="info-line">
+          <div class="info-item">
+            解决方式：&nbsp;&nbsp;&nbsp;{{ phoneDetailInfo.state }}
+          </div>
+        </div>
+        <div class="info-line">
+          <div class="info-item">售后单：&nbsp;&nbsp;&nbsp;</div>
+          <el-upload
+            class="upload-demo"
+            action="/"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            multiple
+            :http-request="uploadFile"
+            :file-list="form.fileList"
+          >
+          </el-upload>
+        </div>
       </div>
     </div>
   </div>
@@ -74,15 +123,12 @@ export default {
   name: "index",
   data() {
     return {
-      loginType: 2, // github 登录只使用默认账号登录
       userId: "",
       userSig: "",
-      sdkAppID: 1400589788,
-      checkDetail: true,
-      conversationSlip: false,
-      historyService: true,
-      historyDetail: false,
-      historyDetailInfo: {},
+      // sdkAppID: 1400589788,
+      showlist: true,
+      showdetail: false,
+      phoneDetailInfo: {},
       headimg: "",
       form: {
         name: "",
@@ -119,6 +165,8 @@ export default {
             product: "黑色公文包",
             problem: "巴拉巴拉巴拉巴拉巴拉巴拉",
             way: "退换处理",
+            problemdetail:
+              "加加加包袋签收15天之内破损，二维码未激活，申请无理由退换货，已经与客服进行沟通。",
           },
         },
         {
@@ -138,10 +186,32 @@ export default {
             product: "白色鳄鱼皮包",
             problem: "美国弄完就公婆我今儿个胖娃价格",
             way: "维修保养",
+            problemdetail:
+              "一一包袋签收15天之内破损，二维码未激活，申请无理由退换货，已经与客服进行沟通。",
+          },
+        },
+        {
+          id: "3",
+          message: "关于快递停发通知造成的发货延误",
+          date: "2022.2.10 14:47",
+          code: "SF14619616184583",
+          name: "客服001",
+          state: "维修保养申请1",
+          detail: {
+            name: "小小白",
+            id: "1314520",
+            phone: "123456789",
+            type: "视频",
+            customerServiceName: "0001",
+            time: "2022.2.14 16:54",
+            product: "黑色公文包",
+            problem: "巴拉巴拉巴拉巴拉巴拉巴拉",
+            way: "退换处理",
+            problemdetail:
+              "QQQ包袋签收15天之内破损，二维码未激活，申请无理由退换货，已经与客服进行沟通。",
           },
         },
       ],
-      buttonSelected: "historySlip",
     };
   },
 
@@ -150,6 +220,16 @@ export default {
     this.userId = sessionStorage.getItem("video_id");
     console.log("当前登陆的客服的ID", this.userId);
     this.userSig = sessionStorage.getItem("usersig");
+  },
+
+  methods: {
+    // 电话_服务详情
+    handleClick(item) {
+      console.log(item);
+      this.phoneDetailInfo = item;
+      this.showdetail = true;
+      this.showlist = false;
+    },
   },
 };
 </script>
@@ -231,7 +311,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    // position: relative;
     .itemmmain {
       width: 100%;
       display: flex;
@@ -275,8 +354,48 @@ body {
         }
       }
     }
-    .el-divider{
-      margin:1vh 0;
+    .el-divider {
+      margin: 1vh 0;
+    }
+  }
+}
+
+.itemdetail {
+  width: 86vw;
+  display: flex;
+  flex-direction: column;
+  margin-top: 4vh;
+  .detail-title {
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 3vh;
+    .title-item {
+      width: 25vw;
+    }
+  }
+  .detail-info {
+    font-size: 14px;
+    color: #616369;
+    display: flex;
+    flex-direction: column;
+    // margin-bottom: 1vh;
+    .info-line {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 4vh;
+      .info-item-multi {
+        width: 15vw;
+      }
+      .upload-demo {
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px dashed #d9d9d9;
+      }
+      .upload-demo:hover {
+        color: #ad8633;
+      }
     }
   }
 }
