@@ -118,6 +118,9 @@
             :http-request="uploadFile"
             :file-list="form.fileList"
           >
+            <el-button class="addlist" size="mini" type="primary"
+              >添加售后单</el-button
+            >
           </el-upload>
         </div>
       </div>
@@ -166,14 +169,14 @@
             v-model="form.desc"
           ></el-input>
         </el-form-item>
-        <!-- <el-form-item label="会话截图 :">
+        <el-form-item label="会话截图 :">
           <div class="screenshot">
             <div class="screenshot-picture"></div>
             <div class="screenshot-picture"></div>
             <div class="screenshot-picture"></div>
             <div class="screenshot-picture"></div>
           </div>
-        </el-form-item> -->
+        </el-form-item>
         <el-form-item label="解决方式 :">
           <el-select
             style="width: 100%"
@@ -190,7 +193,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <!-- <el-form-item label="售后单 :">
+        <el-form-item class="uploadlist" label="售后单 :">
           <el-upload
             class="upload-demo"
             action="/"
@@ -201,11 +204,15 @@
             :http-request="uploadFile"
             :file-list="form.fileList"
           >
-            <el-button class="addlist" size="mini" type="primary"
-              >添加售后单</el-button
-            >
+            <div class="edit">
+              <div class="buttons">
+                <el-button class="addbtn" size="mini" @click="toApplyChooseMat"
+                  >添加售后单</el-button
+                >
+              </div>
+            </div>
           </el-upload>
-        </el-form-item> -->
+        </el-form-item>
         <el-form-item>
           <el-button
             class="handleSaveEnd"
@@ -234,23 +241,7 @@ export default {
       isMainpage: true,
       phoneDetailInfo: {},
       headimg: "",
-      form: {
-        name: "",
-        phone: "",
-        consultProduct: "",
-        desc: "",
-        type: "",
-        fileList: [
-          {
-            name: "food.jpeg",
-            url: "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
-          },
-          {
-            name: "food2.jpeg",
-            url: "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
-          },
-        ],
-      },
+      // 会话项列表
       historyList: [
         {
           id: "1",
@@ -316,6 +307,47 @@ export default {
           },
         },
       ],
+      // 售后单列表
+      form: {
+        name: "",
+        phone: "",
+        consultProduct: "",
+        desc: "",
+        type: "",
+        fileList: [
+          {
+            name: "food.jpeg",
+            url: "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
+          },
+          {
+            name: "food2.jpeg",
+            url: "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
+          },
+        ],
+      },
+      // 服务单-解决方式列表
+      options: [
+        {
+          value: "选项1",
+          label: "黄金糕",
+        },
+        {
+          value: "选项2",
+          label: "双皮奶",
+        },
+        {
+          value: "选项3",
+          label: "蚵仔煎",
+        },
+        {
+          value: "选项4",
+          label: "龙须面",
+        },
+        {
+          value: "选项5",
+          label: "北京烤鸭",
+        },
+      ],
     };
   },
 
@@ -359,7 +391,7 @@ body {
 
 .main {
   width: 100vw;
-  height: calc(100vh - 175px);
+  // height: calc(100vh - 175px);
   background-color: #f3f4f9;
   display: flex;
   flex-direction: column;
@@ -387,7 +419,7 @@ body {
       border-radius: $img-size-base;
       position: absolute;
       top: 50%;
-      margin-top: -($img-size-base / 2);
+      margin-top: calc($img-size-base / -2);
     }
   }
   .customerServiceInfo {
@@ -415,6 +447,7 @@ body {
 
 .itemlist {
   width: 86vw;
+  height: calc(86vh - 205px); //(100vh-175px) - 12vh - 2vh - 15px*2
   display: flex;
   flex-direction: column;
   margin-top: 2vh;
@@ -475,6 +508,7 @@ body {
 
 .itemdetail {
   width: 86vw;
+  height: calc(84vh - 205px); //(100vh-175px) - 12vh - 4vh - 15px*2
   display: flex;
   flex-direction: column;
   margin-top: 4vh;
@@ -532,5 +566,105 @@ body {
       margin-right: 5px;
     }
   }
+
+  .uploadlist {
+    .upload-demo:hover {
+      border-color: #409eff;
+    }
+
+    .upload-demo {
+      width: 330px;
+      height: 160px;
+      padding: 2px 10px 10px;
+      border: 1px solid #d4d7dd;
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-content: flex-start;
+      ::v-deep .el-upload-list.el-upload-list--text {
+        order: -2;
+        padding-bottom: 5px;
+      }
+
+      ::v-deep .el-upload-list__item-name {
+        color: #d79432;
+      }
+      .edit {
+        // order: 100;
+        height: 3vh;
+        width: 10vw;
+        // 售后单部分的“添加售后单”按钮
+        .addbtn {
+          order: 3;
+          height: 3vh;
+          width: 10vw;
+          padding: 0;
+          background-color: rgb(243, 244, 249);
+          color: #d79432;
+          border: 1px solid #d79432;
+          border-radius: 3px;
+          //按钮内字体大小
+          font-size: 10px;
+        }
+      }
+    }
+
+    .upload-demo {
+      // width: 330px;
+      // height: 240px;
+      // padding: 2px 10px 10px;
+      // border: 1px dashed #d9d9d9;
+      // border-radius: 6px;
+      // overflow: hidden;
+      // display: flex;
+      // flex-direction: column;
+      // justify-content: space-between;
+
+      // // 三个内容位置及样式
+      // // 提示语
+      // // .el-upload__tip {
+      // //   order: 2;
+      // //   margin: 0;
+      // //   height: 3vh;
+      // //   line-height: 3vh;
+      // // }
+      // // 文件列表
+      // .el-upload-list.el-upload-list--text {
+      //   order: -2;
+      //   padding-bottom: 5px;
+      // }
+      // // 按钮和按钮内字体大小
+      // .buttons .el-button--medium {
+      //   font-size: 8px;
+      // }
+    }
+
+    ::v-deep {
+      .el-upload-list__item-name {
+        color: #d79432;
+      }
+    }
+    ::v-deep .el-upload-list__item-name {
+      color: #d79432;
+    }
+  }
+
+  // ::v-deep .uploadlist .el-upload-list__item-name {
+  //   color: #d79432;
+  // }
+
+  // ::v-deep {
+  //   .el-upload-list__item-name {
+  //     color: #d79432;
+  //   }
+  //   .el-icon-document:before {
+  //     color: #d79432;
+  //   }
+  //   .el-upload-list__item .el-icon-upload-success {
+  //     color: #d79432;
+  //   }
+  // }
 }
 </style>
